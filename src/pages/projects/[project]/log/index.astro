@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import Pager from "../../../../components/Pager.astro";
+import { getCollection, render } from "astro:content";
+import { formatDate } from "../../../../lib/date";
+import { projectHref } from "../../../../lib/nav";
+import { updatesFor } from "../../../../lib/updates";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map(project => ({
+    params: { project: project.id },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+
+// Oldest first: the log reads top to bottom, update 1 to update N.
+const updates = (await updatesFor(project.id)).reverse();
+
+const entries = await Promise.all(
+  updates.map(async update => ({
+    ...update,
+    Body: (await render(update.entry)).Content
+  }))
+);
+
+const trail = [
+  { href: "/projects", label: "projects" },
+  { href: projectHref(project.id), label: project.data.title }
+];
+---
+<BaseLayout
+  title={`${project.data.title} — project log`}
+  description={`Every update from ${project.data.title}, in one place.`}
+>
+  <article class="container article-page">
+    <Breadcrumb trail={trail} title="log" />
+    <div class="eyebrow">project log</div>
+    <h1>{project.data.title}</h1>
+    <p class="article-lead">
+      {entries.length > 0
+        ? `Every update from this project, oldest first — ${entries.length} so far.`
+        : "No updates have been written for this project yet."}
+    </p>
+
+    {entries.map(item => {
+      const Body = item.Body;
+      return (
+        <section class="log-entry" id={`update-${item.number}`}>
+          <div class="log-entry-head">
+            <span class="log-entry-number">UPDATE {item.number}</span>
+            <span>{formatDate(item.entry.data.published)}</span>
+          </div>
+          <h2>{item.entry.data.title}</h2>
+          <div class="prose"><Body /></div>
+          <a class="log-permalink" href={item.href}>permalink →</a>
+        </section>
+      );
+    })}
+
+    <Pager index={{ href: projectHref(project.id), title: `back to ${project.data.title}` }} />
+  </article>
+</BaseLayout>

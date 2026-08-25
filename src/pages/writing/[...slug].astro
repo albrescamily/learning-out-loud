@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Pager from "../../components/Pager.astro";
+import { getCollection, render } from "astro:content";
+import { formatDate } from "../../lib/date";
+import { neighbours } from "../../lib/nav";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("writing"))
+    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+  const link = (post: (typeof posts)[number]) => ({
+    href: `/writing/${post.id}`,
+    title: post.data.title
+  });
+
+  return posts.map((post, i) => {
+    const { newer, older } = neighbours(posts, i);
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        newer: newer && link(newer),
+        older: older && link(older)
+      }
+    };
+  });
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="container article-page">
+    <Breadcrumb title={post.data.title} />
+    <div class="post-meta">
+      {formatDate(post.data.published)}
+    </div>
+    <h1>{post.data.title}</h1>
+    <p class="article-lead">{post.data.description}</p>
+    <div class="prose"><Content /></div>
+    <Pager newer={newer} older={older} index={{ href: "/writing", title: "all writing" }} />
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ActivityItem from "../../../components/ActivityItem.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import Pager from "../../../components/Pager.astro";
+import { getCollection, render } from "astro:content";
+import { logHref } from "../../../lib/nav";
+import { updatesFor } from "../../../lib/updates";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map(project => ({
+    params: { project: project.id },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const updates = await updatesFor(project.id);
+---
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <article class="container article-page project-page" data-status={project.data.status}>
+    <Breadcrumb title={project.data.title} />
+    <div class="post-meta">
+      <span class="project-status">{project.data.status}</span>
+      {" · "}{project.data.stack.join(" · ")}
+    </div>
+    <h1>{project.data.title}</h1>
+    <p class="article-lead">{project.data.description}</p>
+
+    <div class="prose"><Content /></div>
+
+    <section class="project-updates">
+      <h2 class="section-title">Updates</h2>
+      {updates.length > 0 ? (
+        <Fragment>
+          {updates.map(update => (
+            <ActivityItem
+              date={update.entry.data.published}
+              label={`update ${update.number}`}
+              href={update.href}
+              title={update.entry.data.title}
+            />
+          ))}
+          <a class="all-link" href={logHref(project.id)}>read the full project log →</a>
+        </Fragment>
+      ) : (
+        <p class="project-updates-empty">
+          No updates yet — the <a href={logHref(project.id)}>project log</a> is still empty.
+        </p>
+      )}
+    </section>
+
+    <Pager index={{ href: "/projects", title: "all projects" }} />
+  </article>
+</BaseLayout>

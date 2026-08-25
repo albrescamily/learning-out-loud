@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="description" content="Public engineering notebook."><style>@font-face{font-family:"IBM Plex Sans-cd5887a4ac70d5aa";src:url("/_astro/fonts/2eb6e0e4fc33dd24.woff2") format("woff2");font-display:optional;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;font-stretch:100%;}@font-face{font-family:"IBM Plex Sans-cd5887a4ac70d5aa";src:url("/_astro/fonts/2eb6e0e4fc33dd24.woff2") format("woff2");font-display:optional;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;font-stretch:100%;}@font-face{font-family:"IBM Plex Sans-cd5887a4ac70d5aa fallback: Arial";src:local("Arial");font-display:swap;font-weight:500;font-style:normal;size-adjust:101.1663%;ascent-override:101.3184%;descent-override:27.183%;line-gap-override:0%;}@font-face{font-family:"IBM Plex Sans-cd5887a4ac70d5aa fallback: Arial Bold";src:local("Arial Bold");font-display:swap;font-weight:700;font-style:normal;size-adjust:93.9622%;ascent-override:109.0865%;descent-override:29.2671%;line-gap-override:0%;}:root{--font-sans:"IBM Plex Sans-cd5887a4ac70d5aa","IBM Plex Sans-cd5887a4ac70d5aa fallback: Arial","IBM Plex Sans-cd5887a4ac70d5aa fallback: Arial Bold",system-ui,-apple-system,"Segoe UI",sans-serif;}</style><link rel="preload" href="/_astro/fonts/2eb6e0e4fc33dd24.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"IBM Plex Mono-280e02dc63521432";src:url("/_astro/fonts/e24ff982d90e3401.woff2") format("woff2");font-display:optional;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;}@font-face{font-family:"IBM Plex Mono-280e02dc63521432";src:url("/_astro/fonts/ee5157daaae6f46b.woff2") format("woff2");font-display:optional;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;}@font-face{font-family:"IBM Plex Mono-280e02dc63521432 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:102.5167%;descent-override:27.5045%;}@font-face{font-family:"IBM Plex Mono-280e02dc63521432 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:102.5167%;descent-override:27.5045%;}:root{--font-mono:"IBM Plex Mono-280e02dc63521432","IBM Plex Mono-280e02dc63521432 fallback: Courier New",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}</style><link rel="preload" href="/_astro/fonts/e24ff982d90e3401.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/_astro/fonts/ee5157daaae6f46b.woff2" as="font" type="font/woff2" crossorigin><title>Postgres partial indexes can include a WHERE clause</title><script>
+      // Runs before first paint: resolves the theme so the page never flashes
+      // the wrong palette. The `js` class reveals the controls that are useless
+      // without scripting — the theme toggle and the mobile menu button.
+      (function () {
+        var root = document.documentElement;
+        root.classList.add("js");
+        var stored = null;
+        try { stored = localStorage.getItem("theme"); } catch (e) {}
+        root.dataset.theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+      })();
+    </script><link rel="stylesheet" href="/_astro/BaseLayout.Dh1PZbbA.css"><script type="module" src="/_astro/page.CMFgH77u.js"></script></head><body><a class="skip-link" href="#content">skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/">camily albres.</a><div class="header-right"><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">menu</button><nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="/writing">writing</a><a href="/projects">projects</a><a href="/updates">updates</a><a href="/notes" aria-current="page">notes</a><a href="/about">about</a><a href="/now">now</a></nav><button class="theme-toggle" type="button" aria-label="Toggle light and dark theme"><span data-when="light">dark</span><span data-when="dark">light</span></button></div></div></header><main id="content"><article class="container article-page"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/">home</a></li><li><a href="/notes">notes</a></li><li aria-current="page">Postgres partial indexes can include a WHERE clause</li></ol></nav><div class="post-meta">20-08-26</div><h1>Postgres partial indexes can include a WHERE clause</h1><div class="prose"><p>A partial index only contains rows matching a predicate.</p>
+<p>That can reduce index size when most rows are irrelevant to the queries you care about.</p>
+</div><nav class="pager" aria-label="Previous and next entries"><div class="pager-pair"><a class="pager-link" href="/notes/git-update-refs" rel="prev"><span class="micro-label">← newer</span><span class="pager-title">git rebase --update-refs moves stacked branches</span></a><div class="pager-link is-empty" aria-hidden="true"></div></div><a class="all-link" href="/notes">all notes</a></nav></article></main><footer class="site-footer"><div class="container footer-inner"><nav class="footer-social" aria-label="Elsewhere"><a href="https://github.com/albrescamily" rel="me noopener">github</a><a href="https://www.linkedin.com/in/camily-albres" rel="me noopener">linkedin</a></nav><span class="footer-copyright">© Camily Albres 2026</span><span class="footer-note">Written slowly, published too early.</span></div></footer><script>
+      document.querySelector(".theme-toggle").addEventListener("click", function () {
+        var root = document.documentElement;
+        var next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        try { localStorage.setItem("theme", next); } catch (e) {}
+      });
+
+      // Mobile menu. The open state lives in a data attribute on the header so
+      // the desktop media query always wins — using `hidden` would leave the
+      // nav stuck closed after resizing back up.
+      (function () {
+        var header = document.querySelector(".site-header");
+        var toggle = header.querySelector(".nav-toggle");
+
+        function setOpen(open) {
+          if (open) header.dataset.navOpen = "";
+          else delete header.dataset.navOpen;
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+
+        toggle.addEventListener("click", function () {
+          setOpen(!("navOpen" in header.dataset));
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && "navOpen" in header.dataset) {
+            setOpen(false);
+            toggle.focus();
+          }
+        });
+      })();
+    </script></body></html>

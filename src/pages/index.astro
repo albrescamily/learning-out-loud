@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../lib/date";
+import { projectHref } from "../lib/nav";
+import { updatesByProject } from "../lib/updates";
+
+const writing = (await getCollection("writing"))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+const notes = (await getCollection("notes"))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+const projects = (await getCollection("projects"))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const updates = await updatesByProject();
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="hero-preview">
+        I&apos;m a software engineer, and this site is my open notebook: a place
+        to document what I&apos;m learning, what I&apos;m building, where my
+        projects stand, and the ideas that are still taking shape.
+      </p>
+      <p class="hero-subtitle">
+        I&apos;m mostly interested in <em>distributed systems</em>,{" "}
+        <em>backend engineering</em>, <em>AI infrastructure</em>,{" "}
+        <em>LLM inference</em>, <em>system design</em> and{" "}
+        <em>data engineering</em>.
+      </p>
+      <div class="hero-actions">
+        <a class="hero-action" href="/about">about me</a>
+        <a class="hero-action" href="/now">what I&apos;m doing now</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="feed-layout">
+      <section class="writing-feed">
+        <SectionHeader title="Latest Writing" />
+
+        {writing.slice(0, 3).map(post => (
+          <article class="feed-row">
+            <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
+            <div class="post-meta">{formatDate(post.data.published)}</div>
+            <p>{post.data.description}</p>
+          </article>
+        ))}
+
+        <a class="all-link" href="/writing">all writing</a>
+      </section>
+
+      <aside class="notes-rail">
+        <SectionHeader title="Recent Notes" />
+
+        <div class="note-list">
+          {notes.slice(0, 5).map(item => (
+            <a class="note-row" href={`/notes/${item.id}`} title={item.data.title}>
+              <span class="note-date">{formatDate(item.data.published)}</span>
+              <span class="note-title">{item.data.title}</span>
+            </a>
+          ))}
+        </div>
+
+        <a class="all-link" href="/notes">all notes</a>
+      </aside>
+    </div>
+
+    <section class="projects-section">
+      <SectionHeader title="Projects" />
+
+      <div class="project-list">
+        {projects.slice(0, 4).map(project => {
+          const latest = updates.get(project.id)?.[0];
+          return (
+            <article class="project-row">
+              <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
+              <p class="project-row-desc">{project.data.description}</p>
+              {latest && (
+                <div class="project-row-update">
+                  <span class="project-row-label">Latest update</span>
+                  {" · "}
+                  <a href={latest.href}>{latest.entry.data.title}</a>
+                  {" · "}
+                  <span class="project-row-date">{formatDate(latest.entry.data.published)}</span>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+
+      <a class="all-link" href="/projects">all projects</a>
+    </section>
+  </div>
+</BaseLayout>

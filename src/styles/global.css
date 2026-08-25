@@ -1,0 +1,430 @@
+:root{
+  color-scheme:light;
+  --bg:#f5f6f7;
+  --surface:#e7eaed;
+  --text:#0f1216;
+  --body:#3b424b;
+  --muted:#5b636d;
+  --line:#c2c8ce;
+  --accent:#a8480f;
+  --ok:#1a7f45;
+  --warn:#94660f;
+
+  --sans:var(--font-sans),system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:var(--font-mono),ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  /* two weights, nothing in between */
+  --w-text:500;
+  --w-bold:700;
+
+  /* the type scale */
+  --fs-meta:13px;
+  --fs-sm:15px;
+  --fs-body:17px;
+  --fs-head:20px;
+  --fs-title:34px;
+
+  /* 8px spacing scale */
+  --s0:4px;
+  --s1:8px;
+  --s2:16px;
+  --s3:24px;
+  --s4:32px;
+  --s5:48px;
+  --s6:64px;
+}
+
+/* dark palette: explicit choice wins, system preference is the default ---- */
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1216;
+    --surface:#1b212a;
+    --text:#e9edf2;
+    --body:#b4bdc8;
+    --muted:#87919d;
+    --line:#2f3841;
+    --accent:#ff9d4d;
+    --ok:#48b872;
+    --warn:#d3a341;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1216;
+  --surface:#1b212a;
+  --text:#e9edf2;
+  --body:#b4bdc8;
+  --muted:#87919d;
+  --line:#2f3841;
+  --accent:#ff9d4d;
+  --ok:#48b872;
+  --warn:#d3a341;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:var(--fs-body);
+  font-weight:var(--w-text);
+  line-height:1.5;
+}
+h1,h2,h3{font-weight:var(--w-bold);letter-spacing:-.01em;line-height:1.25;margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);background:var(--surface);padding:1px 6px}
+.container{width:min(1040px,calc(100% - 96px));margin:0 auto}
+
+/* labels and metadata ------------------------------------------------ */
+.eyebrow,.micro-label{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+  line-height:1.4;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--muted);
+  margin:0;
+}
+.post-meta,.project-meta,.activity-meta,.current-meta,.note-date,.project-row-update,.log-entry-head,.tags{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  line-height:1.4;
+  color:var(--muted);
+}
+
+/* skip link ----------------------------------------------------------- */
+.skip-link{
+  position:absolute;
+  left:var(--s2);
+  top:-100px;
+  z-index:10;
+  padding:var(--s1) var(--s2);
+  background:var(--surface);
+  border:2px solid var(--line);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+  color:var(--text);
+}
+.skip-link:focus{top:var(--s2)}
+
+/* header ------------------------------------------------------------- */
+.site-header{position:relative;border-bottom:0}
+.header-inner{min-height:var(--s6);border-bottom:2px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
+.brand{font-family:var(--mono);font-size:var(--fs-body);font-weight:var(--w-bold)}
+.header-right{display:flex;align-items:center;gap:var(--s3)}
+
+/* both header buttons are JS-only, so they stay hidden without scripting */
+.theme-toggle,.nav-toggle{
+  display:none;
+  padding:0;
+  border:0;
+  background:none;
+  cursor:pointer;
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  color:var(--muted);
+}
+.js .theme-toggle{display:inline-block}
+.theme-toggle:hover,.nav-toggle:hover{color:var(--text)}
+.theme-toggle [data-when]{display:none}
+[data-theme="light"] .theme-toggle [data-when="light"],
+[data-theme="dark"] .theme-toggle [data-when="dark"]{display:inline}
+
+/* Header navigation. Scoped to a class on purpose: a bare `nav` selector also
+   hits the breadcrumb, the pager, the footer and the 404 list. */
+.site-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--s3);
+  row-gap:var(--s0);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  color:var(--muted);
+}
+.site-nav a{padding-bottom:2px;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--text)}
+.site-nav a[aria-current="page"]{color:var(--text);font-weight:var(--w-bold);border-bottom-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* hero --------------------------------------------------------------- */
+.hero{border-bottom:0}
+.hero-inner{padding:var(--s5) 0;border-bottom:2px solid var(--line)}
+.hero-preview{max-width:600px;margin:0;color:var(--body);font-size:var(--fs-head);line-height:1.45}
+.hero-subtitle{
+  max-width:640px;
+  margin:var(--s2) 0 0;
+  color:var(--muted);
+  font-size:var(--fs-sm);
+  line-height:1.5;
+}
+.hero-subtitle em{color:var(--text);font-style:italic}
+.hero-actions{
+  margin-top:var(--s3);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:var(--s3);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+}
+.hero-action{color:var(--text);text-decoration:underline;text-underline-offset:4px}
+.hero-action:hover{color:var(--accent)}
+
+.current-block{margin-bottom:var(--s2)}
+.current-value{margin-top:var(--s0);color:var(--text)}
+.current-meta{margin-top:var(--s1)}
+.article-page .current-block:first-of-type{margin-top:calc(var(--s5) * -1)}
+
+/* breadcrumb ---------------------------------------------------------- */
+.breadcrumb{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  color:var(--muted);
+}
+.breadcrumb ol{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1);margin:0 0 var(--s3);padding:0;list-style:none}
+.breadcrumb li{display:flex;align-items:baseline;gap:var(--s1);min-width:0}
+.breadcrumb li + li::before{content:"/";color:var(--line)}
+.breadcrumb a:hover{color:var(--accent)}
+.breadcrumb [aria-current="page"]{
+  color:var(--text);
+  max-width:38ch;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* pager (prev / next between entries) ---------------------------------- */
+.pager{margin-top:var(--s6);padding-top:var(--s3);border-top:2px solid var(--line)}
+.pager-pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.pager-link{display:flex;flex-direction:column;gap:var(--s0);min-width:0}
+/* Keep the placeholder in the grid — removing it would slide "older" into the
+   left column, where its right alignment lands it mid-page. */
+.pager-link.is-empty{visibility:hidden}
+.pager-older{grid-column:2;text-align:right}
+.pager-title{font-size:var(--fs-sm);line-height:1.4;color:var(--text)}
+.pager-link:hover .pager-title{color:var(--accent)}
+.pager .all-link{margin-top:var(--s3)}
+.meta-link{color:var(--body);text-decoration:underline;text-underline-offset:3px}
+.meta-link:hover{color:var(--accent)}
+.project-updates-empty{margin:0;color:var(--muted)}
+.project-updates-empty a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.project-updates .all-link{margin-top:0}
+
+/* 404 ------------------------------------------------------------------ */
+.not-found-nav{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.not-found-link{font-family:var(--mono);font-size:var(--fs-body);font-weight:var(--w-bold);color:var(--text)}
+.not-found-link:hover{color:var(--accent)}
+
+/* section headers ----------------------------------------------------- */
+.section-title{font-size:var(--fs-head)}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s2)}
+.all-link{
+  display:inline-block;
+  margin-top:var(--s2);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+  color:var(--accent);
+}
+.all-link:hover{color:var(--text)}
+.notes-rail .all-link{margin-top:var(--s2)}
+
+/* writing feed + notes rail -------------------------------------------- */
+.feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:var(--s6);padding-top:var(--s5)}
+.notes-rail{border-left:1px solid var(--line);padding-left:var(--s4)}
+
+.writing-feed{min-width:0}
+.feed-row{padding:var(--s2) 0;border-top:1px solid var(--line)}
+.feed-row:first-of-type{border-top:0;padding-top:0}
+.feed-row h3{font-size:var(--fs-head);margin-bottom:var(--s1)}
+.feed-row .post-meta{margin-bottom:var(--s1)}
+.feed-row p{margin:0;color:var(--body);max-width:660px}
+
+.note-row{display:flex;align-items:baseline;gap:var(--s1);padding:var(--s1) 0}
+.note-row:first-child{padding-top:0}
+.note-row:last-child{padding-bottom:0}
+.note-row + .note-row{border-top:1px solid var(--line)}
+.note-date{flex:none}
+.note-title{
+  flex:1;
+  min-width:0;
+  font-size:var(--fs-sm);
+  line-height:1.4;
+  color:var(--text);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.note-row:hover .note-title{color:var(--accent)}
+
+/* projects -------------------------------------------------------------- */
+.projects-section{padding:var(--s5) 0 var(--s6);border-top:2px solid var(--line);margin-top:var(--s5)}
+.project-list{border-top:1px solid var(--line)}
+.project-row{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.project-row h3{font-size:var(--fs-head);margin-bottom:var(--s1)}
+.project-row-desc{margin:0;color:var(--body);max-width:680px}
+.project-row-update{margin-top:var(--s2)}
+.project-row-label{text-transform:uppercase;letter-spacing:.06em;font-weight:var(--w-bold);color:var(--text)}
+.project-row-update a{color:var(--body)}
+.project-row-update a:hover{color:var(--accent)}
+.project-row-date{white-space:nowrap}
+
+.project-status{display:inline-flex;align-items:center;gap:var(--s1);font-weight:var(--w-bold);color:var(--text)}
+.project-status::before{content:"";width:9px;height:9px;background:var(--muted)}
+[data-status="active"] .project-status::before,
+[data-status="live"] .project-status::before{background:var(--ok)}
+[data-status="paused"] .project-status::before{background:var(--warn)}
+
+.tags{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s2);color:var(--body)}
+
+/* activity list (project page + update log) ----------------------------- */
+.activity-item{padding-bottom:var(--s2);margin-bottom:var(--s2);border-bottom:1px solid var(--line)}
+.activity-label{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:var(--s1);
+}
+.activity-title{display:block;margin-top:var(--s1);line-height:1.35;color:var(--text)}
+
+.update-list{border-top:1px solid var(--line);padding-top:var(--s2)}
+.update-list .activity-item{padding-bottom:var(--s2);margin-bottom:var(--s2)}
+.update-list .activity-title{font-size:var(--fs-head);font-weight:var(--w-bold)}
+
+/* archive ------------------------------------------------------------- */
+.archive-page{padding:var(--s5) 0 var(--s6);max-width:860px}
+.archive-page>h1,.article-page>h1{font-size:var(--fs-title);line-height:1.15;letter-spacing:-.02em;margin:var(--s2) 0 var(--s5)}
+.archive-row{display:grid;grid-template-columns:104px 1fr;gap:var(--s3);padding:var(--s2) 0;border-top:1px solid var(--line)}
+.archive-row h2{font-size:var(--fs-head);margin-bottom:var(--s1)}
+.archive-row p{margin:0;color:var(--body)}
+.archive-row.compact h2{margin:0}
+.archive-projects{margin-top:var(--s5)}
+
+/* article ------------------------------------------------------------- */
+.article-page{padding:var(--s5) 0 var(--s6);max-width:760px}
+.article-lead{font-size:var(--fs-head);line-height:1.45;color:var(--body);max-width:720px;margin:calc(var(--s4) * -1) 0 var(--s5)}
+.prose{max-width:720px;line-height:1.6}
+.prose h2{font-size:var(--fs-head);margin-top:var(--s4);margin-bottom:var(--s1)}
+.prose h3{font-size:var(--fs-body);margin-top:var(--s3);margin-bottom:var(--s1)}
+.prose p{margin:0 0 var(--s2)}
+.prose p,.prose li{color:var(--body)}
+.prose li{margin-bottom:var(--s1)}
+.prose a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.prose blockquote{margin:var(--s3) 0;padding-left:var(--s3);border-left:4px solid var(--line);color:var(--muted)}
+.prose pre{
+  overflow:auto;
+  padding:var(--s2);
+  background:var(--surface);
+  border-left:4px solid var(--line);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  line-height:1.7;
+}
+.prose pre code{background:none;padding:0;font-size:1em}
+.project-updates{margin-top:var(--s6);padding-top:var(--s4);border-top:2px solid var(--line)}
+.project-updates .section-title{margin-bottom:var(--s3)}
+
+/* project log (every update of one project, in full) --------------------- */
+.log-entry{padding-top:var(--s4);margin-top:var(--s4);border-top:1px solid var(--line)}
+.log-entry:first-of-type{padding-top:0;margin-top:0;border-top:0}
+.log-entry-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--s2);
+  margin-bottom:var(--s1);
+}
+.log-entry-number{color:var(--accent)}
+.log-entry h2{font-size:var(--fs-head);margin-bottom:var(--s2)}
+.log-entry .prose{margin-bottom:var(--s2)}
+.log-permalink{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-bold);
+  color:var(--muted);
+}
+.log-permalink:hover{color:var(--accent)}
+.log-backlink{margin-bottom:var(--s3)}
+
+/* footer -------------------------------------------------------------- */
+.site-footer{border-top:0}
+/* Three tracks so the copyright is centred on the page, not merely between the
+   two side blocks — those have different widths. */
+.footer-inner{
+  padding:var(--s4) 0;
+  border-top:2px solid var(--line);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:var(--s4);
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  color:var(--muted);
+}
+.footer-social{display:flex;gap:var(--s3);flex-wrap:wrap;justify-self:start}
+.footer-social a{padding-bottom:2px;border-bottom:2px solid transparent}
+.footer-social a:hover{color:var(--text);border-bottom-color:var(--accent)}
+.footer-copyright{justify-self:center;text-align:center;color:var(--body);white-space:nowrap}
+.footer-note{justify-self:end;text-align:right;max-width:24ch}
+
+@media(max-width:1080px){
+  .container{width:calc(100% - 64px)}
+  .feed-layout{grid-template-columns:minmax(0,1fr) 260px;gap:var(--s5)}
+  .notes-rail{padding-left:var(--s3)}
+}
+@media(max-width:900px){
+  .feed-layout{grid-template-columns:1fr;gap:var(--s4)}
+  .notes-rail{border-left:0;padding-left:0;border-top:2px solid var(--line);padding-top:var(--s3)}
+}
+@media(max-width:640px){
+  :root{--fs-title:28px}
+  .container{width:calc(100% - 32px)}
+
+  /* Mobile menu. Without JS the toggle stays hidden and the nav keeps wrapping
+     inline, exactly as it did before. */
+  .js .nav-toggle{display:inline-block}
+  .js .site-nav{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    z-index:9;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    gap:0;
+    padding:var(--s1) 0;
+    background:var(--bg);
+    border-bottom:2px solid var(--line);
+  }
+  .js .site-header:not([data-nav-open]) .site-nav{display:none}
+  .js .site-nav a{
+    padding:var(--s1) 16px;
+    border-bottom:0;
+    border-left:2px solid transparent;
+  }
+  .js .site-nav a[aria-current="page"]{border-left-color:var(--accent)}
+  .pager-pair{grid-template-columns:1fr;gap:var(--s3)}
+  .pager-older{grid-column:1;text-align:left}
+  .pager-link.is-empty{display:none}
+  .footer-inner{grid-template-columns:1fr;gap:var(--s3)}
+  .footer-copyright{justify-self:start;text-align:left}
+  .footer-note{justify-self:start;text-align:left;max-width:none}
+  .hero-inner{padding:var(--s4) 0}
+  .archive-row{grid-template-columns:1fr;gap:var(--s1)}
+  .article-lead{margin-top:calc(var(--s3) * -1)}
+}

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/date";
+
+const items = (await getCollection("notes"))
+  .sort((a,b) => b.data.published.valueOf() - a.data.published.valueOf());
+---
+<BaseLayout title="Notes">
+  <div class="container archive-page">
+    <div class="eyebrow">notes</div>
+    <h1>Small things worth remembering.</h1>
+    {items.map(item => (
+      <article class="archive-row compact">
+        <div class="post-meta">
+          {formatDate(item.data.published)}
+        </div>
+        <h2><a href={`/notes/${item.id}`}>{item.data.title}</a></h2>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

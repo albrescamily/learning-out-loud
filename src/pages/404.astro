@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sections, pages } from "../lib/nav";
+---
+<BaseLayout title="Not found" description="This page does not exist.">
+  <div class="container article-page">
+    <div class="eyebrow">404</div>
+    <h1>This page does not exist.</h1>
+    <p class="article-lead">
+      The link is broken or the page moved. Everything on the site is one of these:
+    </p>
+
+    <nav class="not-found-nav" aria-label="Site sections">
+      {[...sections, ...pages].map(item => (
+        <a class="not-found-link" href={item.href}>{item.label} →</a>
+      ))}
+    </nav>
+
+    <a class="all-link" href="/">back home</a>
+  </div>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+interface Link {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  newer?: Link;
+  older?: Link;
+  /** Where "back to the whole list" points. */
+  index: Link;
+}
+
+const { newer, older, index } = Astro.props;
+---
+<nav class="pager" aria-label="Previous and next entries">
+  {(newer || older) && (
+  <div class="pager-pair">
+    {newer ? (
+      <a class="pager-link" href={newer.href} rel="prev">
+        <span class="micro-label">← newer</span>
+        <span class="pager-title">{newer.title}</span>
+      </a>
+    ) : <div class="pager-link is-empty" aria-hidden="true"></div>}
+
+    {older ? (
+      <a class="pager-link pager-older" href={older.href} rel="next">
+        <span class="micro-label">older →</span>
+        <span class="pager-title">{older.title}</span>
+      </a>
+    ) : <div class="pager-link is-empty" aria-hidden="true"></div>}
+  </div>
+  )}
+
+  <a class="all-link" href={index.href}>{index.title}</a>
+</nav>

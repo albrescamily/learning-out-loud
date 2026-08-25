@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../lib/date";
+import { now } from "../lib/now";
+import { projectHref } from "../lib/nav";
+
+const active = (await getCollection("projects"))
+  .filter(p => ["active", "live"].includes(p.data.status))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Now" description="What I am working on right now.">
+  <div class="container article-page">
+    <div class="eyebrow">now</div>
+    <h1>What I am doing now.</h1>
+
+    <div class="current-block">
+      <div class="micro-label">Focus</div>
+      <div class="current-value">{now.focus}</div>
+      <div class="current-meta">{now.focusTags}</div>
+    </div>
+
+    <div class="current-block">
+      <div class="micro-label">Active projects</div>
+      {active.map(project => (
+        <div class="current-value">
+          <a href={projectHref(project.id)}>{project.data.title}</a>
+          {" — "}{project.data.description}
+        </div>
+      ))}
+    </div>
+
+    <div class="current-block">
+      <div class="micro-label">Learning</div>
+      <div class="current-value">{now.learning}</div>
+    </div>
+
+    <div class="current-block">
+      <div class="micro-label">Exploring</div>
+      <div class="tags">
+        {now.exploring.map(topic => <span>{topic}</span>)}
+      </div>
+    </div>
+
+    <div class="current-meta">updated {formatDate(now.updated)}</div>
+  </div>
+</BaseLayout>

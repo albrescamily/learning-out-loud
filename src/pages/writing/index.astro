@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/date";
+
+const posts = (await getCollection("writing"))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+---
+<BaseLayout title="Writing">
+  <div class="container archive-page">
+    <div class="eyebrow">writing</div>
+    <h1>Longer notes and write-ups.</h1>
+
+    {posts.map(post => (
+      <article class="archive-row">
+        <div class="post-meta">
+          {formatDate(post.data.published)}
+        </div>
+        <div>
+          <h2><a href={`/writing/${post.id}`}>{post.data.title}</a></h2>
+          <p>{post.data.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

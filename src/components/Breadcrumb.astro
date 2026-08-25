@@ -1,0 +1,27 @@
+---
+import { sectionFor, type NavItem } from "../lib/nav";
+
+interface Props {
+  /**
+   * Clickable crumbs between home and the current page. Defaults to the
+   * archive the page belongs to, which is all a two-level page needs.
+   */
+  trail?: NavItem[];
+  /** Current page, shown as the last, non-clickable crumb. */
+  title: string;
+}
+
+const { trail, title } = Astro.props;
+
+const section = sectionFor(Astro.url.pathname);
+const crumbs = trail ?? (section ? [section] : []);
+---
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">home</a></li>
+    {crumbs.map(crumb => (
+      <li><a href={crumb.href}>{crumb.label}</a></li>
+    ))}
+    <li aria-current="page">{title}</li>
+  </ol>
+</nav>
