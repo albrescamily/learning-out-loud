@@ -1,4 +1,6 @@
 import { defineConfig, fontProviders } from "astro/config";
+import { satteri } from "@astrojs/markdown-satteri";
+import { figures } from "./src/lib/figures.ts";
 
 export default defineConfig({
   site: "https://example.com",
@@ -8,6 +10,21 @@ export default defineConfig({
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "hover"
+  },
+
+  image: {
+    // Markdown images are written once and read on every screen: `constrained`
+    // makes Astro emit a srcset of the breakpoints below the source's own
+    // width, so a phone downloads a phone-sized file. Nothing is upscaled.
+    // The matching CSS lives in `.prose img` — hence no responsiveStyles.
+    layout: "constrained",
+    breakpoints: [640, 960, 1280, 1600]
+  },
+
+  markdown: {
+    // Sätteri is already the default processor; naming it is what lets the
+    // figure plugin into the pipeline. Everything else stays at its default.
+    processor: satteri({ hastPlugins: [figures] })
   },
 
   fonts: [

@@ -1,21 +1,21 @@
 # Public Engineering Notebook
 
-Um site pessoal minimalista para documentar:
+A minimal personal site for documenting:
 
-- projetos
-- atualizações de projetos
+- projects
+- project updates
 - Today I Learned
-- artigos
-- decisões e aprendizados
+- articles
+- decisions and lessons learned
 
-## Rodando localmente
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Depois abra o endereço mostrado pelo Astro.
+Then open the address Astro prints.
 
 ## Build
 
@@ -23,45 +23,63 @@ Depois abra o endereço mostrado pelo Astro.
 npm run build
 ```
 
-Os arquivos finais ficam em `dist/`.
+The final files land in `dist/`.
 
-## Como publicar conteúdo
+## Publishing content
 
-### Novo artigo
+### New article
 
-Crie um arquivo em:
+Create a file at:
 
-`src/content/writing/meu-artigo.md`
+`src/content/writing/my-article.md`
 
-### Novo TIL
+### New note
 
-Crie um arquivo em:
+Create a file at:
 
-`src/content/til/meu-til.md`
+`src/content/notes/my-note.md`
 
-### Nova atualização de projeto
+### New project update
 
-Crie um arquivo em:
+Create a file at:
 
-`src/content/updates/minha-atualizacao.md`
+`src/content/updates/my-update.md`
 
-Use o campo `project` para relacionar a atualização a um projeto.
+Use the `project` field to tie the update to a project.
 
-### Novo projeto
+### New project
 
-Crie um arquivo em:
+Create a file at:
 
-`src/content/projects/meu-projeto.md`
+`src/content/projects/my-project.md`
 
-## Manutenção
+### An image inside a piece of content
 
-O site foi propositalmente construído com:
+Put the file at:
+
+`src/content/images/my-diagram.png`
+
+And point at it from the Markdown body, in any collection:
+
+```markdown
+![Alt text](../images/my-diagram.png "Optional caption")
+```
+
+The relative path is what makes Astro treat the image as local: it is
+converted, resized, and gets its dimensions written onto the tag at build time.
+An image alone in a paragraph becomes a `<figure>` with a caption; an image in
+the middle of a sentence stays inline. Details in
+`src/content/images/README.md`.
+
+## Maintenance
+
+The site was deliberately built with:
 
 - Astro
-- CSS puro
+- plain CSS
 - Markdown
-- sem banco de dados
-- sem CMS obrigatório
-- sem framework client-side
+- no database
+- no mandatory CMS
+- no client-side framework
 
-A maior parte das alterações editoriais exige apenas criar ou editar Markdown.
+Most editorial changes need nothing more than creating or editing Markdown.
