@@ -11,7 +11,6 @@ export interface NavItem {
 export const sections: NavItem[] = [
   { href: "/writing", label: "writing" },
   { href: "/projects", label: "projects" },
-  { href: "/updates", label: "updates" },
   { href: "/notes", label: "notes" }
 ];
 
@@ -23,20 +22,9 @@ export const pages: NavItem[] = [
 
 export const nav: NavItem[] = [...sections, ...pages];
 
-/**
- * URL builders. Every update lives under its project, so these are the only
- * place that knows the shape of the nested path.
- */
+/** URL builder for a project page. */
 export function projectHref(projectId: string): string {
   return `/projects/${projectId}`;
-}
-
-export function logHref(projectId: string): string {
-  return `${projectHref(projectId)}/log`;
-}
-
-export function updateHref(projectId: string, updateId: string): string {
-  return `${logHref(projectId)}/${updateId}`;
 }
 
 /** Trailing slashes vary between dev and build output; normalize before comparing. */

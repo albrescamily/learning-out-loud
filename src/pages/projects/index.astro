@@ -1,13 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { formatDate } from "../../lib/date";
 import { projectHref } from "../../lib/nav";
-import { updatesByProject } from "../../lib/updates";
 
 const projects = (await getCollection("projects"))
   .sort((a,b) => a.data.order - b.data.order);
-const updates = await updatesByProject();
 ---
 <BaseLayout title="Projects">
   <div class="container archive-page">
@@ -15,24 +12,12 @@ const updates = await updatesByProject();
     <h1>Things I'm building and exploring.</h1>
 
     <div class="project-list archive-projects">
-      {projects.map(project => {
-        const latest = updates.get(project.id)?.[0];
-        return (
-          <article class="project-row">
-            <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
-            <p class="project-row-desc">{project.data.description}</p>
-            {latest && (
-              <div class="project-row-update">
-                <span class="project-row-label">Latest update</span>
-                {" · "}
-                <a href={latest.href}>{latest.entry.data.title}</a>
-                {" · "}
-                <span class="project-row-date">{formatDate(latest.entry.data.published)}</span>
-              </div>
-            )}
-          </article>
-        )
-      })}
+      {projects.map(project => (
+        <article class="project-row">
+          <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
+          <p class="project-row-desc">{project.data.description}</p>
+        </article>
+      ))}
     </div>
   </div>
 </BaseLayout>
