@@ -62,6 +62,45 @@ beside it stays inline and drops the caption. A missing file fails the build.
 `src/content/images/README.md` has the rest — alt text versus captions, linked
 images, and what happens to remote URLs.
 
+## Appending to a dev log from Obsidian
+
+The templates above create a file each. An update usually does not deserve one:
+`dev-log/<project>.md` in the vault holds them as headings, and the sync splits
+them out (see "Syncing from Obsidian" in the root README).
+
+This is a Templater snippet for that — it is not part of this project, so it
+lives here as text to paste into an Obsidian template. It asks for a title,
+picks the project, and appends a dated heading to that project's dev log,
+creating the file if it does not exist yet:
+
+```javascript
+<%*
+const title = await tp.system.prompt("Update title")
+
+const projects = tp.app.vault.getFiles()
+  .filter(file => file.path.startsWith("Blog/projects/") && file.extension === "md")
+
+const project = await tp.system.suggester(
+  projects.map(file => file.basename),
+  projects.map(file => file.basename)
+)
+
+const path = `Blog/dev-log/${project}.md`
+const date = tp.date.now("YYYY-MM-DD")
+const heading = `\n## ${date} — ${title}\n\n`
+
+const existing = tp.app.vault.getAbstractFileByPath(path)
+if (existing) await tp.app.vault.append(existing, heading)
+else await tp.app.vault.create(path, heading.trimStart())
+
+await tp.app.workspace.openLinkText(path, "", false)
+-%>
+```
+
+Note the `Blog/projects/` prefix. The vault folder was once called `7. Blog`,
+and the Update Template still filters on that old name — which is why its
+project picker comes up empty.
+
 ## Two things that will catch you
 
 - **Dates are read as UTC.** `published: 2026-08-21` parses as UTC midnight and
