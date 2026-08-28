@@ -4,7 +4,6 @@ import SectionHeader from "../components/SectionHeader.astro";
 import { getCollection } from "astro:content";
 import { formatDate } from "../lib/date";
 import { projectHref } from "../lib/nav";
-import { updatesByProject } from "../lib/updates";
 
 const writing = (await getCollection("writing"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
@@ -14,8 +13,6 @@ const notes = (await getCollection("notes"))
 
 const projects = (await getCollection("projects"))
   .sort((a, b) => a.data.order - b.data.order);
-
-const updates = await updatesByProject();
 ---
 
 <BaseLayout>
@@ -75,24 +72,12 @@ const updates = await updatesByProject();
       <SectionHeader title="Projects" />
 
       <div class="project-list">
-        {projects.slice(0, 4).map(project => {
-          const latest = updates.get(project.id)?.[0];
-          return (
-            <article class="project-row">
-              <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
-              <p class="project-row-desc">{project.data.description}</p>
-              {latest && (
-                <div class="project-row-update">
-                  <span class="project-row-label">Latest update</span>
-                  {" · "}
-                  <a href={latest.href}>{latest.entry.data.title}</a>
-                  {" · "}
-                  <span class="project-row-date">{formatDate(latest.entry.data.published)}</span>
-                </div>
-              )}
-            </article>
-          );
-        })}
+        {projects.slice(0, 4).map(project => (
+          <article class="project-row">
+            <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
+            <p class="project-row-desc">{project.data.description}</p>
+          </article>
+        ))}
       </div>
 
       <a class="all-link" href="/projects">all projects</a>
