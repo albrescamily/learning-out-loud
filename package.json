@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "sync": "bash scripts/sync-obsidian-astro.sh"
+    "sync": "bash scripts/sync-and-build.sh",
+    "sync:only": "bash scripts/sync-obsidian-astro.sh"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.3.8",

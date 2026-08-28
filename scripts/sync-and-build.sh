@@ -29,6 +29,13 @@ bash "$SCRIPT_DIR/sync-obsidian-astro.sh" "$@" | tee "$sync_log"
 
 echo
 echo "== build =="
+
+# Astro's content store outlives the files it was built from: a note removed
+# from src/content/ stays in the store and keeps getting a page, so a deletion
+# never reaches the site. Dropping the store forces every collection to be read
+# from disk again. It is a cache — the build recreates it.
+rm -f .astro/data-store.json node_modules/.astro/data-store.json
+
 npm run build | tee "$build_log"
 
 sync_summary=$(tail -n 1 "$sync_log")

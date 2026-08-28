@@ -10,9 +10,13 @@
 #
 # Vault:
 #
-#   <vault>/notes|writing|projects|updates/  -> src/content/<same>/
-#   <vault>/dev-log/<project>.md             -> one update per section
-#   attachments                              -> src/content/images/
+#   <vault>/notes|writing|projects/  -> src/content/<same>/
+#   attachments                      -> src/content/images/
+#
+# These three plus images/ are the only folders the site has. They are kept in
+# git by a .gitkeep so they always exist: Astro binds each collection's watcher
+# at startup, and a folder created later is never picked up by a running dev
+# server.
 #
 # Only VAULT_PATH is machine-specific.
 #
@@ -96,7 +100,6 @@ COLLECTIONS=(
   writing
   notes
   projects
-  updates
 )
 
 
@@ -354,10 +357,6 @@ required_fields() {
     projects)
       printf 'title description status'
       ;;
-
-    updates)
-      printf 'title project published'
-      ;;
   esac
 }
 
@@ -369,9 +368,6 @@ required_fields() {
 # Maps a slug to its Astro collection.
 declare -A note_collection=()
 
-# Updates also need to know which project they belong to.
-declare -A note_project=()
-
 
 for collection in "${COLLECTIONS[@]}"; do
 
@@ -379,20 +375,7 @@ for collection in "${COLLECTIONS[@]}"; do
 
   while IFS= read -r note; do
 
-    slug=$(slug_of "$note")
-
-    note_collection["$slug"]=$collection
-
-    if [ "$collection" = "updates" ]; then
-
-      BODY=$(tr -d '\r' < "$note")
-      frontmatter=$(frontmatter_of "$BODY")
-
-      note_project["$slug"]=$(
-        field_of "$frontmatter" project
-      )
-
-    fi
+    note_collection["$(slug_of "$note")"]=$collection
 
   done < <(markdown_in "$VAULT/$collection")
 
@@ -402,33 +385,12 @@ done
 url_for() {
   local slug=$1
   local collection=${note_collection[$slug]:-}
-  local project
 
-  case "$collection" in
+  [ -z "$collection" ] && return 1
 
-    "")
-      return 1
-      ;;
-
-    updates)
-
-      project=${note_project[$slug]:-}
-
-      [ -z "$project" ] && return 1
-
-      printf '/projects/%s/log/%s' \
-        "$(slugify "$project")" \
-        "$slug"
-      ;;
-
-    *)
-
-      printf '/%s/%s' \
-        "$collection" \
-        "$slug"
-      ;;
-
-  esac
+  printf '/%s/%s' \
+    "$collection" \
+    "$slug"
 }
 
 
@@ -437,7 +399,6 @@ url_for() {
 # -----------------------------------------------------------------------------
 
 declare -A referenced=()
-declare -A update_ids=()
 
 copied=0
 
@@ -569,27 +530,6 @@ convert_body() {
 
 
 # -----------------------------------------------------------------------------
-# Update collision detection
-# -----------------------------------------------------------------------------
-
-claim_update_id() {
-  local id=$1
-  local source=$2
-  local owner=${update_ids[$id]:-}
-
-  if [ -n "$owner" ]; then
-
-    echo \
-      "! $source and $owner both become updates/$id.md - one overwrites the other" \
-      >&2
-
-  fi
-
-  update_ids["$id"]=$source
-}
-
-
-# -----------------------------------------------------------------------------
 # Copy standard collections
 # -----------------------------------------------------------------------------
 
@@ -624,11 +564,6 @@ for collection in "${COLLECTIONS[@]}"; do
     done
 
 
-    if [ "$collection" = "updates" ]; then
-      claim_update_id "$slug" "$source"
-    fi
-
-
     emit \
       "$CONTENT/$collection/$slug.md" \
       "$source"
@@ -639,185 +574,6 @@ for collection in "${COLLECTIONS[@]}"; do
   )
 
 done
-
-
-# -----------------------------------------------------------------------------
-# Dev log
-# -----------------------------------------------------------------------------
-
-write_update() {
-  local project=$1
-  local date=$2
-  local title=$3
-  local source=$4
-  local id
-
-
-  id=$(slugify "$title")
-
-
-  if [ -z "$id" ]; then
-
-    echo \
-      "! $source: \"$title\" leaves no filename once slugified - skipped" \
-      >&2
-
-    return 0
-
-  fi
-
-
-  # Remove leading blank lines.
-  while [ "${BODY:0:1}" = $'\n' ]; do
-    BODY=${BODY#$'\n'}
-  done
-
-
-  # Remove trailing blank lines.
-  while [ "${BODY: -1}" = $'\n' ]; do
-    BODY=${BODY%$'\n'}
-  done
-
-
-  convert_body "$source"
-
-  claim_update_id "$id" "$source"
-
-
-  BODY="---
-title: \"${title//\"/\\\"}\"
-project: \"$project\"
-published: $date
----
-
-$BODY"
-
-
-  emit \
-    "$CONTENT/updates/$id.md" \
-    "$source"
-}
-
-
-split_dev_log() {
-  local log=$1
-  local project=$2
-  local name
-
-  name=$(basename "$log")
-
-
-  local pending=false
-  local line
-  local rest
-  local date
-  local title
-  local source
-
-
-  while IFS= read -r line || [ -n "$line" ]; do
-
-    if [[ $line == '## '* ]]; then
-
-
-      # Write previous section.
-      if $pending; then
-        write_update \
-          "$project" \
-          "$date" \
-          "$title" \
-          "$source"
-      fi
-
-
-      pending=false
-
-      rest=${line#'## '}
-
-
-      # Expected:
-      #
-      #   ## 2026-08-28 — Something happened
-      if [[ $rest =~ ^([0-9]{4}-[0-9]{2}-[0-9]{2})(.*)$ ]]; then
-
-        date=${BASH_REMATCH[1]}
-
-
-        title=$(
-          sed \
-            's/^[[:space:]]*[-–—|:]*[[:space:]]*//' \
-            <<< "${BASH_REMATCH[2]}"
-        )
-
-
-        source="dev-log/$name -> $title"
-
-        pending=true
-
-        BODY=""
-
-      else
-
-        echo \
-          "! dev-log/$name: heading \"$rest\" has no YYYY-MM-DD date - skipped" \
-          >&2
-
-      fi
-
-
-    elif $pending; then
-
-      BODY+="$line"$'\n'
-
-    fi
-
-  done < <(
-    tr -d '\r' < "$log"
-  )
-
-
-  # Write final section.
-  if $pending; then
-
-    write_update \
-      "$project" \
-      "$date" \
-      "$title" \
-      "$source"
-
-  fi
-}
-
-
-if [ -d "$VAULT/dev-log" ]; then
-
-  $DRY_RUN || mkdir -p "$CONTENT/updates"
-
-
-  while IFS= read -r log; do
-
-    project=$(slug_of "$log")
-
-
-    if [ "${note_collection[$project]:-}" != "projects" ]; then
-
-      echo \
-        "! dev-log/$(basename "$log") names no project in the vault - its updates would be dropped from the site" \
-        >&2
-
-    fi
-
-
-    split_dev_log \
-      "$log" \
-      "$project"
-
-
-  done < <(
-    markdown_in "$VAULT/dev-log"
-  )
-
-fi
 
 
 # -----------------------------------------------------------------------------
@@ -910,7 +666,7 @@ while IFS= read -r note; do
   top=${relative%%/*}
 
 
-  case " ${COLLECTIONS[*]} dev-log " in
+  case " ${COLLECTIONS[*]} " in
 
     *" $top "*)
       continue

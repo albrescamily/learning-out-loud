@@ -1,0 +1,9 @@
+# Keeps this collection folder in git even while it holds no notes.
+#
+# Astro binds each collection's file watcher to its base directory when the dev
+# server starts. A folder created later — by the sync script's `mkdir -p` — is
+# never picked up, so notes synced into it stay invisible until the server is
+# restarted. Committing the folder means it always exists, and the watcher
+# always has something to bind to.
+#
+# The collections are declared in src/content.config.ts.
