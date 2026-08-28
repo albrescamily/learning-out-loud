@@ -8,3 +8,4 @@ CQRS is a design pattern that segregates read and write workloads into two separ
 
 CQRS introduces eventual consistency between write side and read side. 
 
+![CQRS_diagram_image](../images/image.png "CQRS Diagram")
