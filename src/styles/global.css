@@ -90,7 +90,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   color:var(--muted);
   margin:0;
 }
-.post-meta,.project-meta,.activity-meta,.current-meta,.note-date,.project-row-update,.log-entry-head,.tags{
+.post-meta,.current-meta,.note-date,.tags{
   font-family:var(--mono);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
@@ -217,9 +217,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .pager .all-link{margin-top:var(--s3)}
 .meta-link{color:var(--body);text-decoration:underline;text-underline-offset:3px}
 .meta-link:hover{color:var(--accent)}
-.project-updates-empty{margin:0;color:var(--muted)}
-.project-updates-empty a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-.project-updates .all-link{margin-top:0}
 
 /* 404 ------------------------------------------------------------------ */
 .not-found-nav{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -274,11 +271,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .project-row{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
 .project-row h3{font-size:var(--fs-head);margin-bottom:var(--s1)}
 .project-row-desc{margin:0;color:var(--body);max-width:680px}
-.project-row-update{margin-top:var(--s2)}
-.project-row-label{text-transform:uppercase;letter-spacing:.06em;font-weight:var(--w-bold);color:var(--text)}
-.project-row-update a{color:var(--body)}
-.project-row-update a:hover{color:var(--accent)}
-.project-row-date{white-space:nowrap}
 
 .project-status{display:inline-flex;align-items:center;gap:var(--s1);font-weight:var(--w-bold);color:var(--text)}
 .project-status::before{content:"";width:9px;height:9px;background:var(--muted)}
@@ -287,23 +279,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 [data-status="paused"] .project-status::before{background:var(--warn)}
 
 .tags{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s2);color:var(--body)}
-
-/* activity list (project page + update log) ----------------------------- */
-.activity-item{padding-bottom:var(--s2);margin-bottom:var(--s2);border-bottom:1px solid var(--line)}
-.activity-label{
-  font-family:var(--mono);
-  font-size:var(--fs-meta);
-  font-weight:var(--w-bold);
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-top:var(--s1);
-}
-.activity-title{display:block;margin-top:var(--s1);line-height:1.35;color:var(--text)}
-
-.update-list{border-top:1px solid var(--line);padding-top:var(--s2)}
-.update-list .activity-item{padding-bottom:var(--s2);margin-bottom:var(--s2)}
-.update-list .activity-title{font-size:var(--fs-head);font-weight:var(--w-bold)}
 
 /* archive ------------------------------------------------------------- */
 .archive-page{padding:var(--s5) 0 var(--s6);max-width:860px}
@@ -358,30 +333,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   color:var(--muted);
   text-align:center;
 }
-.project-updates{margin-top:var(--s6);padding-top:var(--s4);border-top:2px solid var(--line)}
-.project-updates .section-title{margin-bottom:var(--s3)}
-
-/* project log (every update of one project, in full) --------------------- */
-.log-entry{padding-top:var(--s4);margin-top:var(--s4);border-top:1px solid var(--line)}
-.log-entry:first-of-type{padding-top:0;margin-top:0;border-top:0}
-.log-entry-head{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:var(--s2);
-  margin-bottom:var(--s1);
-}
-.log-entry-number{color:var(--accent)}
-.log-entry h2{font-size:var(--fs-head);margin-bottom:var(--s2)}
-.log-entry .prose{margin-bottom:var(--s2)}
-.log-permalink{
-  font-family:var(--mono);
-  font-size:var(--fs-meta);
-  font-weight:var(--w-bold);
-  color:var(--muted);
-}
-.log-permalink:hover{color:var(--accent)}
-.log-backlink{margin-bottom:var(--s3)}
 
 /* footer -------------------------------------------------------------- */
 .site-footer{border-top:0}

@@ -3,63 +3,106 @@
 A minimal personal site for documenting:
 
 - projects
-- project updates
 - Today I Learned
 - articles
 - decisions and lessons learned
+
+Built with Astro, plain CSS and Markdown. No database, no CMS, no client-side
+framework.
 
 ## Running locally
 
 ```bash
 npm install
-npm run dev
+npm run dev      # the site
+npm run build    # static output into dist/
+npm test         # the sync's test suite — 76 cases
 ```
 
-Then open the address Astro prints.
+## Where content comes from
 
-## Build
+Notes are written in an Obsidian vault and published into `src/content/` by
+`scripts/publish.ts`.
+
+> **`src/content/` is generated.** The vault is the source of truth. A file you
+> write there by hand survives until the next `npm run publish -- --all`, which
+> makes the folder match the vault exactly — and deletes whatever the vault
+> does not account for. Content belongs in the vault.
 
 ```bash
-npm run build
+npm run publish:list                       # what is pending
+npm run publish:check                      # validate the vault, write nothing
+npm run publish -- --all --dry             # show every write and removal
+npm run publish -- --all                   # apply
+npm run publish -- --id notes/kv-cache     # one note; never deletes anything
 ```
 
-The final files land in `dist/`.
+| Flag | Effect |
+| ---- | ------ |
+| `--dry` | Print every write, copy and removal. Touch nothing. |
+| `--build` | Run `npm run build` after a successful publish. |
+| `--keep-orphans` | Leave behind what the vault no longer has. `--all` only. |
 
-## Publishing content
+The vault mirrors this repository, one folder per collection:
 
-### New article
+| In the vault | Lands in |
+| ------------ | ----------------------- |
+| `writing/` | `src/content/writing/` |
+| `notes/` | `src/content/notes/` |
+| `projects/` | `src/content/projects/` |
+| attachments, from anywhere in the vault | `src/content/images/` |
 
-Create a file at:
+Every note is `unpublished`, `modified`, `published` or `orphaned`; `--all`
+writes the first two, skips the third and deletes the fourth. **The filename is
+the URL** — slugs come from filenames, not titles.
 
-`src/content/writing/my-article.md`
+`VAULT_PATH` is the one machine-specific setting. It lives in `scripts/.env`,
+which is gitignored, and is read as either `VAULT_PATH='C:\...'` or
+`$env:VAULT_PATH = 'C:\...'`.
 
-### New note
+📖 **[docs/publishing.md](docs/publishing.md)** is the full account: the
+pipeline stage by stage, what the conversion does to `[[wikilinks]]`, how
+deleting and renaming propagate, and where the sync stops being responsible.
 
-Create a file at:
+## From Obsidian
 
-`src/content/notes/my-note.md`
+**Sync to site** is a plugin of this project's own — not a community one. It
+adds four commands, each of which can take its own hotkey:
 
-### New project update
+| Command | Runs | Deletes orphans? |
+| ------- | ---- | ---------------- |
+| Publish current note | `--id <derived from the open file>` | no |
+| Publish… | `--id <chosen from a list>` | no |
+| Publish everything | `--all` | yes |
+| Preview everything (dry run) | `--all --dry` | writes nothing |
 
-Create a file at:
+Two settings: the repository folder, and whether to run the Astro build
+afterwards.
 
-`src/content/updates/my-update.md`
+The plugin is not versioned here — the only copy is the one installed in the
+vault, at `<vault>/.obsidian/plugins/obsidian-sync-blog/main.js`. It is only a
+trigger; all the behaviour lives in `scripts/publish.ts`.
 
-Use the `project` field to tie the update to a project.
+## Deploying
 
-### New project
+Publishing is not deploying. `--build` is validation — `dist/` is gitignored,
+so Vercel never sees it. What Vercel builds is the Markdown under
+`src/content/` as it exists on `master`:
 
-Create a file at:
+```bash
+npm run publish -- --all --build   # or the Obsidian command
+git add src/content
+git commit -m "content: publish notes from vault"
+git push                           # this is the deploy
+```
 
-`src/content/projects/my-project.md`
+The build in the publish step is there so an invalid note fails on your machine
+rather than in a failed deployment.
 
-### An image inside a piece of content
+## Images
 
-Put the file at:
-
-`src/content/images/my-diagram.png`
-
-And point at it from the Markdown body, in any collection:
+Attachments referenced from a note are copied into `src/content/images/`
+automatically. To point at one from a Markdown body, in any collection:
 
 ```markdown
 ![Alt text](../images/my-diagram.png "Optional caption")
@@ -68,137 +111,31 @@ And point at it from the Markdown body, in any collection:
 The relative path is what makes Astro treat the image as local: it is
 converted, resized, and gets its dimensions written onto the tag at build time.
 An image alone in a paragraph becomes a `<figure>` with a caption; an image in
-the middle of a sentence stays inline. Details in
-`src/content/images/README.md`.
+the middle of a sentence stays inline. A missing file fails the build.
 
-## Syncing from Obsidian
+`src/content/images/README.md` has the rest — alt text versus captions, linked
+images, and what happens to remote URLs.
 
-Notes written in the Obsidian vault are copied in with:
+## Layout
 
-```bash
-npm run sync           # copy
-npm run sync -- --dry  # show what would happen, write nothing
-```
-
-Run it **from Git Bash**. In PowerShell, `bash` is `C:\Windows\system32\bash.exe`
-— WSL — where a path like `C:\Users\...` does not exist. The script detects that
-and says so rather than failing on the paths.
-
-The vault mirrors this folder, one directory per collection, and the sync is
-folder to folder:
-
-| In the vault | Lands in                                |
-| ------------ | --------------------------------------- |
-| `writing/`   | `src/content/writing/`                  |
-| `notes/`     | `src/content/notes/`                    |
-| `projects/`  | `src/content/projects/`                 |
-| `updates/`   | `src/content/updates/`                  |
-| `dev-log/`   | `src/content/updates/`, one per heading |
-| attachments  | `src/content/images/`                   |
-
-Anything outside those folders — `templates/` above all — stays in the vault,
-and the run lists what it left behind.
-
-### Running it from Obsidian
-
-`obsidian-plugin/` is a small plugin of this project's own — not a community
-one — that adds a **Sync vault to site** command to Obsidian. It runs
-`scripts/sync-and-build.sh`, which syncs and then builds, and reports back in a
-notice: the summary on success, and a second notice for any warning the sync
-raised. It is only a trigger; all the behaviour lives in the two shell scripts.
-
-To install it, copy the folder into the vault and enable it:
-
-```bash
-cp -r obsidian-plugin "<vault>/.obsidian/plugins/sync-to-site"
-```
-
-Then Obsidian → Settings → Community plugins → Installed plugins → enable
-**Sync to site**. Its settings hold two machine paths, the repository folder and
-Git Bash, both of which it checks before running and names if either is wrong.
-
-Being a command, it can take a hotkey, and the Buttons plugin can fire it from
-inside a note — a button at the top of a dev log is one way to publish.
-
-### The dev log
-
-Most updates never need a file of their own. `dev-log/` holds one file per
-project, named after it, and each heading inside becomes one update:
-
-`dev-log/learning-out-loud.md`
-
-```markdown
-## 2026-08-27 — Images shipped
-
-Body, with [[wikilinks]] and ![[attachments]] like any other note.
-
-## 2026-08-25 — Sync rewritten
-
-Body...
-```
-
-That writes `src/content/updates/images-shipped.md` and `sync-rewritten.md`,
-each with the `title`, `project` and `published` the schema wants. The project
-comes from the filename, so it is never typed twice, and the date is what fixes
-the update's number in `/projects/<project>/log`, which counts oldest-first.
-Anything above the first heading, frontmatter included, is ignored.
-
-The separator between date and title can be an em dash, a hyphen, a pipe or a
-colon — all four are treated as decoration.
-
-Four things the run will tell you about:
-
-- **A heading with no `YYYY-MM-DD` date is skipped.** The date orders the log, so
-  it is never guessed.
-- **The title becomes the filename**, and `src/content/updates/` is flat, so two
-  headings that slugify alike overwrite each other.
-- **A dev-log file named after no real project**: Astro drops an update whose
-  `project` does not resolve and still exits 0, so this is caught here instead.
-- **Renaming an old heading renames its file**, which changes that update's URL
-  and leaves the previous copy behind.
-
-Update files are generated. Edit the dev log, not `src/content/updates/` — the
-next sync overwrites them.
-
-`updates/` still works for a one-off update written as its own file.
-
-On the way in, `[[wikilinks]]` become real links, pointed at whichever section
-the target belongs to, and `![[attachments]]` become relative image paths so
-Astro optimizes them. Only attachments a copied note actually references are
-brought over; they are looked for in the published folder first, then anywhere
-in the vault.
-
-**To caption an image**, write it in the vault as a plain Markdown image with a
-title — Obsidian resolves the bare filename, and the sync repoints it:
-
-```markdown
-![Alt text](my-diagram.png "The caption")
-```
-
-The wikilink form has nowhere to put a caption: `![[my-diagram.png|Alt text]]`
-gives alt text and nothing else. Remote URLs and paths already pointing at
-`../images/` are left exactly as written.
-
-Two things worth knowing:
-
-- **Nothing is ever deleted here.** A note removed or renamed in Obsidian leaves
-  its copy behind — `git status` is what shows you.
-- **A link to a note that is not in the vault** becomes plain text rather than a
-  link to a page that does not exist, and the run says which note to fix.
-
-The three paths are machine-specific and live in `scripts/.env`, which is
-gitignored: `VAULT_PATH` (the published folder inside the vault), `CONTENT_PATH`
-(this project's `src/content`) and `IMAGES_PATH`.
+| Path | What it is |
+| ---- | ---------- |
+| `src/pages/` | Routes. One file per page, plus the two `[...slug]` archives |
+| `src/content/` | **Generated.** The published Markdown and its images |
+| `src/content.config.ts` | The collection schemas Astro enforces at build time |
+| `src/lib/` | Navigation, dates, figures — the shared helpers |
+| `scripts/publish.ts` | The sync: discovery, state, writing, removal, CLI |
+| `scripts/lib/convert.ts` | Obsidian syntax → site Markdown. Pure, no filesystem |
+| `scripts/lib/collections.ts` | Which collections exist and what each demands |
+| `scripts/test/` | The suite. Runs the real CLI against a sandbox copy |
+| `templates/` | The frontmatter contract, one file per collection |
+| `docs/publishing.md` | How publishing works, end to end |
 
 ## Maintenance
 
-The site was deliberately built with:
+Most editorial changes need nothing more than writing Markdown in the vault and
+running one command. Changes to the site itself are Astro and plain CSS; there
+is no build step beyond `astro build` and no runtime to keep alive.
 
-- Astro
-- plain CSS
-- Markdown
-- no database
-- no mandatory CMS
-- no client-side framework
-
-Most editorial changes need nothing more than creating or editing Markdown.
+Before touching `scripts/`, run `npm test` — the suite covers the destructive
+paths, and the sync deletes files.

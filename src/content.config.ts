@@ -28,7 +28,7 @@ const projects = defineCollection({
     description: z.string(),
     status: z.enum(["active", "live", "paused", "done"]),
     stack: z.array(z.string()).default([]),
-    order: z.number().default(0)
+    published: z.coerce.date()
   })
 });
 

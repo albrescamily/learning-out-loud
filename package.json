@@ -6,11 +6,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "sync": "bash scripts/sync-and-build.sh",
-    "sync:only": "bash scripts/sync-obsidian-astro.sh"
+    "publish": "tsx scripts/publish.ts",
+    "publish:list": "tsx scripts/publish.ts --list",
+    "publish:check": "tsx scripts/publish.ts --check",
+    "test": "tsx scripts/test/all.test.ts"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.3.8",
-    "astro": "^7.2.6"
+    "astro": "^7.2.6",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "tsx": "^4.23.12"
   }
 }

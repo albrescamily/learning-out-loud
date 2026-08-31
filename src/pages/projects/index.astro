@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 import { projectHref } from "../../lib/nav";
 
 const projects = (await getCollection("projects"))
-  .sort((a,b) => a.data.order - b.data.order);
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 <BaseLayout title="Projects">
   <div class="container archive-page">

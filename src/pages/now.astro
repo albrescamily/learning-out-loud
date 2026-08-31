@@ -7,7 +7,7 @@ import { projectHref } from "../lib/nav";
 
 const active = (await getCollection("projects"))
   .filter(p => ["active", "live"].includes(p.data.status))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 <BaseLayout title="Now" description="What I am working on right now.">
   <div class="container article-page">
