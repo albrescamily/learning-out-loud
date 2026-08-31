@@ -1,5 +1,5 @@
 ---
-title: ollama.cpp
+title: llama.cpp is not the same as ollama
 published: 2026-08-31T00:00:00.000Z
 ---
 Just found out that Ollama and llama.cpp are not the same thing! 
