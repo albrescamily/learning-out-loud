@@ -5,58 +5,63 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <div class="container article-page">
     <div class="eyebrow">about</div>
     <h1> >> Hello, Cami</h1>
-    <p class="article-lead"><em>Curious, open-minded and slightly hyperactive</em></p>
 
-    <div class="prose about-prose">
-      <p class="about-command">
-        <span class="shell-user">cami@albres</span><span class="shell-path">:~$</span>
-        <span class="shell-cmd">whoami</span>
-      </p>
+    <div class="terminal">
+      <div class="terminal-bar">~/about</div>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm a young woman with way too many interests,
-        a suspicious number of unfinished side projects,
-        and very little ability to look at an idea and think,
-        "maybe I don't need to do anything with this."
-      </p>
+      <div class="prose about-prose">
+        <p class="about-command">
+          <span class="shell-user">cami@albres</span><span class="shell-path">:~$</span>
+          <span class="shell-cmd">whoami</span>
+        </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm almost incapable of leaving a question alone.
-        If something catches my attention, I tend to go a little too far with it,
-        whether it's philosophy, technology, art, psychology, current events,
-        or some completely random idea I stumbled across at 1 a.m.
-        I like connecting things, questioning my own assumptions,
-        and trying to understand not only what I think, but why I think it.
-      </p>
+        <p class="about-comment"># curious, open-minded and slightly hyperactive</p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> On the technical side, I have a particular weakness for
-        distributed systems, AI, infrastructure, DevOps, data engineering,
-        GPUs, LLMs, and pretty much anything hidden behind an abstraction
-        that makes me stop and ask:
-        "wait... what is this actually doing?"
-      </p>
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> I'm a young woman with way too many interests,
+          a suspicious number of unfinished side projects,
+          and very little ability to look at an idea and think,
+          "maybe I don't need to do anything with this."
+        </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I have a habit of turning new interests into projects, experiments,
-        or slightly unnecessary challenges. Build an image search engine? Sure.
-        Redis in C++? Educational. A fishing game that fits inside an Altoids tin?
-        Somehow valid. Learn whittling because software wasn't giving me enough ways
-        to accidentally hurt my hands? Also yes.
-      </p>
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> I'm almost incapable of leaving a question alone.
+          If something catches my attention, I tend to go a little too far with it,
+          whether it's philosophy, technology, art, psychology, current events,
+          or some completely random idea I stumbled across at 1 a.m.
+          I like connecting things, questioning my own assumptions,
+          and trying to understand not only what I think, but why I think it.
+        </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I like hackathons, games, music, whittling,
-        obscure technical rabbit holes, and projects that start with
-        "this shouldn't be too hard" and somehow end with me reading
-        documentation I didn't know existed three days earlier.
-      </p>
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> On the technical side, I have a particular weakness for
+          distributed systems, AI, infrastructure, DevOps, data engineering,
+          GPUs, LLMs, and pretty much anything hidden behind an abstraction
+          that makes me stop and ask:
+          "wait... what is this actually doing?"
+        </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm much more interested in figuring things out
-        than pretending I already know them.
-        Conveniently, the world gives me an endless supply of things to figure out.
-      </p>
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> I have a habit of turning new interests into projects, experiments,
+          or slightly unnecessary challenges. Build an image search engine? Sure.
+          Redis in C++? Educational. A fishing game that fits inside an Altoids tin?
+          Somehow valid. Learn whittling because software wasn't giving me enough ways
+          to accidentally hurt my hands? Also yes.
+        </p>
+
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> I like hackathons, games, music, whittling,
+          obscure technical rabbit holes, and projects that start with
+          "this shouldn't be too hard" and somehow end with me reading
+          documentation I didn't know existed three days earlier.
+        </p>
+
+        <p class="line">
+          <span class="prompt">&gt;&gt;</span> I'm much more interested in figuring things out
+          than pretending I already know them.
+          Conveniently, the world gives me an endless supply of things to figure out.
+        </p>
+      </div>
     </div>
   </div>
 </BaseLayout>
