@@ -9,7 +9,6 @@ const items = (await getCollection("notes"))
 <BaseLayout title="Notes">
   <div class="container archive-page">
     <div class="eyebrow">notes</div>
-    <h1>Small things worth remembering.</h1>
     {items.map(item => (
       <article class="archive-row compact">
         <div class="post-meta">

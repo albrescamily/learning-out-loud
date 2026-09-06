@@ -301,11 +301,13 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .archive-row h2{font-size:var(--fs-head);margin-bottom:var(--s1)}
 .archive-row p{margin:0;color:var(--body)}
 .archive-row.compact h2{margin:0}
-/* the rule belongs to the list, not the first row, so it shows even when the
-   collection is empty — same as .project-list */
-.archive-list{border-top:1px solid var(--line)}
-.archive-list>.archive-row:first-child{border-top:0}
-.archive-projects{margin-top:var(--s5)}
+/* No h1 on the index pages, so the eyebrow opens the gap the title used to. */
+.archive-page>.eyebrow{margin-bottom:var(--s4)}
+/* The rules separate rows from each other, so the first one is dropped —
+   otherwise it lands right under the eyebrow with nothing above it. */
+.archive-row:first-of-type{border-top:0}
+.archive-projects{border-top:0}
+.archive-projects{margin-top:0}
 
 /* article ------------------------------------------------------------- */
 .article-page{padding:var(--s5) 0 var(--s6);max-width:760px}
@@ -330,34 +332,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .prose pre code{background:none;padding:0;font-size:1em}
 
 /* about ----------------------------------------------------------------- */
-/* The page keeps the site's header — eyebrow, then the sans h1 every page has.
-   Everything below is framed as a window, so the switch to mono reads as "this
-   is a terminal" instead of as the body type drifting. */
-.terminal{border:1px solid var(--line);background:var(--surface)}
-.terminal-bar{
-  padding:var(--s1) var(--s2);
-  border-bottom:1px solid var(--line);
-  font-family:var(--mono);
-  font-size:var(--fs-meta);
-  letter-spacing:.04em;
-  color:var(--muted);
-}
-.about-prose{
-  padding:var(--s3);
-  font-family:var(--mono);
-  font-size:var(--fs-sm);
-  line-height:1.75;
-}
-.about-prose .about-command{margin:0 0 var(--s0);color:var(--muted);word-break:break-all}
-.shell-user{color:var(--ok);font-weight:var(--w-bold)}
-.shell-path{color:var(--muted)}
-.shell-cmd{color:var(--text);font-weight:var(--w-bold)}
-.about-prose .about-comment{margin:0 0 var(--s3);color:var(--muted)}
-/* Hanging indent: the marker sits in the gutter and every wrapped line keeps
-   one left edge, the way a terminal wraps continuation lines. */
+/* Ordinary prose in the site's sans. The `>>` that opens each paragraph hangs
+   in the gutter so the wrapped lines keep one left edge. */
 .about-prose .line{padding-left:3ch;text-indent:-3ch;margin-bottom:var(--s3)}
-.about-prose .prompt{font-weight:var(--w-bold);color:var(--accent)}
-.about-prose>p:last-child{margin-bottom:0}
+.about-prose .prompt{font-family:var(--mono);font-weight:var(--w-bold);color:var(--accent)}
 
 /* images ---------------------------------------------------------------- */
 /* A lone image in a paragraph is rewritten into a figure by src/lib/figures.ts,
@@ -455,7 +433,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   .footer-copyright{justify-self:start;text-align:left}
   .footer-note{justify-self:start;text-align:left;max-width:none}
   .hero-inner{padding:var(--s4) 0}
-  .about-prose{padding:var(--s2)}
   .archive-row{grid-template-columns:1fr;gap:var(--s1)}
   .article-lead{margin-top:calc(var(--s3) * -1)}
 }
