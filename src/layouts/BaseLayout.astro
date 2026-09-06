@@ -5,14 +5,12 @@ import "../styles/global.css";
 
 interface Props {
   title?: string;
-  description?: string;
 }
 
-const {
-  title = "camily albres.",
-  description =
-    "Camily Albres — notes, writing and code. A tiny collection of what I'm learning and building, permanently a work in progress."
-} = Astro.props;
+const { title = "camily albres." } = Astro.props;
+
+// One description for the whole site, so every shared link reads the same.
+const description = "Camily Albres — notes, writing and code.";
 
 const path = Astro.url.pathname;
 ---
