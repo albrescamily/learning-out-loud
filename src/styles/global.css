@@ -157,18 +157,29 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 
 /* hero --------------------------------------------------------------- */
 .hero{border-bottom:0}
-.hero-inner{padding:var(--s5) 0;border-bottom:2px solid var(--line)}
-.hero-preview{max-width:600px;margin:0;color:var(--body);font-size:var(--fs-head);line-height:1.45}
+.hero-inner{padding:var(--s4) 0 var(--s5);border-bottom:2px solid var(--line)}
+.hero-eyebrow{margin-bottom:var(--s2)}
+.hero-preview{
+  max-width:42ch;
+  margin:0;
+  color:var(--text);
+  font-size:var(--fs-head);
+  line-height:1.5;
+  letter-spacing:-.01em;
+  text-wrap:balance;
+}
+.hero-dim{color:var(--muted)}
 .hero-subtitle{
-  max-width:640px;
-  margin:var(--s2) 0 0;
+  max-width:52ch;
+  margin:var(--s3) 0 0;
   color:var(--muted);
   font-size:var(--fs-sm);
-  line-height:1.5;
+  line-height:1.6;
+  text-wrap:balance;
 }
 .hero-subtitle em{color:var(--text);font-style:italic}
 .hero-actions{
-  margin-top:var(--s3);
+  margin-top:var(--s4);
   display:flex;
   flex-wrap:wrap;
   align-items:center;
@@ -287,6 +298,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .archive-row h2{font-size:var(--fs-head);margin-bottom:var(--s1)}
 .archive-row p{margin:0;color:var(--body)}
 .archive-row.compact h2{margin:0}
+/* the rule belongs to the list, not the first row, so it shows even when the
+   collection is empty — same as .project-list */
+.archive-list{border-top:1px solid var(--line)}
+.archive-list>.archive-row:first-child{border-top:0}
 .archive-projects{margin-top:var(--s5)}
 
 /* article ------------------------------------------------------------- */
@@ -310,6 +325,30 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   line-height:1.7;
 }
 .prose pre code{background:none;padding:0;font-size:1em}
+
+/* about ----------------------------------------------------------------- */
+/* Mono type and `>>` prompts, but no panel: the text sits on the page like the
+   rest of the site, so the shell line reads as a heading and not as chrome. */
+.about-prose{
+  font-family:var(--mono);
+  font-size:var(--fs-sm);
+  line-height:1.75;
+}
+/* No divider under the command: the prompt line is the separator, and the
+   output starts close under it the way a shell prints it. */
+.about-command{
+  margin:0 0 var(--s2);
+  color:var(--muted);
+  word-break:break-all;
+}
+.shell-user{color:var(--ok);font-weight:var(--w-bold)}
+.shell-path{color:var(--muted)}
+.shell-cmd{color:var(--text);font-weight:var(--w-bold)}
+.about-prose ::selection{background:var(--accent);color:var(--bg)}
+/* Hanging indent: the marker sits in the gutter and every wrapped line keeps
+   one left edge, the way a terminal wraps continuation lines. */
+.about-prose .line{padding-left:3ch;text-indent:-3ch;margin-bottom:var(--s3)}
+.about-prose .prompt{font-weight:var(--w-bold);color:var(--accent)}
 
 /* images ---------------------------------------------------------------- */
 /* A lone image in a paragraph is rewritten into a figure by src/lib/figures.ts,
