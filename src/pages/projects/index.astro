@@ -9,6 +9,7 @@ const projects = (await getCollection("projects"))
 <BaseLayout title="Projects">
   <div class="container archive-page">
     <div class="eyebrow">projects</div>
+    <h3 class="page-legend">personal, raw notes about projects</h3>
     <div class="project-list archive-projects">
       {projects.map(project => (
         <article class="project-row">

@@ -9,6 +9,7 @@ const items = (await getCollection("notes"))
 <BaseLayout title="Notes">
   <div class="container archive-page">
     <div class="eyebrow">notes</div>
+    <h3 class="page-legend">random notes I want to share</h3>
     {items.map(item => (
       <article class="archive-row compact">
         <div class="post-meta">

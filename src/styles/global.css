@@ -303,6 +303,15 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .archive-row.compact h2{margin:0}
 /* No h1 on the index pages, so the eyebrow opens the gap the title used to. */
 .archive-page>.eyebrow{margin-bottom:var(--s4)}
+.archive-page>.eyebrow:has(+.page-legend){margin-bottom:var(--s1)}
+.page-legend{
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  font-style:italic;
+  color:var(--muted);
+  margin:0 0 var(--s4);
+}
 /* The rules separate rows from each other, so the first one is dropped —
    otherwise it lands right under the eyebrow with nothing above it. */
 .archive-row:first-of-type{border-top:0}

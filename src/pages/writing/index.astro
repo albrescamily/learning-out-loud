@@ -9,6 +9,7 @@ const posts = (await getCollection("writing"))
 <BaseLayout title="Writing">
   <div class="container archive-page">
     <div class="eyebrow">writing</div>
+    <h3 class="page-legend">the stuff I actually bothered to edit</h3>
     {posts.map(post => (
       <article class="archive-row">
         <div class="post-meta">
