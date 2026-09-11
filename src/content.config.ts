@@ -7,6 +7,7 @@ const writing = defineCollection({
     title: z.string(),
     description: z.string(),
     published: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     minutes: z.number().default(5),
     tags: z.array(z.string()).default([])
   })
@@ -28,7 +29,8 @@ const projects = defineCollection({
     description: z.string(),
     status: z.enum(["active", "live", "paused", "done"]),
     stack: z.array(z.string()).default([]),
-    published: z.coerce.date()
+    published: z.coerce.date(),
+    updated: z.coerce.date().optional()
   })
 });
 

@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { projectHref } from "../../lib/nav";
+import { formatDate } from "../../lib/date";
 
 const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
@@ -15,6 +16,7 @@ const projects = (await getCollection("projects"))
         <article class="project-row">
           <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
           <p class="project-row-desc">{project.data.description}</p>
+          <span class="updated-tag">updated {formatDate(project.data.updated ?? project.data.published)}</span>
         </article>
       ))}
     </div>

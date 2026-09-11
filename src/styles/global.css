@@ -18,11 +18,11 @@
   --w-bold:700;
 
   /* the type scale */
-  --fs-meta:13px;
-  --fs-sm:15px;
-  --fs-body:17px;
-  --fs-head:20px;
-  --fs-title:34px;
+  --fs-meta:15px;
+  --fs-sm:18px;
+  --fs-body:20px;
+  --fs-head:25px;
+  --fs-title:44px;
 
   /* 8px spacing scale */
   --s0:4px;
@@ -258,9 +258,9 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .writing-feed{min-width:0}
 .feed-row{padding:var(--s2) 0;border-top:1px solid var(--line)}
 .feed-row:first-of-type{border-top:0;padding-top:0}
-.feed-row h3{font-size:var(--fs-head);margin-bottom:var(--s1)}
+.feed-row h3{font-size:var(--fs-sm);margin-bottom:var(--s1)}
 .feed-row .post-meta{margin-bottom:var(--s1)}
-.feed-row p{margin:0;color:var(--body);max-width:660px}
+.feed-row p{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:660px}
 
 .note-row{display:flex;align-items:baseline;gap:var(--s1);padding:var(--s1) 0}
 .note-row:first-child{padding-top:0}
@@ -283,8 +283,8 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .projects-section{padding:var(--s5) 0 var(--s6);border-top:2px solid var(--line);margin-top:var(--s5)}
 .project-list{border-top:1px solid var(--line)}
 .project-row{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
-.project-row h3{font-size:var(--fs-head);margin-bottom:var(--s1)}
-.project-row-desc{margin:0;color:var(--body);max-width:680px}
+.project-row h3{font-size:var(--fs-sm);margin-bottom:var(--s1)}
+.project-row-desc{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:680px}
 
 .project-status{display:inline-flex;align-items:center;gap:var(--s1);font-weight:var(--w-bold);color:var(--text)}
 .project-status::before{content:"";width:9px;height:9px;background:var(--muted)}
@@ -298,9 +298,20 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .archive-page{padding:var(--s5) 0 var(--s6);max-width:860px}
 .archive-page>h1,.article-page>h1{font-size:var(--fs-title);line-height:1.15;letter-spacing:-.02em;margin:var(--s2) 0 var(--s5)}
 .archive-row{display:grid;grid-template-columns:104px 1fr;gap:var(--s3);padding:var(--s2) 0;border-top:1px solid var(--line)}
-.archive-row h2{font-size:var(--fs-head);margin-bottom:var(--s1)}
-.archive-row p{margin:0;color:var(--body)}
+.archive-row h2{font-size:var(--fs-sm);margin-bottom:var(--s1)}
+.archive-row p{margin:0;color:var(--body);font-size:var(--fs-meta)}
 .archive-row.compact h2{margin:0}
+.updated-tag{
+  display:inline-block;
+  margin-top:var(--s1);
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:var(--w-text);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--muted);
+  opacity:.7;
+}
 /* No h1 on the index pages, so the eyebrow opens the gap the title used to. */
 .archive-page>.eyebrow{margin-bottom:var(--s4)}
 .archive-page>.eyebrow:has(+.page-legend){margin-bottom:var(--s1)}
@@ -321,7 +332,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 /* article ------------------------------------------------------------- */
 .article-page{padding:var(--s5) 0 var(--s6);max-width:760px}
 .article-lead{font-size:var(--fs-head);line-height:1.45;color:var(--body);max-width:720px;margin:calc(var(--s4) * -1) 0 var(--s5)}
-.prose{max-width:720px;line-height:1.6}
+.prose{max-width:720px;line-height:1.6;overflow-wrap:anywhere}
 .prose h2{font-size:var(--fs-head);margin-top:var(--s4);margin-bottom:var(--s1)}
 .prose h3{font-size:var(--fs-body);margin-top:var(--s3);margin-bottom:var(--s1)}
 .prose p{margin:0 0 var(--s2)}

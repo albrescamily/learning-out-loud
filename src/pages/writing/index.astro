@@ -18,6 +18,7 @@ const posts = (await getCollection("writing"))
         <div>
           <h2><a href={`/writing/${post.id}`}>{post.data.title}</a></h2>
           <p>{post.data.description}</p>
+          <span class="updated-tag">updated {formatDate(post.data.updated ?? post.data.published)}</span>
         </div>
       </article>
     ))}

@@ -46,6 +46,7 @@ const projects = (await getCollection("projects"))
             <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
             <div class="post-meta">{formatDate(post.data.published)}</div>
             <p>{post.data.description}</p>
+            <span class="updated-tag">updated {formatDate(post.data.updated ?? post.data.published)}</span>
           </article>
         ))}
 
@@ -76,6 +77,7 @@ const projects = (await getCollection("projects"))
           <article class="project-row">
             <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
             <p class="project-row-desc">{project.data.description}</p>
+            <span class="updated-tag">updated {formatDate(project.data.updated ?? project.data.published)}</span>
           </article>
         ))}
       </div>
