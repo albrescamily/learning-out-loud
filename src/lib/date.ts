@@ -11,3 +11,8 @@ export function formatDate(date: Date): string {
   const year = String(date.getUTCFullYear()).slice(-2);
   return `${day}-${month}-${year}`;
 }
+
+/** ISO date (YYYY-MM-DD) for the `datetime` attribute of a `<time>` element. */
+export function isoDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}

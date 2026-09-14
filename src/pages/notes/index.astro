@@ -1,22 +1,32 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ListingEntry from "../../components/ListingEntry.astro";
 import { getCollection } from "astro:content";
-import { formatDate } from "../../lib/date";
 
 const items = (await getCollection("notes"))
-  .sort((a,b) => b.data.published.valueOf() - a.data.published.valueOf());
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 <BaseLayout title="Notes">
-  <div class="container archive-page">
-    <div class="eyebrow">notes</div>
-    <h3 class="page-legend">random notes I want to share</h3>
-    {items.map(item => (
-      <article class="archive-row compact">
-        <div class="post-meta">
-          {formatDate(item.data.published)}
-        </div>
-        <h2><a href={`/notes/${item.id}`}>{item.data.title}</a></h2>
-      </article>
-    ))}
+  <div class="listing-page">
+    <h1 class="listing-title">Notes</h1>
+    <p class="listing-description">random notes I want to share</p>
+
+    <div class="listing-content">
+      {items.length === 0 ? (
+        <p class="listing-empty">No notes published yet.</p>
+      ) : (
+        <ul class="listing-items">
+          {items.map(item => (
+            <ListingEntry
+              href={`/notes/${item.id}`}
+              title={item.data.title}
+              dateLabel="Published"
+              date={item.data.published}
+              dateBesideTitle
+            />
+          ))}
+        </ul>
+      )}
+    </div>
   </div>
 </BaseLayout>

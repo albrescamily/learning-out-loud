@@ -1,24 +1,33 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ListingEntry from "../../components/ListingEntry.astro";
 import { getCollection } from "astro:content";
 import { projectHref } from "../../lib/nav";
-import { formatDate } from "../../lib/date";
 
 const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 <BaseLayout title="Projects">
-  <div class="container archive-page">
-    <div class="eyebrow">projects</div>
-    <h3 class="page-legend">personal, raw notes about projects</h3>
-    <div class="project-list archive-projects">
-      {projects.map(project => (
-        <article class="project-row">
-          <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
-          <p class="project-row-desc">{project.data.description}</p>
-          <span class="updated-tag">updated {formatDate(project.data.updated ?? project.data.published)}</span>
-        </article>
-      ))}
+  <div class="listing-page">
+    <h1 class="listing-title">Projects</h1>
+    <p class="listing-description">personal, raw notes about projects</p>
+
+    <div class="listing-content">
+      {projects.length === 0 ? (
+        <p class="listing-empty">No projects published yet.</p>
+      ) : (
+        <ul class="listing-items">
+          {projects.map(project => (
+            <ListingEntry
+              href={projectHref(project.id)}
+              title={project.data.title}
+              description={project.data.description}
+              dateLabel="Updated"
+              date={project.data.updated ?? project.data.published}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   </div>
 </BaseLayout>
