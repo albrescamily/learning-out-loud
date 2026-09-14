@@ -10,11 +10,11 @@
   --ok:#1a7f45;
   --warn:#94660f;
 
-  --sans:var(--font-sans),system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:var(--font-mono),ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --mono:"Geist Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
 
-  /* two weights, nothing in between */
+  /* three weights, nothing in between — 500 is the floor */
   --w-text:500;
+  --w-medium:600;
   --w-bold:700;
 
   /* the type scale */
@@ -63,23 +63,34 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  font-family:var(--mono);
+  /* One monospace family everywhere: never let the browser fake a missing
+     weight by squashing/bolding what it has. */
+  font-synthesis:none;
+  text-rendering:optimizeLegibility;
+}
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:var(--sans);
+  font-family:inherit;
   font-size:var(--fs-body);
   font-weight:var(--w-text);
   line-height:1.5;
 }
 h1,h2,h3{font-weight:var(--w-bold);letter-spacing:-.01em;line-height:1.25;margin:0}
+/* Entry titles — feed rows, archive rows, project rows — sit one step below a
+   page heading, so they read as medium (600) rather than the page-level bold
+   (700) the bare h1/h2/h3 rule above sets. */
+.feed-row h3,.archive-row h2,.project-row h3,.note-title{font-weight:var(--w-medium)}
 a{color:inherit;text-decoration:none}
 a:hover{color:var(--accent)}
 /* The one native-UI colour the site sets: a neutral from the palette instead of
    the browser's blue, which is the only colour on the page that isn't ours. */
 ::selection{background:var(--line);color:var(--text)}
-code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);background:var(--surface);padding:1px 6px}
+code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);background:var(--surface);padding:1px 6px}
 .container{width:min(1040px,calc(100% - 96px));margin:0 auto}
 
 /* labels and metadata ------------------------------------------------ */
@@ -160,22 +171,23 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 
 /* hero --------------------------------------------------------------- */
 .hero{border-bottom:0}
-.hero-inner{padding:var(--s4) 0 var(--s5);border-bottom:2px solid var(--line)}
+.hero-inner{padding:var(--s4) 0 var(--s5)}
 .hero-eyebrow{margin-bottom:var(--s2)}
 .hero-preview{
   max-width:42ch;
   margin:0;
   color:var(--text);
-  font-size:var(--fs-head);
-  line-height:1.5;
-  letter-spacing:-.01em;
+  font-size:clamp(1.75rem,4vw,2.75rem);
+  font-weight:var(--w-bold);
+  line-height:1.15;
+  letter-spacing:-.03em;
   text-wrap:balance;
 }
-.hero-dim{color:var(--muted)}
+.hero-dim{color:var(--muted);font-weight:var(--w-text)}
 .hero-subtitle{
   max-width:52ch;
   margin:var(--s3) 0 0;
-  color:var(--muted);
+  color:var(--text);
   font-size:var(--fs-sm);
   line-height:1.6;
   text-wrap:balance;
@@ -229,7 +241,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .pager-title{font-size:var(--fs-sm);line-height:1.4;color:var(--text)}
 .pager-link:hover .pager-title{color:var(--accent)}
 .pager .all-link{margin-top:var(--s3)}
-.meta-link{color:var(--body);text-decoration:underline;text-underline-offset:3px}
+.meta-link{color:var(--body);font-weight:var(--w-medium);text-decoration:underline;text-underline-offset:3px}
 .meta-link:hover{color:var(--accent)}
 
 /* 404 ------------------------------------------------------------------ */
@@ -280,9 +292,9 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 .note-row:hover .note-title{color:var(--accent)}
 
 /* projects -------------------------------------------------------------- */
-.projects-section{padding:var(--s5) 0 var(--s6);border-top:2px solid var(--line);margin-top:var(--s5)}
-.project-list{border-top:1px solid var(--line)}
-.project-row{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.projects-section{padding:var(--s5) 0 var(--s6);margin-top:var(--s5)}
+.project-row{padding:var(--s2) 0;border-top:1px solid var(--line)}
+.project-row:first-of-type{border-top:0;padding-top:0}
 .project-row h3{font-size:var(--fs-sm);margin-bottom:var(--s1)}
 .project-row-desc{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:680px}
 
@@ -326,13 +338,14 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 /* The rules separate rows from each other, so the first one is dropped —
    otherwise it lands right under the eyebrow with nothing above it. */
 .archive-row:first-of-type{border-top:0}
-.archive-projects{border-top:0}
 .archive-projects{margin-top:0}
 
 /* article ------------------------------------------------------------- */
 .article-page{padding:var(--s5) 0 var(--s6);max-width:760px}
 .article-lead{font-size:var(--fs-head);line-height:1.45;color:var(--body);max-width:720px;margin:calc(var(--s4) * -1) 0 var(--s5)}
-.prose{max-width:720px;line-height:1.6;overflow-wrap:anywhere}
+/* Line length in characters, not pixels — the point of a monospace body is
+   that a `ch` measurement is exact. Stays within the 58–68ch reading band. */
+.prose{max-width:64ch;line-height:1.6;overflow-wrap:anywhere}
 .prose h2{font-size:var(--fs-head);margin-top:var(--s4);margin-bottom:var(--s1)}
 .prose h3{font-size:var(--fs-body);margin-top:var(--s3);margin-bottom:var(--s1)}
 .prose p{margin:0 0 var(--s2)}
@@ -349,11 +362,11 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   font-size:var(--fs-meta);
   line-height:1.7;
 }
-.prose pre code{background:none;padding:0;font-size:1em}
+.prose pre code{background:none;padding:0;font-size:1em;font-weight:var(--w-text)}
 
 /* about ----------------------------------------------------------------- */
-/* Ordinary prose in the site's sans. The `>>` that opens each paragraph hangs
-   in the gutter so the wrapped lines keep one left edge. */
+/* Ordinary prose, same body mono as everywhere else. The `>>` that opens each
+   paragraph hangs in the gutter so the wrapped lines keep one left edge. */
 .about-prose .line{padding-left:3ch;text-indent:-3ch;margin-bottom:var(--s3)}
 .about-prose .prompt{font-family:var(--mono);font-weight:var(--w-bold);color:var(--accent)}
 
@@ -382,33 +395,30 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
 
 /* footer -------------------------------------------------------------- */
 .site-footer{border-top:0}
-/* Three tracks so the copyright is centred on the page, not merely between the
-   two side blocks — those have different widths. */
 .footer-inner{
   padding:var(--s4) 0;
   border-top:2px solid var(--line);
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
+  display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:var(--s4);
   font-family:var(--mono);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:var(--muted);
 }
-.footer-social{display:flex;gap:var(--s3);flex-wrap:wrap;justify-self:start}
-.footer-social a{padding-bottom:2px;border-bottom:2px solid transparent}
+.footer-social{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center}
+.footer-social a{display:inline-flex;padding-bottom:2px;border-bottom:2px solid transparent}
 .footer-social a:hover{color:var(--text);border-bottom-color:var(--accent)}
+.footer-social svg{width:26px;height:26px;display:block;fill:currentColor}
 .footer-copyright{
-  justify-self:center;
   display:grid;
   gap:2px;
-  text-align:center;
+  text-align:right;
   color:var(--body);
   white-space:nowrap;
 }
 .footer-place{color:var(--muted)}
-.footer-note{justify-self:end;text-align:right;max-width:24ch}
 
 @media(max-width:1080px){
   .container{width:calc(100% - 64px)}
@@ -449,10 +459,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-text);backgroun
   .pager-pair{grid-template-columns:1fr;gap:var(--s3)}
   .pager-older{grid-column:1;text-align:left}
   .pager-link.is-empty{display:none}
-  .footer-inner{grid-template-columns:1fr;gap:var(--s3)}
-  .footer-copyright{justify-self:start;text-align:left}
-  .footer-note{justify-self:start;text-align:left;max-width:none}
+  .footer-inner{flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .footer-copyright{text-align:left}
   .hero-inner{padding:var(--s4) 0}
+  .hero-preview{font-size:2rem}
   .archive-row{grid-template-columns:1fr;gap:var(--s1)}
   .article-lead{margin-top:calc(var(--s3) * -1)}
 }

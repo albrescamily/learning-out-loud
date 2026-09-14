@@ -1,5 +1,5 @@
 {
-  "name": "public-engineering-notebook",
+  "name": "learning-out-loud",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.3.8",
+    "@fontsource/geist-mono": "^5.2.6",
     "astro": "^7.2.6",
     "gray-matter": "^4.0.3"
   },
