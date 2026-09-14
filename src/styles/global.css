@@ -103,7 +103,7 @@ a:hover{color:var(--accent)}
    the browser's blue, which is the only colour on the page that isn't ours. */
 ::selection{background:var(--line);color:var(--text)}
 code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);background:var(--surface);padding:1px 6px}
-.container{width:min(calc(100% - 4rem),80rem);margin-inline:auto}
+.container{width:min(calc(100% - 4rem),64rem);margin-inline:auto}
 
 /* labels and metadata ------------------------------------------------ */
 .eyebrow,.micro-label{
@@ -317,7 +317,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 
 /* listing pages (writing / notes / projects archives) ------------------ */
 .listing-page{
-  width:min(calc(100% - 4rem),80rem);
+  width:min(calc(100% - 4rem),64rem);
   margin-inline:auto;
   padding:3rem 0 4rem;
 }
