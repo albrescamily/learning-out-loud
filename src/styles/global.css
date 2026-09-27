@@ -356,7 +356,15 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .not-found-mascot{width:112px;margin-bottom:var(--s3);transform:rotate(-8deg)}
 
 .project-status{font-size:var(--fs-project-meta);line-height:1.5;font-weight:var(--w-text);color:var(--muted);white-space:nowrap}
-.project-page .project-meta{font-size:var(--fs-project-meta);line-height:1.5}
+.project-header{margin-bottom:var(--s4);padding-bottom:var(--s4);border-bottom:1px solid var(--line)}
+.project-page .project-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1);margin-bottom:var(--s2);font-size:.875rem;line-height:1.5;color:var(--muted)}
+.project-meta .project-status{font-size:inherit}
+.project-header h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:-.02em}
+.project-header .article-lead{margin:var(--s2) 0 0}
+.project-header .experiment-stack{margin:var(--s2) 0 0}
+body:has(.project-page) a[href]{color:var(--muted)}
+body:has(.project-page) a[href]:hover{color:var(--body)}
+.project-page .pager-link .pager-title{color:inherit}
 
 /* listing pages (writing / notes / projects archives) ------------------ */
 .listing-page{
@@ -548,6 +556,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   .experiment-grid{grid-template-columns:1fr}
   .experiment-card{padding:var(--s2)}
   .article-page>h1{font-size:24px}
+  .project-header h1{font-size:24px}
   .note-page.article-page>h1{font-size:28px}
   .container,.listing-page{width:calc(100% - 2.5rem)}
 

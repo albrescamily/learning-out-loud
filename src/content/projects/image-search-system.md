@@ -2,7 +2,11 @@
 title: Image Search System
 description: An Image Search System using CLIP ViT and Qdrant
 status: done
-stack: []
+stack:
+  - Qdrant
+  - S3
+  - ViT
+  - "Docker\_"
 published: 2026-09-14T00:00:00.000Z
 ---
 MinIO

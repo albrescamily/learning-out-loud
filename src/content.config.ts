@@ -28,9 +28,11 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     status: z.enum(["active", "live", "paused", "done"]),
-    stack: z.array(z.string()).default([]),
+    // Obsidian sometimes leaves separators/nbsp in list values.
+    stack: z.array(z.string().transform(s => s.replace(/[\s,]+$/u, "").trim())).default([]),
     published: z.coerce.date(),
-    updated: z.coerce.date().optional()
+    updated: z.coerce.date().optional(),
+    repository: z.string().url().optional()
   })
 });
 

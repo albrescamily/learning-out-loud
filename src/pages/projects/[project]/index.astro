@@ -2,7 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import Pager from "../../../components/Pager.astro";
-import { projects, statusLabels } from "../../../lib/lab";
+import { statusLabels } from "../../../lib/lab";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -15,18 +15,24 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const info = projects[project.id];
-const stack = project.data.stack.length ? project.data.stack : info?.stack ?? [];
+const { title, description, status } = project.data;
+const stack = project.data.stack.filter(Boolean);
 ---
-<BaseLayout title={project.data.title}>
+<BaseLayout title={title}>
   <article class="container article-page project-page">
-    <Breadcrumb title={project.data.title} />
-    <div class="post-meta project-meta">
-      <span class="project-status">[{statusLabels[project.data.status]}]</span>
-      {stack.length > 0 && <span> · {stack.join(" · ")}</span>}
-    </div>
-    <h1>{project.data.title}</h1>
-    <p class="article-lead">{info?.question ?? project.data.description}</p>
+    <Breadcrumb title={title} />
+    <header class="project-header">
+      <div class="project-meta">
+        <span class="project-status">{statusLabels[status]}</span>
+      </div>
+      <h1>{title}</h1>
+      <p class="article-lead">{description}</p>
+      {stack.length > 0 && (
+        <ul class="experiment-stack" aria-label="Technology stack">
+          {stack.map(item => <li>{item}</li>)}
+        </ul>
+      )}
+    </header>
 
     <div class="prose"><Content /></div>
 

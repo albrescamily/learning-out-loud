@@ -1,9 +1,13 @@
 ---
 title: whatwhale - nl2docker
-description: CLI LLM-based to translate NL to docker commands
+description: Can a tiny model remember the Docker flags I keep forgetting?
 status: active
-stack: []
+stack:
+  - Docker
+  - llama.cpp
+  - QLora
 published: 2026-09-11T00:00:00.000Z
+repository: 'https://github.com/albrescamily/whatwhale'
 ---
 
 
