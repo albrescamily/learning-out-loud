@@ -1,8 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ListingEntry from "../../components/ListingEntry.astro";
+import ExperimentCard from "../../components/ExperimentCard.astro";
 import { getCollection } from "astro:content";
-import { projectHref } from "../../lib/nav";
 
 const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
@@ -10,21 +9,15 @@ const projects = (await getCollection("projects"))
 <BaseLayout title="Projects">
   <div class="listing-page">
     <h1 class="listing-title">Projects</h1>
-    <p class="listing-description">personal, raw notes about projects</p>
+    <p class="listing-description">These are my working notes.</p>
 
     <div class="listing-content">
       {projects.length === 0 ? (
         <p class="listing-empty">No projects published yet.</p>
       ) : (
-        <ul class="listing-items">
+        <ul class="experiment-grid experiment-list">
           {projects.map(project => (
-            <ListingEntry
-              href={projectHref(project.id)}
-              title={project.data.title}
-              description={project.data.description}
-              dateLabel="Updated"
-              date={project.data.updated ?? project.data.published}
-            />
+            <li><ExperimentCard project={project} heading="h2" /></li>
           ))}
         </ul>
       )}

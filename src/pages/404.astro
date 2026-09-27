@@ -1,21 +1,24 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LabWhale from "../components/LabWhale.astro";
+import RandomNote from "../components/RandomNote.astro";
 import { sections, pages } from "../lib/nav";
 ---
 <BaseLayout title="Not found">
   <div class="container article-page">
-    <div class="eyebrow">404</div>
-    <h1>This page does not exist.</h1>
+    <div class="not-found-mascot"><LabWhale /></div>
+    <div class="eyebrow">error 404 / uncharted waters</div>
+    <h1>Segmentation fault: page not found.</h1>
     <p class="article-lead">
-      The link is broken or the page moved. Everything on the site is one of these:
+      The whale checked. There&apos;s nothing here. The link may be broken or the page may have moved — try one of these:
     </p>
 
     <nav class="not-found-nav" aria-label="Site sections">
       {[...sections, ...pages].map(item => (
-        <a class="not-found-link" href={item.href}>{item.label} →</a>
+        <a class="not-found-link" href={item.href}>{item.label}</a>
       ))}
     </nav>
 
-    <a class="all-link" href="/">back home</a>
+    <div class="hero-actions"><a class="hero-action" href="/">back to the lab</a><RandomNote /></div>
   </div>
 </BaseLayout>

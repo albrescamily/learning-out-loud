@@ -17,7 +17,6 @@ export const sections: NavItem[] = [
 /** Standalone pages. */
 export const pages: NavItem[] = [
   { href: "/about", label: "about" }
-  // { href: "/now", label: "now" } // temporarily removed from the navbar
 ];
 
 export const nav: NavItem[] = [...sections, ...pages];

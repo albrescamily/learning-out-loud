@@ -3,7 +3,7 @@
 title: ""
 # One line, shown under the title and in every project list.
 description: ""
-# active | live | paused | done   — only active and live appear on /now.
+# active | live | paused | done
 status: "active"
 # Shown as a dot-separated list next to the status.
 stack: []

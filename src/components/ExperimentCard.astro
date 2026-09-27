@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { projects, statusLabels } from "../lib/lab";
+import { projectHref } from "../lib/nav";
+import { formatDate } from "../lib/date";
+
+interface Props { project: CollectionEntry<"projects">; heading?: "h2" | "h3" }
+const { project, heading: Heading = "h3" } = Astro.props;
+const info = projects[project.id];
+const stack = project.data.stack.length ? project.data.stack : info?.stack ?? [];
+---
+<article class="experiment-card">
+  <div class="experiment-header">
+    <Heading><a href={projectHref(project.id)}>{project.data.title}</a></Heading>
+    <span class="project-status">[{statusLabels[project.data.status]}]</span>
+  </div>
+  <p class="experiment-question">{info?.question ?? project.data.description}</p>
+  {stack.length > 0 && <ul class="experiment-stack" aria-label="Technologies">{stack.map(item => <li>{item}</li>)}</ul>}
+  <p class="experiment-date">{project.data.updated ? "Updated" : "Started"} {formatDate(project.data.updated ?? project.data.published)}</p>
+</article>

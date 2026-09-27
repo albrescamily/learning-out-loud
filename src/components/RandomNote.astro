@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+
+const notes = (await getCollection("notes"))
+  .map(note => `/notes/${note.id}`)
+  .filter(href => href !== Astro.url.pathname.replace(/\/+$/, ""));
+---
+{notes.length > 0 && (
+  <a class="random-note" href={notes[0]} data-random-notes={JSON.stringify(notes)}>
+    <span class="random-note-die" aria-hidden="true">⚄</span>
+    Give me a random note
+  </a>
+)}
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>("[data-random-notes]").forEach(link => {
+    const paths: string[] = JSON.parse(link.dataset.randomNotes!);
+    // Set a real href so keyboard, touch, and opening a new tab all work.
+    const shuffle = (avoidCurrent = false) => {
+      const choices = paths.filter(path => !avoidCurrent || path !== link.getAttribute("href"));
+      const pool = choices.length ? choices : paths;
+      link.href = pool[Math.floor(Math.random() * pool.length)];
+    };
+    shuffle();
+    window.addEventListener("pageshow", event => {
+      if (event.persisted) shuffle(true);
+    });
+  });
+</script>

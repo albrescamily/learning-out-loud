@@ -1,0 +1,91 @@
+---
+// Pixel-art fish tank for the empty box under the hero. Sprites are drawn
+// facing left, one character per pixel: b body, d stripe, e eye, t fin, g weed.
+const SPRITES = {
+  big: [
+    "....ttt....",
+    "..bbbbbbb.t",
+    ".bebdbbdbtt",
+    "bbbbdbbdbtt",
+    ".bbbdbbdbtt",
+    "..bbbbbbb.t",
+  ],
+  small: [
+    ".bbb..t",
+    "bebbbtt",
+    "bbbbbtt",
+    ".bbb..t",
+  ],
+  weed: [
+    ".g.",
+    "g..",
+    ".g.",
+    "..g",
+    ".g.",
+    "g..",
+    ".g.",
+    ".g.",
+  ],
+};
+
+type Sprite = keyof typeof SPRITES;
+
+function pixels(sprite: Sprite) {
+  return SPRITES[sprite].flatMap((row, y) =>
+    [...row].flatMap((c, x) => (c === "." ? [] : [{ x, y, c }])),
+  );
+}
+
+const PX = 4;
+
+const fish = [
+  { sprite: "big", variant: "orange", top: 18, dir: "left", dur: 22, delay: -4 },
+  { sprite: "small", variant: "light", top: 52, dir: "right", dur: 16, delay: -9 },
+  { sprite: "small", variant: "orange", top: 30, dir: "left", dur: 13, delay: -2 },
+  { sprite: "big", variant: "light", top: 62, dir: "left", dur: 28, delay: -17 },
+  { sprite: "small", variant: "light", top: 10, dir: "right", dur: 19, delay: -14 },
+] as const;
+
+const weeds = [6, 9, 71, 88, 91];
+const bubbles = [
+  { left: 12, dur: 6, delay: -1 },
+  { left: 13, dur: 7, delay: -4 },
+  { left: 64, dur: 5, delay: -2 },
+  { left: 83, dur: 8, delay: -5 },
+];
+---
+
+<div class="rabbit-hole aquarium" aria-hidden="true">
+  {weeds.map((left, i) => (
+    <svg
+      class="aq-weed"
+      style={`left:${left}%;animation-delay:${-i * 0.4}s`}
+      viewBox={`0 0 3 8`}
+      width={3 * PX}
+      height={8 * PX}
+      shape-rendering="crispEdges"
+    >
+      {pixels("weed").map(p => <rect x={p.x} y={p.y} width="1" height="1" class={`px-${p.c}`} />)}
+    </svg>
+  ))}
+
+  {bubbles.map(b => (
+    <span class="aq-bubble" style={`left:${b.left}%;animation-duration:${b.dur}s;animation-delay:${b.delay}s`}></span>
+  ))}
+
+  {fish.map(f => {
+    const rows = SPRITES[f.sprite];
+    const w = rows[0].length;
+    const h = rows.length;
+    return (
+      <div
+        class={`aq-fish aq-${f.dir} aq-${f.variant}`}
+        style={`top:${f.top}%;animation-duration:${f.dur}s;animation-delay:${f.delay}s`}
+      >
+        <svg viewBox={`0 0 ${w} ${h}`} width={w * PX} height={h * PX} shape-rendering="crispEdges">
+          {pixels(f.sprite).map(p => <rect x={p.x} y={p.y} width="1" height="1" class={`px-${p.c}`} />)}
+        </svg>
+      </div>
+    );
+  })}
+</div>

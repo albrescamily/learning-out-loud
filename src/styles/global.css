@@ -7,8 +7,6 @@
   --muted:#5b636d;
   --line:#c2c8ce;
   --accent:#a8480f;
-  --ok:#1a7f45;
-  --warn:#94660f;
 
   --mono:"Geist Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
 
@@ -23,6 +21,9 @@
   --fs-body:20px;
   --fs-head:25px;
   --fs-title:44px;
+  --fs-project-title:1.125rem;
+  --fs-project-body:1rem;
+  --fs-project-meta:.8125rem;
 
   /* 8px spacing scale */
   --s0:4px;
@@ -45,8 +46,6 @@
     --muted:#87919d;
     --line:#2f3841;
     --accent:#ff9d4d;
-    --ok:#48b872;
-    --warn:#d3a341;
   }
 }
 :root[data-theme="dark"]{
@@ -58,8 +57,6 @@
   --muted:#87919d;
   --line:#2f3841;
   --accent:#ff9d4d;
-  --ok:#48b872;
-  --warn:#d3a341;
 }
 
 *{box-sizing:border-box}
@@ -93,10 +90,10 @@ body{
    floating right under the content, and scrolls normally on long ones. */
 #content{flex:1 0 auto}
 h1,h2,h3{font-weight:var(--w-bold);letter-spacing:-.01em;line-height:1.25;margin:0}
-/* Entry titles — feed rows, archive rows, project rows — sit one step below a
-   page heading, so they read as medium (600) rather than the page-level bold
-   (700) the bare h1/h2/h3 rule above sets. */
-.feed-row h3,.project-row h3,.note-title{font-weight:var(--w-medium);line-height:1.4}
+/* Entry titles — feed rows and note rows — sit one step below a page heading,
+   so they read as medium (600) rather than the page-level bold (700) the bare
+   h1/h2/h3 rule above sets. */
+.feed-row h3,.note-title{font-weight:var(--w-medium);line-height:1.4}
 a{color:inherit;text-decoration:none}
 a:hover{color:var(--accent)}
 /* The one native-UI colour the site sets: a neutral from the palette instead of
@@ -116,7 +113,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   color:var(--muted);
   margin:0;
 }
-.post-meta,.current-meta,.note-date,.tags{
+.post-meta,.note-date{
   font-family:var(--mono);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
@@ -183,8 +180,51 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 
 /* hero --------------------------------------------------------------- */
 .hero{border-bottom:0}
-.hero-inner{padding:var(--s4) 0 var(--s5)}
-.hero-eyebrow{margin-bottom:var(--s2)}
+.hero-inner{
+  padding:var(--s4) 0 var(--s5);
+  background-image:radial-gradient(circle,var(--line) .7px,transparent .8px);
+  background-size:20px 20px;
+  background-position:10px 10px;
+}
+.hero-topline{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-bottom:var(--s4)}
+.lab-label{font-size:12px;color:var(--muted);text-align:right}
+.hero-heading{display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
+.hero-mascot{flex:none;width:144px}
+.hero-mascot img{display:block;width:100%;height:auto}
+.lab-whale{display:block;width:112px;height:84px;margin-inline:auto;color:var(--accent)}
+.whale-eye,.whale-belly{fill:var(--bg)}
+.whale-spout{fill:var(--muted)}
+.hero-aside{margin:var(--s1) 0 0;font-size:var(--fs-meta);color:var(--muted)}
+.hero .hero-actions{margin-top:var(--s3)}
+.hero-actions .hero-action{font-weight:var(--w-text);font-size:13px}
+.random-note{display:inline-flex;align-items:center;justify-content:center;gap:var(--s1);min-height:44px;padding:10px 14px;border:1px solid var(--accent);background:var(--bg);color:var(--accent);font-size:13px;line-height:1.5;font-weight:var(--w-medium);transition:background .15s,color .15s}
+.random-note:hover{background:var(--accent);color:var(--bg)}
+.random-note-die{font-size:22px;line-height:1}
+.rabbit-hole{min-height:9rem;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface)}
+/* Pixel fish tank: fish cross the box on a loop and bob in 4px steps. */
+.aquarium{position:relative;overflow:hidden}
+.aquarium svg{display:block}
+.aq-fish{position:absolute;animation:aq-swim-left linear infinite}
+.aq-fish.aq-right{animation-name:aq-swim-right}
+.aq-fish svg{animation:aq-bob 1.4s steps(2) infinite alternate}
+/* Two oranges: the accent, and the accent faded toward the page background so
+   the lighter shade follows the theme. Each variant swaps body and fin. */
+.aquarium{--orange-light:color-mix(in srgb,var(--accent) 55%,var(--bg))}
+.aq-orange{--fish-body:var(--accent);--fish-fin:var(--orange-light)}
+.aq-light{--fish-body:var(--orange-light);--fish-fin:var(--accent)}
+.px-b{fill:var(--fish-body)}
+.px-d,.px-t{fill:var(--fish-fin)}
+.px-e{fill:var(--bg)}
+.px-g{fill:var(--text)}
+.aq-weed{position:absolute;bottom:0;opacity:.7;transform-origin:bottom;animation:aq-sway 1.8s steps(2) infinite alternate}
+.aq-bubble{position:absolute;bottom:0;width:4px;height:4px;border:1px solid var(--muted);animation:aq-rise linear infinite}
+@keyframes aq-swim-left{from{left:100%}to{left:-60px}}
+@keyframes aq-swim-right{from{left:-60px}to{left:100%}}
+@keyframes aq-bob{to{transform:translateY(-8px)}}
+.aq-right svg{animation-name:aq-bob-flip}
+@keyframes aq-bob-flip{from{transform:scaleX(-1)}to{transform:scaleX(-1) translateY(-8px)}}
+@keyframes aq-sway{to{transform:skewX(8deg)}}
+@keyframes aq-rise{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-9rem);opacity:0}}
 .hero-preview{
   max-width:42ch;
   margin:0;
@@ -196,13 +236,16 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   text-wrap:balance;
 }
 .hero-dim{color:var(--muted);font-weight:var(--w-text)}
+/* Wide measure and `pretty` rather than `balance`: the subtitle runs the full
+   width of the column in long lines, instead of being evened out into a short
+   stack under the heading. `pretty` still keeps the last line off an orphan. */
 .hero-subtitle{
-  max-width:52ch;
+  max-width:80ch;
   margin:var(--s3) 0 0;
   color:var(--text);
   font-size:var(--fs-sm);
   line-height:1.6;
-  text-wrap:balance;
+  text-wrap:pretty;
 }
 .hero-subtitle em{color:var(--text);font-style:italic}
 .hero-actions{
@@ -217,11 +260,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 }
 .hero-action{color:var(--text);text-decoration:underline;text-underline-offset:4px}
 .hero-action:hover{color:var(--accent)}
-
-.current-block{margin-bottom:var(--s2)}
-.current-value{margin-top:var(--s0);color:var(--text)}
-.current-meta{margin-top:var(--s1)}
-.article-page .current-block:first-of-type{margin-top:calc(var(--s5) * -1)}
 
 /* breadcrumb ---------------------------------------------------------- */
 .breadcrumb{
@@ -253,8 +291,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .pager-title{font-size:var(--fs-sm);line-height:1.4;color:var(--text)}
 .pager-link:hover .pager-title{color:var(--accent)}
 .pager .all-link{margin-top:var(--s3)}
-.meta-link{color:var(--body);font-weight:var(--w-medium);text-decoration:underline;text-underline-offset:3px}
-.meta-link:hover{color:var(--accent)}
 
 /* 404 ------------------------------------------------------------------ */
 .not-found-nav{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -302,18 +338,23 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 
 /* projects -------------------------------------------------------------- */
 .projects-section{padding:var(--s5) 0 var(--s6);margin-top:var(--s5)}
-.project-row{padding:var(--s2) 0;border-top:1px solid var(--line)}
-.project-row:first-of-type{border-top:0;padding-top:0}
-.project-row h3{font-size:var(--fs-sm);margin-bottom:var(--s1)}
-.project-row-desc{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:680px}
 
-.project-status{display:inline-flex;align-items:center;gap:var(--s1);font-weight:var(--w-bold);color:var(--text)}
-.project-status::before{content:"";width:9px;height:9px;background:var(--muted)}
-[data-status="active"] .project-status::before,
-[data-status="live"] .project-status::before{background:var(--ok)}
-[data-status="paused"] .project-status::before{background:var(--warn)}
+/* Projects share one type scale: title, body, and metadata. */
+.experiment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+.experiment-list{list-style:none;padding:0;margin:0}
+.experiment-list>li{min-width:0}
+.experiment-card{height:100%;min-width:0;padding:var(--s3);border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;transition:border-color .15s}
+.experiment-card:hover,.experiment-card:focus-within{border-color:var(--accent)}
+.experiment-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s1) var(--s2);margin-bottom:var(--s2)}
+.experiment-card :is(h2,h3){flex:1 1 16ch;min-width:0;font-size:var(--fs-project-title);font-weight:var(--w-medium);line-height:1.5;margin:0}
+.experiment-question{margin:0 0 var(--s3);color:var(--body);font-size:var(--fs-project-body);line-height:1.6}
+.experiment-stack{display:flex;flex-wrap:wrap;gap:var(--s1);list-style:none;padding:0;margin:auto 0 var(--s2)}
+.experiment-stack li{border:1px solid var(--line);padding:3px 7px;color:var(--muted);font-size:var(--fs-project-meta);line-height:1.5}
+.experiment-date{margin:0;padding-top:var(--s2);border-top:1px solid var(--line);font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
+.not-found-mascot{width:112px;margin-bottom:var(--s3);transform:rotate(-8deg)}
 
-.tags{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s2);color:var(--body)}
+.project-status{font-size:var(--fs-project-meta);line-height:1.5;font-weight:var(--w-text);color:var(--muted);white-space:nowrap}
+.project-page .project-meta{font-size:var(--fs-project-meta);line-height:1.5}
 
 /* listing pages (writing / notes / projects archives) ------------------ */
 .listing-page{
@@ -496,6 +537,14 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   .notes-rail{border-left:0;padding-left:0;border-top:2px solid var(--line);padding-top:var(--s3)}
 }
 @media(max-width:640px){
+  .hero-topline{align-items:flex-start;margin-bottom:var(--s3)}
+  .lab-label{max-width:12ch;font-size:10px}
+  .hero-heading{position:relative;display:block;padding-right:0}
+  .hero-mascot{display:none}
+  .hero-aside{font-size:13px}
+  .hero-actions{gap:var(--s2)}
+  .experiment-grid{grid-template-columns:1fr}
+  .experiment-card{padding:var(--s2)}
   .article-page>h1{font-size:24px}
   .note-page.article-page>h1{font-size:28px}
   .container,.listing-page{width:calc(100% - 2.5rem)}
@@ -534,4 +583,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   .listing-page{padding-top:2rem}
   .listing-title{font-size:1.25rem}
   .listing-entry-title{font-size:1rem}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .random-note,.experiment-card{transition:none}
+  .aquarium,.aquarium *{animation-play-state:paused}
 }

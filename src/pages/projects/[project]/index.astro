@@ -2,11 +2,12 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import Pager from "../../../components/Pager.astro";
+import { projects, statusLabels } from "../../../lib/lab";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
-  return projects.map(project => ({
+  const entries = await getCollection("projects");
+  return entries.map(project => ({
     params: { project: project.id },
     props: { project }
   }));
@@ -14,16 +15,18 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const info = projects[project.id];
+const stack = project.data.stack.length ? project.data.stack : info?.stack ?? [];
 ---
 <BaseLayout title={project.data.title}>
-  <article class="container article-page project-page" data-status={project.data.status}>
+  <article class="container article-page project-page">
     <Breadcrumb title={project.data.title} />
-    <div class="post-meta">
-      <span class="project-status">{project.data.status}</span>
-      {" · "}{project.data.stack.join(" · ")}
+    <div class="post-meta project-meta">
+      <span class="project-status">[{statusLabels[project.data.status]}]</span>
+      {stack.length > 0 && <span> · {stack.join(" · ")}</span>}
     </div>
     <h1>{project.data.title}</h1>
-    <p class="article-lead">{project.data.description}</p>
+    <p class="article-lead">{info?.question ?? project.data.description}</p>
 
     <div class="prose"><Content /></div>
 
