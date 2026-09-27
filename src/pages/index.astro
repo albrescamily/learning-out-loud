@@ -20,7 +20,7 @@ const projects = (await getCollection("projects"))
 <BaseLayout>
   <section class="hero">
     <div class="container hero-inner">
-      <div class="hero-topline"><span class="lab-label">Cami's personal notebook</span></div>
+      <div class="hero-topline"><span class="lab-label">Personal notebook</span></div>
       <div class="hero-heading">
         <h1 class="hero-preview">Learning out loud.<br /><span class="hero-dim">what I'm learning and building.</span></h1>
         <div class="hero-mascot"><img src="/cat-typing.jpeg" alt="A curious black cat with wide eyes" width="400" height="400" /></div>
@@ -45,12 +45,14 @@ const projects = (await getCollection("projects"))
 
         {writing.slice(0, 3).map(post => (
           <article class="feed-row">
-            <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
-            <p>{post.data.description}</p>
-            <div class="post-meta">{formatDate(post.data.published)}</div>
-            {post.data.updated && (
-              <span class="updated-tag">updated {formatDate(post.data.updated)}</span>
-            )}
+            <span class="post-meta">{formatDate(post.data.published)}</span>
+            <div class="feed-row-body">
+              <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
+              <p>{post.data.description}</p>
+              {post.data.updated && (
+                <span class="updated-tag">updated {formatDate(post.data.updated)}</span>
+              )}
+            </div>
           </article>
         ))}
 
