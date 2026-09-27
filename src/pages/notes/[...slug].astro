@@ -32,7 +32,7 @@ const { item, newer, older } = Astro.props;
 const { Content } = await render(item);
 ---
 <BaseLayout title={item.data.title}>
-  <article class="container article-page">
+  <article class="container article-page note-page">
     <Breadcrumb title={item.data.title} />
     <div class="post-meta">
       {formatDate(item.data.published)}

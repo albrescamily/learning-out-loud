@@ -12,27 +12,29 @@ const notes = (await getCollection("notes"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
 const projects = (await getCollection("projects"))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 
 <BaseLayout>
   <section class="hero">
     <div class="container hero-inner">
+      <p class="eyebrow hero-eyebrow">Notes, Writing
+       and code</p>
       <p class="hero-preview">
-        I&apos;m a software engineer, and this site is my open notebook: a place
-        to document what I&apos;m learning, what I&apos;m building, where my
-        projects stand, and the ideas that are still taking shape.
+        A tiny collection of what I&apos;m learning and building.
       </p>
       <p class="hero-subtitle">
-        I&apos;m mostly interested in <em>distributed systems</em>,{" "}
-        <em>backend engineering</em>, <em>AI infrastructure</em>,{" "}
-        <em>LLM inference</em>, <em>system design</em> and{" "}
-        <em>data engineering</em>.
+        I&apos;m Camily, a computer scientist exploring <em>distributed systems</em>,{" "}
+        <em>DevOps</em>, and <em>AI infrastructure</em>.
       </p>
+      <!-- temporarily removed from the hero: "about me" (/about) and
+           "what I'm doing now" (/now) -->
+      <!--
       <div class="hero-actions">
         <a class="hero-action" href="/about">about me</a>
         <a class="hero-action" href="/now">what I&apos;m doing now</a>
       </div>
+      -->
     </div>
   </section>
 
@@ -44,8 +46,11 @@ const projects = (await getCollection("projects"))
         {writing.slice(0, 3).map(post => (
           <article class="feed-row">
             <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
-            <div class="post-meta">{formatDate(post.data.published)}</div>
             <p>{post.data.description}</p>
+            <div class="post-meta">{formatDate(post.data.published)}</div>
+            {post.data.updated && (
+              <span class="updated-tag">updated {formatDate(post.data.updated)}</span>
+            )}
           </article>
         ))}
 
@@ -76,6 +81,9 @@ const projects = (await getCollection("projects"))
           <article class="project-row">
             <h3><a href={projectHref(project.id)}>{project.data.title}</a></h3>
             <p class="project-row-desc">{project.data.description}</p>
+            {project.data.updated && (
+              <span class="updated-tag">updated {formatDate(project.data.updated)}</span>
+            )}
           </article>
         ))}
       </div>

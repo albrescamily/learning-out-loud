@@ -1,5 +1,5 @@
 ---
-# → /projects/<filename>      (the filename is also the id updates point at)
+# → /projects/<filename>      (the filename is the URL slug)
 title: ""
 # One line, shown under the title and in every project list.
 description: ""
@@ -7,8 +7,8 @@ description: ""
 status: "active"
 # Shown as a dot-separated list next to the status.
 stack: []
-# Ascending. Projects are ordered by this, not by date.
-order: 0
+# YYYY-MM-DD. Projects are listed newest first, everywhere they appear.
+published: 2026-01-01
 ---
 
 Write freely from here.

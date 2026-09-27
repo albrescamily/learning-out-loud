@@ -1,4 +1,4 @@
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import { figures } from "./src/lib/figures.ts";
 
@@ -25,32 +25,9 @@ export default defineConfig({
     // Sätteri is already the default processor; naming it is what lets the
     // figure plugin into the pipeline. Everything else stays at its default.
     processor: satteri({ hastPlugins: [figures] })
-  },
+  }
 
-  fonts: [
-    {
-      name: "IBM Plex Sans",
-      cssVariable: "--font-sans",
-      provider: fontProviders.google(),
-      weights: [500, 700],
-      styles: ["normal"],
-      subsets: ["latin"],
-      // `optional` is what stops the font swapping mid-render: the browser
-      // either has the file in time (it is preloaded, and cached from the
-      // first page on) or keeps the metric-matched fallback for that load.
-      // With `swap` — the default — every navigation repainted the text.
-      display: "optional",
-      fallbacks: ["system-ui", "-apple-system", "Segoe UI", "sans-serif"]
-    },
-    {
-      name: "IBM Plex Mono",
-      cssVariable: "--font-mono",
-      provider: fontProviders.google(),
-      weights: [500, 700],
-      styles: ["normal"],
-      subsets: ["latin"],
-      display: "optional",
-      fallbacks: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"]
-    }
-  ]
+  // Geist Mono isn't on Google Fonts, so it isn't loaded through Astro's Font
+  // API here — it's self-hosted via the @fontsource/geist-mono package,
+  // imported directly in BaseLayout.astro instead.
 });

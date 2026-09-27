@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 ---
-<BaseLayout title={project.data.title} description={project.data.description}>
+<BaseLayout title={project.data.title}>
   <article class="container article-page project-page" data-status={project.data.status}>
     <Breadcrumb title={project.data.title} />
     <div class="post-meta">

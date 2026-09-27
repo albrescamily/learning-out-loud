@@ -1,0 +1,28 @@
+---
+import { formatDate, isoDate } from "../lib/date";
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  dateLabel: "Published" | "Updated";
+  date: Date;
+  /** Notes: no label, date sits beside the title instead of below it. */
+  dateBesideTitle?: boolean;
+}
+
+const { href, title, description, dateLabel, date, dateBesideTitle = false } = Astro.props;
+---
+{dateBesideTitle ? (
+  <li class="listing-entry listing-entry--inline">
+    <time class="listing-entry-date" datetime={isoDate(date)}>{formatDate(date)}</time>
+    <h2 class="listing-entry-title"><a href={href}>{title}</a></h2>
+    {description && <p class="listing-entry-description">{description}</p>}
+  </li>
+) : (
+  <li class="listing-entry">
+    <h2 class="listing-entry-title"><a href={href}>{title}</a></h2>
+    {description && <p class="listing-entry-description">{description}</p>}
+    <p class="listing-entry-meta">{dateLabel} <time datetime={isoDate(date)}>{formatDate(date)}</time></p>
+  </li>
+)}
