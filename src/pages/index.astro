@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ExperimentCard from "../components/ExperimentCard.astro";
-import RandomNote from "../components/RandomNote.astro";
 import PixelAquarium from "../components/PixelAquarium.astro";
 import { getCollection } from "astro:content";
 import { formatDate } from "../lib/date";
@@ -29,9 +28,7 @@ const projects = (await getCollection("projects"))
         I&apos;m Camily, a computer scientist exploring <em>distributed systems</em>,{" "}
         <em>DevOps</em>, <em>Machine Learning</em> and <em>AI infrastructure</em>.
       </p>
-      <p class="hero-aside">Side projects that started with “how hard can it be?”</p>
       <div class="hero-actions">
-        <RandomNote />
         <a class="hero-action" href="/about">who am I?</a>
       </div>
     </div>
