@@ -55,6 +55,7 @@ const path = Astro.url.pathname;
           </nav>
         </div>
       </div>
+      <div class="container scroll-progress" aria-hidden="true"></div>
     </header>
 
     <main id="content">
@@ -79,6 +80,19 @@ const path = Astro.url.pathname;
     </footer>
 
     <script is:inline>
+      // Reading progress: the orange bar on the header line fills as the page
+      // scrolls. Without scripting it stays at zero, so it never shows.
+      (function () {
+        var bar = document.querySelector(".scroll-progress");
+        function update() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.transform = "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+      })();
+
       // Mobile menu. The open state lives in a data attribute on the header so
       // the desktop media query always wins — using `hidden` would leave the
       // nav stuck closed after resizing back up.
