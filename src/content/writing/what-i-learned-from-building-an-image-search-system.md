@@ -19,9 +19,7 @@ I didn’t focus much on reproducing a production network topology. Even though 
 
 
 
-![](<../images/search-system-design.drawio 1.png>)
-
-<center>Fig 1: Architectural diagram</center>
+![](<../images/search-system-design.drawio 1.png> "Fig 1: Architectural diagram")
 
 ### Input Path
 
