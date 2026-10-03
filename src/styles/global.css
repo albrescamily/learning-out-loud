@@ -437,17 +437,20 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 /* Fills the shared container — no independent reading-width cap — so
    breadcrumb, title and body all share the same left AND right edge. */
 .prose{width:100%;max-width:none;font-size:16px;font-weight:var(--w-text);line-height:1.65;overflow-wrap:anywhere}
-/* Tables follow the code-block language: a 4px bar on the left, hairline
-   rows, and eyebrow-style row labels. */
-.prose table{display:block;max-width:100%;overflow-x:auto;margin:var(--s3) 0;border-collapse:collapse;border-left:4px solid var(--line);font-size:var(--fs-meta);line-height:1.55;overflow-wrap:normal}
-.prose th,.prose td{padding:12px var(--s2);border-bottom:1px solid var(--line);text-align:left;vertical-align:baseline}
-.prose thead th{background:var(--surface);color:var(--text);font-weight:var(--w-bold)}
+/* Keep comparison columns readable; narrow screens scroll the table instead
+   of squeezing labels and commands into broken words. */
+.prose table{display:block;width:100%;max-width:100%;overflow-x:auto;margin:var(--s4) 0;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-top:2px solid var(--accent);font-size:var(--fs-meta);line-height:1.65;overflow-wrap:normal;word-break:normal}
+.prose th,.prose td{min-width:15rem;padding:16px 20px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.prose th + th,.prose td + td{border-left:1px solid var(--line)}
+.prose thead th{background:var(--surface);color:var(--text);font-weight:var(--w-bold);vertical-align:middle}
 .prose thead th code{background:none;padding:0;font-size:1em;font-weight:var(--w-bold);color:var(--accent)}
 .prose td{color:var(--body)}
+.prose tbody tr:nth-child(even){background:color-mix(in srgb,var(--surface) 35%,var(--bg))}
 .prose tbody tr{transition:background .15s}
 .prose tbody tr:hover{background:var(--surface)}
-/* first column holds the row labels */
-.prose tbody td:first-child{font-size:13px;font-weight:var(--w-bold);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+.prose tbody tr:last-child td{border-bottom:0}
+.prose th:first-child,.prose td:first-child{min-width:12rem;width:26%}
+.prose tbody td:first-child{font-weight:var(--w-medium);color:var(--text)}
 .prose td code{white-space:nowrap}
 .prose h2,.prose h3{font-size:20px;font-weight:var(--w-medium)}
 .prose h2{margin-top:var(--s4);margin-bottom:var(--s1)}
@@ -569,6 +572,56 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 }
 .prose figure:has(+ center){margin-bottom:0}
 .prose figure + center{margin-bottom:var(--s4)}
+
+/* lightbox -------------------------------------------------------------- */
+/* Figure images open full size in a <dialog>; the script in the layout wires
+   it up. The page underneath stops scrolling while it is open. */
+.prose img.zoomable{cursor:zoom-in}
+.prose img.zoomable:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html.lightbox-open{overflow:hidden}
+.lightbox{
+  width:100vw;
+  height:100vh;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  padding:var(--s5) var(--s3) var(--s3);
+  border:0;
+  background:transparent;
+  cursor:zoom-out;
+}
+.lightbox::backdrop{background:rgb(15 18 22 / .95);backdrop-filter:blur(4px)}
+.lightbox[open]{display:flex;align-items:center;justify-content:center}
+.lightbox figure{display:flex;flex-direction:column;align-items:center;gap:var(--s2);max-width:100%;max-height:100%;margin:0}
+.lightbox img{
+  display:block;
+  max-width:100%;
+  max-height:calc(100vh - 9rem);
+  object-fit:contain;
+  background:#fff;
+}
+.lightbox figcaption{
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.5;
+  color:#e9edf2;
+  text-align:center;
+  text-wrap:balance;
+}
+.lightbox-close{
+  position:absolute;
+  top:var(--s2);
+  right:var(--s3);
+  padding:0;
+  border:0;
+  background:none;
+  cursor:pointer;
+  font-family:var(--mono);
+  font-size:var(--fs-meta);
+  font-weight:var(--w-text);
+  color:#e9edf2;
+}
+.lightbox-close:hover,.lightbox-close:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
 
 /* footer -------------------------------------------------------------- */
 .site-footer{border-top:0}

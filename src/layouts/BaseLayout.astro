@@ -79,6 +79,14 @@ const path = Astro.url.pathname;
       </div>
     </footer>
 
+    <dialog class="lightbox" aria-label="Image viewer">
+      <button class="lightbox-close" type="button">close</button>
+      <figure>
+        <img alt="" />
+        <figcaption></figcaption>
+      </figure>
+    </dialog>
+
     <script is:inline>
       // Reading progress: the orange bar on the header line fills as the page
       // scrolls. Without scripting it stays at zero, so it never shows.
@@ -91,6 +99,62 @@ const path = Astro.url.pathname;
         window.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
         update();
+      })();
+
+      // Lightbox: a figure's image opens full size in a modal dialog. The
+      // dialog gives Esc-to-close and focus handling for free; a click
+      // anywhere closes it too. Images that are already links are left alone.
+      (function () {
+        var dialog = document.querySelector(".lightbox");
+        var full = dialog.querySelector("img");
+        var caption = dialog.querySelector("figcaption");
+        var root = document.documentElement;
+
+        // The largest file in the srcset Astro wrote, not the one sized for
+        // the column.
+        function largest(img) {
+          var best = img.currentSrc || img.src, bestW = 0;
+          (img.getAttribute("srcset") || "").split(",").forEach(function (c) {
+            var parts = c.trim().split(/\s+/), w = parseInt(parts[1], 10);
+            if (parts[0] && w > bestW) { best = parts[0]; bestW = w; }
+          });
+          return best;
+        }
+
+        // The caption is a figcaption, or the Obsidian `<center>` line right
+        // after the figure.
+        function captionOf(figure) {
+          var own = figure.querySelector("figcaption");
+          if (own) return own.textContent;
+          var next = figure.nextElementSibling;
+          return next && next.tagName === "CENTER" ? next.textContent : "";
+        }
+
+        function open(img) {
+          full.src = largest(img);
+          full.alt = img.alt;
+          caption.textContent = captionOf(img.closest("figure"));
+          caption.hidden = !caption.textContent;
+          root.classList.add("lightbox-open");
+          dialog.showModal();
+        }
+
+        dialog.addEventListener("click", function () { dialog.close(); });
+        dialog.addEventListener("close", function () {
+          root.classList.remove("lightbox-open");
+          full.removeAttribute("src");
+        });
+
+        document.querySelectorAll(".prose figure > img").forEach(function (img) {
+          img.classList.add("zoomable");
+          img.tabIndex = 0;
+          img.setAttribute("role", "button");
+          img.setAttribute("aria-label", "Open image" + (img.alt ? ": " + img.alt : ""));
+          img.addEventListener("click", function () { open(img); });
+          img.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(img); }
+          });
+        });
       })();
 
       // Mobile menu. The open state lives in a data attribute on the header so
