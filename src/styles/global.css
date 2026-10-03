@@ -35,30 +35,6 @@
   --s6:64px;
 }
 
-/* dark palette: explicit choice wins, system preference is the default ---- */
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --bg:#0f1216;
-    --surface:#1b212a;
-    --text:#e9edf2;
-    --body:#b4bdc8;
-    --muted:#87919d;
-    --line:#2f3841;
-    --accent:#ff9d4d;
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --bg:#0f1216;
-  --surface:#1b212a;
-  --text:#e9edf2;
-  --body:#b4bdc8;
-  --muted:#87919d;
-  --line:#2f3841;
-  --accent:#ff9d4d;
-}
-
 *{box-sizing:border-box}
 html{
   scroll-behavior:smooth;
@@ -143,8 +119,8 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .brand{font-family:var(--mono);font-size:var(--fs-body);font-weight:var(--w-bold)}
 .header-right{display:flex;align-items:center;gap:var(--s3)}
 
-/* both header buttons are JS-only, so they stay hidden without scripting */
-.theme-toggle,.nav-toggle{
+/* the menu button is JS-only, so it stays hidden without scripting */
+.nav-toggle{
   display:none;
   padding:0;
   border:0;
@@ -155,11 +131,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   font-weight:var(--w-text);
   color:var(--muted);
 }
-.js .theme-toggle{display:inline-block}
-.theme-toggle:hover,.nav-toggle:hover{color:var(--text)}
-.theme-toggle [data-when]{display:none}
-[data-theme="light"] .theme-toggle [data-when="light"],
-[data-theme="dark"] .theme-toggle [data-when="dark"]{display:inline}
+.nav-toggle:hover{color:var(--text)}
 
 /* Header navigation. Scoped to a class on purpose: a bare `nav` selector also
    hits the breadcrumb, the pager, the footer and the 404 list. */
@@ -207,8 +179,8 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .aq-fish{position:absolute;animation:aq-swim-left linear infinite}
 .aq-fish.aq-right{animation-name:aq-swim-right}
 .aq-fish svg{animation:aq-bob 1.4s steps(2) infinite alternate}
-/* Two oranges: the accent, and the accent faded toward the page background so
-   the lighter shade follows the theme. Each variant swaps body and fin. */
+/* Two oranges: the accent, and the accent faded toward the page background.
+   Each variant swaps body and fin. */
 .aquarium{--orange-light:color-mix(in srgb,var(--accent) 55%,var(--bg))}
 .aq-orange{--fish-body:var(--accent);--fish-fin:var(--orange-light)}
 .aq-light{--fish-body:var(--orange-light);--fish-fin:var(--accent)}
