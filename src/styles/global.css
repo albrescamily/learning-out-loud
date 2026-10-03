@@ -362,9 +362,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .project-header h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:-.02em}
 .project-header .article-lead{margin:var(--s2) 0 0}
 .project-header .experiment-stack{margin:var(--s2) 0 0}
-body:has(.project-page) a[href]{color:var(--muted)}
-body:has(.project-page) a[href]:hover{color:var(--body)}
-.project-page .pager-link .pager-title{color:inherit}
 
 /* listing pages (writing / notes / projects archives) ------------------ */
 .listing-page{
@@ -451,7 +448,18 @@ body:has(.project-page) a[href]:hover{color:var(--body)}
 /* Fills the shared container — no independent reading-width cap — so
    breadcrumb, title and body all share the same left AND right edge. */
 .prose{width:100%;max-width:none;font-size:16px;font-weight:var(--w-text);line-height:1.65;overflow-wrap:anywhere}
-.prose table{display:block;max-width:100%;overflow-x:auto}
+/* Tables follow the code-block language: a 4px bar on the left, hairline
+   rows, and eyebrow-style row labels. */
+.prose table{display:block;max-width:100%;overflow-x:auto;margin:var(--s3) 0;border-collapse:collapse;border-left:4px solid var(--line);font-size:var(--fs-meta);line-height:1.55;overflow-wrap:normal}
+.prose th,.prose td{padding:12px var(--s2);border-bottom:1px solid var(--line);text-align:left;vertical-align:baseline}
+.prose thead th{background:var(--surface);color:var(--text);font-weight:var(--w-bold)}
+.prose thead th code{background:none;padding:0;font-size:1em;font-weight:var(--w-bold);color:var(--accent)}
+.prose td{color:var(--body)}
+.prose tbody tr{transition:background .15s}
+.prose tbody tr:hover{background:var(--surface)}
+/* first column holds the row labels */
+.prose tbody td:first-child{font-size:13px;font-weight:var(--w-bold);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+.prose td code{white-space:nowrap}
 .prose h2,.prose h3{font-size:20px;font-weight:var(--w-medium)}
 .prose h2{margin-top:var(--s4);margin-bottom:var(--s1)}
 .prose h3{margin-top:var(--s3);margin-bottom:var(--s1)}
@@ -498,18 +506,27 @@ body:has(.project-page) a[href]:hover{color:var(--body)}
    page of images reads as a column and not as a ragged pile. The figure and the
    image share that width, which puts the image and its centred caption on the
    same centre line. */
-.prose figure{margin:var(--s4) auto;max-width:720px}
+.prose figure{margin:var(--s4) 0}
 .prose figure img{display:block;width:100%;border:1px solid var(--line)}
 .prose figure a{display:block;text-decoration:none}
-.prose figcaption{
-  margin-top:var(--s1);
+/* Obsidian captions are written as a `<center>` line right under the image,
+   which lands beside the figure instead of inside it. Styled the same as a
+   figcaption: the figure gives up its bottom margin to the caption, so the
+   caption sits under the image and the gap opens up before the next text. */
+.prose figcaption,
+.prose figure + center{
+  display:block;
+  margin-top:var(--s2);
   font-family:var(--mono);
-  font-size:var(--fs-meta);
+  font-size:14px;
   font-weight:var(--w-text);
-  line-height:1.4;
+  line-height:1.5;
   color:var(--muted);
   text-align:center;
+  text-wrap:balance;
 }
+.prose figure:has(+ center){margin-bottom:0}
+.prose figure + center{margin-bottom:var(--s4)}
 
 /* footer -------------------------------------------------------------- */
 .site-footer{border-top:0}

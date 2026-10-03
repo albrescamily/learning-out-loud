@@ -50,12 +50,12 @@ function isElement(node: ElementContent | undefined, tagName: string): node is E
  * the srcset Astro generates. Left to itself it assumes `100vw` and downloads a
  * viewport-wide image for a 720px column.
  *
- * These are the widths from `src/styles/global.css`: the prose column caps at
- * 720px, and below that the container is the viewport minus its gutters — 96px,
- * dropping to 32px at the 640px breakpoint.
+ * These are the widths from `src/styles/global.css`: a figure fills the prose
+ * column, which is the container — 64rem at most, and below that the viewport
+ * minus its gutters: 64px, dropping to 40px at the 640px breakpoint.
  */
 const FIGURE_SIZES =
-  "(min-width: 816px) 720px, (min-width: 640px) calc(100vw - 96px), calc(100vw - 32px)";
+  "(min-width: 1088px) 1024px, (min-width: 641px) calc(100vw - 64px), calc(100vw - 40px)";
 
 /** A fresh `img`, minus the title the caption took over. */
 function imageWithoutTitle(image: Element): Element {
