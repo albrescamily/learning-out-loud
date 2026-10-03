@@ -24,7 +24,7 @@ From that point on, `systemd` is responsible for bringing the userspace system u
 - coordinate devices and targets;
 - work with companion components such as `systemd-networkd` and `systemd-journald`, when they are used.
 
-Notice that the first item on that list is **services**. But, Camily, what is the definition of a service on Linux?
+The first item on that list is **services**. But, Camily, what is the definition of a service on Linux?
 
 ## What is a service and some terms
 
@@ -47,7 +47,7 @@ Notice that there is an important distinction between a **program**, a **process
 
 The first two are easy to see: the program is just a file on disk, and every time it is executed, the kernel creates a new process from it, with its own PID. One program can even run as many processes at the same time: `sshd`, for example, creates a new child process for each SSH connection.                                                        
 
-![700](../images/systemd-program-process.png)
+![753](../images/systemd-program-process.png)
 <center>Fig 1: one program, many processes</center>
 
 **"I don't get the difference between a daemon and a process!"**
