@@ -479,30 +479,32 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 }
 .prose pre code{background:none;padding:0;font-size:1em;font-weight:var(--w-text)}
 
-/* writing: reading layout --------------------------------------------- */
-/* Long-form writing keeps the site's mono, but on a reading measure instead
-   of the full container: everything — breadcrumb, meta, title, lead, body,
-   figures, pager — sits on one 52rem column (~80 characters per line),
-   centred in the container, so all of it shares the same two edges. */
-.writing-page{--measure:52rem}
-.writing-page>.breadcrumb,
-.writing-page>.post-meta,
-.writing-page>h1,
-.writing-page>.article-lead,
-.writing-page>.pager,
-.writing-page .prose>*{max-width:var(--measure);margin-inline:auto}
-.article-page.writing-page>h1{
-  margin-top:var(--s2);
-  margin-bottom:var(--s3);
+/* writing & projects: reading layout --------------------------------- */
+/* Long-form writing and project pages keep the site's mono, but on a reading measure instead
+   of the full container: everything — breadcrumb, meta, title, lead, a
+   project's header, body, figures, pager — sits on one 52rem column (~80
+   characters per line), centred in the container, so all of it shares the
+   same two edges. */
+.reading-page{--measure:52rem}
+.reading-page>.breadcrumb,
+.reading-page>.post-meta,
+.reading-page>h1,
+.reading-page>.article-lead,
+.reading-page>.project-header,
+.reading-page>.pager,
+.reading-page .prose>*{max-width:var(--measure);margin-inline:auto}
+.article-page.reading-page>h1{margin-top:var(--s2);margin-bottom:var(--s3)}
+.article-page.reading-page>h1,
+.reading-page .project-header h1{
   font-size:clamp(1.75rem,4vw,2.25rem);
   line-height:1.15;
   letter-spacing:-.03em;
   text-wrap:balance;
 }
-.writing-page>.article-lead{margin-top:0;margin-bottom:var(--s5)}
-.writing-page .prose{font-size:16px;line-height:1.75}
-.writing-page .prose strong{font-weight:var(--w-bold);color:var(--text)}
-.writing-page .prose h2{
+.reading-page>.article-lead{margin-top:0;margin-bottom:var(--s5)}
+.reading-page .prose{font-size:16px;line-height:1.75}
+.reading-page .prose strong{font-weight:var(--w-bold);color:var(--text)}
+.reading-page .prose h2{
   margin-top:3.5rem;
   margin-bottom:1rem;
   font-size:24px;
@@ -511,7 +513,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   letter-spacing:-.02em;
   color:var(--text);
 }
-.writing-page .prose h3{
+.reading-page .prose h3{
   margin-top:2.5rem;
   margin-bottom:.75rem;
   font-size:19px;
@@ -519,13 +521,13 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   line-height:1.4;
   color:var(--text);
 }
-.writing-page .prose p{margin-top:0;margin-bottom:1.35em}
-.writing-page .prose :is(ul,ol){margin-top:1.25rem;margin-bottom:1.75rem;padding-left:1.4rem}
-.writing-page .prose li{margin-bottom:.55rem}
+.reading-page .prose p{margin-top:0;margin-bottom:1.35em}
+.reading-page .prose :is(ul,ol){margin-top:1.25rem;margin-bottom:1.75rem;padding-left:1.4rem}
+.reading-page .prose li{margin-bottom:.55rem}
 @media(max-width:640px){
-  .writing-page .prose{font-size:15px;line-height:1.7}
-  .writing-page .prose h2{font-size:21px;margin-top:2.75rem}
-  .writing-page .prose h3{font-size:17px;margin-top:2rem}
+  .reading-page .prose{font-size:15px;line-height:1.7}
+  .reading-page .prose h2{font-size:21px;margin-top:2.75rem}
+  .reading-page .prose h3{font-size:17px;margin-top:2rem}
 }
 
 /* Notes: kept at the original article typography/width — unaffected by the
@@ -551,12 +553,14 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
    with the text. `height:auto` is what stops the width/height attributes Astro
    writes from squashing the image once it is scaled down. */
 .prose img{max-width:100%;height:auto}
-/* One standard size: every figure is the full width of the prose column, so a
-   page of images reads as a column and not as a ragged pile. The figure and the
-   image share that width, which puts the image and its centred caption on the
-   same centre line. */
+/* One standard width: a figure spans the prose column and its image fills it,
+   scaled down to fit, never up. An image narrower than the column stays at its
+   own size, centred, so a small screenshot is not blown up into blurry, oversized
+   text. No `width` is set on purpose: the width/height attributes Astro writes
+   (the file's real size) are what cap it — `width:auto` would take the srcset
+   slot instead and stretch it to the column anyway. */
 .prose figure{margin:var(--s4) 0}
-.prose figure img{display:block;width:100%;border:1px solid var(--line)}
+.prose figure img{display:block;max-width:100%;margin-inline:auto;border:1px solid var(--line)}
 .prose figure a{display:block;text-decoration:none}
 /* Obsidian captions are written as a `<center>` line right under the image,
    which lands beside the figure instead of inside it. Styled the same as a
