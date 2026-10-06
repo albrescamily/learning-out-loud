@@ -7,6 +7,7 @@ stack:
   - "llama.cpp\_"
   - QLora
 published: 2026-09-11T00:00:00.000Z
+updated: 2026-10-01T00:00:00.000Z
 ---
 Building a tiny specialized LLM for docker commands, called whatwhale. Sometimes I forget basic commands and flags for docker so I thought It would be cool to have a small llm to automatically tell me the right command. 
 

@@ -5,6 +5,7 @@ status: active
 stack:
   - Python
 published: 2026-10-03T00:00:00.000Z
+updated: 2026-10-03T00:00:00.000Z
 ---
 Repository: https://github.com/albrescamily/among-ascii
 
@@ -32,6 +33,8 @@ Since the scope of this project is to build the agents from scratch, I decided n
 The environment is designed to simulate the traditional _Among Us_ map and its main game mechanics. I added vents and sabotage systems to support impostor behavior, as well as tasks that crewmates can complete throughout the game.
 
 The main goal is not to perfectly recreate _Among Us_, but to provide a sufficiently rich environment for experimenting with agent behavior, interaction, decision-making, and coordination.
+
+
 
 
 

@@ -8,6 +8,7 @@ stack:
   - ViT
   - "Docker\_"
 published: 2026-09-14T00:00:00.000Z
+updated: 2026-09-14T00:00:00.000Z
 ---
 MinIO
 SeaweedFS
