@@ -3,17 +3,31 @@ import type { CollectionEntry } from "astro:content";
 import { statusLabels } from "../lib/lab";
 import { projectHref } from "../lib/nav";
 import { formatDate } from "../lib/date";
+import { coverOf } from "../lib/cover";
+import { Image } from "astro:assets";
 
 interface Props { project: CollectionEntry<"projects">; heading?: "h2" | "h3" }
 const { project, heading: Heading = "h3" } = Astro.props;
 const stack = project.data.stack.filter(Boolean);
+const cover = coverOf(project.body);
 ---
 <article class="experiment-card">
-  <div class="experiment-header">
-    <Heading><a href={projectHref(project.id)}>{project.data.title}</a></Heading>
-    <span class="project-status">[{statusLabels[project.data.status]}]</span>
+  {cover && (
+    <Image
+      class="experiment-cover"
+      src={cover}
+      alt={`Screenshot from ${project.data.title}`}
+      widths={[320, 640, 1440]}
+      sizes="(max-width: 640px) 100vw, 160px"
+    />
+  )}
+  <div class="experiment-body">
+    <div class="experiment-header">
+      <Heading><a href={projectHref(project.id)}>{project.data.title}</a></Heading>
+      <span class="project-status">[{statusLabels[project.data.status]}]</span>
+    </div>
+    <p class="experiment-question">{project.data.description}</p>
+    {stack.length > 0 && <ul class="experiment-stack" aria-label="Technologies">{stack.map(item => <li>{item}</li>)}</ul>}
+    <p class="experiment-date">{project.data.updated ? "Last Updated" : "Published"} {formatDate(project.data.updated ?? project.data.published)}</p>
   </div>
-  <p class="experiment-question">{project.data.description}</p>
-  {stack.length > 0 && <ul class="experiment-stack" aria-label="Technologies">{stack.map(item => <li>{item}</li>)}</ul>}
-  <p class="experiment-date">{project.data.updated ? "Last Updated" : "Published"} {formatDate(project.data.updated ?? project.data.published)}</p>
 </article>

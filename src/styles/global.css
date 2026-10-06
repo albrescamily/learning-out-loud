@@ -41,10 +41,9 @@ html{
   scroll-behavior:smooth;
   /* anchor jumps land below the sticky header, not under it */
   scroll-padding-top:calc(var(--s6) + var(--s2));
-  font-family:var(--mono);
-  /* Geist Mono everywhere, Montserrat only for reading text (see .prose):
-     never let the browser fake a missing weight or italic by squashing or
-     slanting what it has. */
+  font-family:var(--sans);
+  /* Montserrat everywhere, Geist Mono only for code: never let the browser
+     fake a missing weight or italic by squashing or slanting what it has. */
   font-synthesis:none;
   text-rendering:optimizeLegibility;
   /* Backstop: nothing should ever push the page wider than the header/footer
@@ -84,7 +83,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 
 /* labels and metadata ------------------------------------------------ */
 .eyebrow,.micro-label{
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-bold);
   line-height:1.4;
@@ -94,7 +93,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   margin:0;
 }
 .post-meta,.note-date{
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   line-height:1.4;
@@ -110,7 +109,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   padding:var(--s1) var(--s2);
   background:var(--surface);
   border:2px solid var(--line);
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-bold);
   color:var(--text);
@@ -135,7 +134,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   pointer-events:none;
 }
 .header-inner{min-height:var(--s6);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
-.brand{font-family:var(--mono);font-size:var(--fs-body);font-weight:var(--w-bold)}
+.brand{font-family:var(--sans);font-size:var(--fs-body);font-weight:var(--w-bold)}
 .header-right{display:flex;align-items:center;gap:var(--s3)}
 
 /* the menu button is JS-only, so it stays hidden without scripting */
@@ -145,7 +144,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   border:0;
   background:none;
   cursor:pointer;
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:var(--muted);
@@ -159,7 +158,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
   flex-wrap:wrap;
   gap:var(--s3);
   row-gap:var(--s0);
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:var(--muted);
@@ -170,33 +169,32 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* hero --------------------------------------------------------------- */
-.hero{border-bottom:0}
-.hero-inner{
-  padding:var(--s4) 0 var(--s5);
-  /* A 1px dot with a half-pixel soft edge. Anything smaller, with a hard
-     edge, falls between device pixels at browser zooms like 90% or 125% and
-     the grid fades or turns uneven. */
-  background-image:radial-gradient(circle,var(--line) 1px,transparent 1.5px);
-  background-size:20px 20px;
-  background-position:10px 10px;
-}
-.hero-topline{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-bottom:var(--s4)}
-.lab-label{font-size:12px;color:var(--muted);text-align:right}
-.hero-heading{display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
-.hero-mascot{flex:none;width:144px}
-.hero-mascot img{display:block;width:100%;height:auto}
+/* Name and a short introduction on the left, the photo beside them on the
+   right. Its top sits about halfway between the top of the name and the
+   start of the paragraphs. */
+/* Home rhythm: 64px between the big blocks (hero, posts and notes,
+   projects), 24px between a section title and its entries. */
+.hero{padding-top:var(--s5)}
+.hero-name{margin:0;font-size:clamp(2.25rem,5vw,3rem);font-weight:var(--w-bold);line-height:1.1;letter-spacing:-.02em}
+.hero-name-last{font-weight:var(--w-text)}
+.hero-role{margin:var(--s1) 0 var(--s3);font-size:var(--fs-meta);line-height:1.5;color:var(--muted)}
+.hero-body{display:flex;align-items:flex-start;gap:var(--s4)}
+.hero-text{flex:1;min-width:0}
+.hero-text p:not(.hero-role){margin:0 0 var(--s2);font-size:var(--fs-sm);line-height:1.6;text-wrap:pretty}
+.hero-text p:last-child{margin-bottom:0}
+.hero-text a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.hero-photo{flex:none;width:260px;margin:var(--s5) 0 0}
+.hero-photo img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 4px 14px rgb(0 0 0 / .15)}
 .lab-whale{display:block;width:112px;height:84px;margin-inline:auto;color:var(--accent)}
 .whale-eye,.whale-belly{fill:var(--bg)}
 .whale-spout{fill:var(--muted)}
-.hero-aside{margin:var(--s1) 0 0;font-size:var(--fs-meta);color:var(--muted)}
-.hero .hero-actions{margin-top:var(--s3)}
-.hero-actions .hero-action{font-weight:var(--w-bold);font-size:13px}
 .random-note{display:inline-flex;align-items:center;justify-content:center;gap:var(--s1);min-height:44px;padding:10px 14px;border:1px solid var(--accent);background:var(--bg);color:var(--accent);font-size:13px;line-height:1.5;font-weight:var(--w-medium);transition:background .15s,color .15s}
 .random-note:hover{background:var(--accent);color:var(--bg)}
 .random-note-die{font-size:22px;line-height:1}
 .rabbit-hole{min-height:9rem;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface)}
 /* Pixel fish tank: fish cross the box on a loop and bob in 4px steps. */
-.aquarium{position:relative;overflow:hidden}
+/* Between the hero and the posts, 64px from each. */
+.aquarium{position:relative;overflow:hidden;margin-top:var(--s6);background:transparent;border-radius:12px;border-left-width:1px;border-left-color:var(--line)}
 .aquarium svg{display:block}
 .aq-fish{position:absolute;animation:aq-swim-left linear infinite}
 .aq-fish.aq-right{animation-name:aq-swim-right}
@@ -219,45 +217,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 @keyframes aq-bob-flip{from{transform:scaleX(-1)}to{transform:scaleX(-1) translateY(-8px)}}
 @keyframes aq-sway{to{transform:skewX(8deg)}}
 @keyframes aq-rise{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-9rem);opacity:0}}
-.hero-preview{
-  max-width:42ch;
-  margin:0;
-  color:var(--text);
-  font-size:clamp(1.75rem,4vw,2.75rem);
-  font-weight:var(--w-bold);
-  line-height:1.15;
-  letter-spacing:-.03em;
-  text-wrap:balance;
-}
-.hero-dim{color:var(--muted);font-weight:var(--w-text)}
-/* Wide measure and `pretty` rather than `balance`: the subtitle runs the full
-   width of the column in long lines, instead of being evened out into a short
-   stack under the heading. `pretty` still keeps the last line off an orphan. */
-.hero-subtitle{
-  max-width:80ch;
-  margin:var(--s3) 0 0;
-  color:var(--text);
-  font-size:var(--fs-sm);
-  line-height:1.6;
-  text-wrap:pretty;
-}
-.hero-subtitle em{color:var(--text);font-style:italic}
-.hero-actions{
-  margin-top:var(--s4);
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:var(--s3);
-  font-family:var(--mono);
-  font-size:var(--fs-meta);
-  font-weight:var(--w-bold);
-}
-.hero-action{color:var(--text);text-decoration:underline;text-underline-offset:4px}
-.hero-action:hover{color:var(--accent)}
 
 /* breadcrumb ---------------------------------------------------------- */
 .breadcrumb{
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:var(--muted);
@@ -290,11 +253,11 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 
 /* section headers ----------------------------------------------------- */
 .section-title{font-size:var(--fs-head)}
-.section-header{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s2)}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s3)}
 .all-link{
   display:inline-block;
-  margin-top:var(--s2);
-  font-family:var(--mono);
+  margin-top:var(--s3);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-bold);
   color:var(--accent);
@@ -302,12 +265,12 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .all-link:hover{color:var(--text)}
 
 /* writing feed + notes rail -------------------------------------------- */
-.feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--s6);padding-top:var(--s5)}
+.feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:var(--s6);padding-top:var(--s6)}
 .notes-rail{border-left:1px solid var(--line);padding-left:var(--s4)}
 
 .writing-feed{min-width:0}
-.feed-row{padding:var(--s2) 0;border-top:1px solid var(--line)}
-.feed-row:first-of-type{border-top:0;padding-top:0}
+.feed-row{padding:var(--s3) 0 0}
+.feed-row:first-of-type{padding-top:0}
 /* Date sits above the title so title, description and updated-tag share one left edge. */
 .feed-row .post-meta{display:block;margin-bottom:var(--s1)}
 .feed-row-body{min-width:0}
@@ -330,23 +293,35 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .note-row:hover .note-title{color:var(--accent)}
 
 /* projects -------------------------------------------------------------- */
-.projects-section{padding:var(--s5) 0 var(--s6);margin-top:var(--s5)}
+.projects-section{padding:0 0 var(--s6);margin-top:var(--s6)}
 
 /* Projects share one type scale: title, body, and metadata. */
-.experiment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+/* Projects as plain text entries, no boxes: one per row, like the posts. */
+.experiment-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s4)}
 .experiment-list{list-style:none;padding:0;margin:0}
 .experiment-list>li{min-width:0}
-.experiment-card{position:relative;height:100%;min-width:0;padding:var(--s3);border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;transition:border-color .15s}
-.experiment-card:hover,.experiment-card:focus-within{border-color:var(--accent)}
-/* The whole card is clickable: the title link's hit area is stretched over
-   the card, which keeps a single link for keyboards and screen readers. */
+.experiment-card{position:relative;min-width:0;display:flex;align-items:flex-start;gap:var(--s3)}
+/* Thumbnail beside the text: the first image in the project, cropped to a
+   fixed frame so every row lines up whatever the screenshot's shape. */
+/* Raised above the title link stretched over the entry, so a click on the
+   cover opens just the image (see the lightbox in BaseLayout) and a click
+   anywhere else still opens the project. */
+.experiment-cover{position:relative;z-index:1;flex:none;width:160px;height:100px;object-fit:cover;border:1px solid var(--line);border-radius:4px}
+.experiment-body{flex:1;min-width:0}
+/* The whole entry is clickable: the title link's hit area is stretched over
+   it, which keeps a single link for keyboards and screen readers. */
 .experiment-card :is(h2,h3) a::after{content:"";position:absolute;inset:0}
-.experiment-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s1) var(--s2);margin-bottom:var(--s2)}
-.experiment-card :is(h2,h3){flex:1 1 16ch;min-width:0;font-size:var(--fs-project-title);font-weight:var(--w-medium);line-height:1.5;margin:0}
-.experiment-question{margin:0 0 var(--s3);color:var(--body);font-size:var(--fs-project-body);line-height:1.6}
-.experiment-stack{display:flex;flex-wrap:wrap;gap:var(--s1);list-style:none;padding:0;margin:auto 0 var(--s2)}
+.experiment-card:hover :is(h2,h3) a,.experiment-card:focus-within :is(h2,h3) a{color:var(--accent)}
+.experiment-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s1) var(--s2);margin-bottom:var(--s1)}
+.experiment-card :is(h2,h3){flex:1 1 16ch;min-width:0;font-size:var(--fs-sm);font-weight:var(--w-medium);line-height:1.4;margin:0}
+.experiment-question{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:660px}
+.experiment-stack{display:flex;flex-wrap:wrap;gap:var(--s1);list-style:none;padding:0;margin:0}
 .experiment-stack li{border:1px solid var(--line);padding:3px 7px;color:var(--muted);font-size:var(--fs-project-meta);line-height:1.5}
-.experiment-date{margin:0;padding-top:var(--s2);border-top:1px solid var(--line);font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
+/* In the list the stack is plain text too: "Python · Docker". */
+.experiment-card .experiment-stack{gap:0;margin-top:var(--s1)}
+.experiment-card .experiment-stack li{border:0;padding:0}
+.experiment-card .experiment-stack li+li::before{content:"·";margin:0 var(--s1)}
+.experiment-date{margin:var(--s1) 0 0;font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
 /* 404: the empty-handed fisherman over the message, all centred on the page. */
 .not-found{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 16rem);text-align:center}
 .fisher{display:block;max-width:100%;height:auto;margin-bottom:var(--s4)}
@@ -435,12 +410,12 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .listing-entry-date{flex:none}
 .listing-entry--inline .listing-entry-title{flex:1;min-width:0}
 
-/* updated-tag: still used by the homepage's Latest Writing / Projects
+/* updated-tag: still used by the homepage's Posts / Projects
    previews — kept as-is, just no longer used by the listing pages above. */
 .updated-tag{
   display:inline-block;
   margin-top:var(--s1);
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:10px;
   font-weight:var(--w-text);
   text-transform:uppercase;
@@ -585,7 +560,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .prose figure + center{
   display:block;
   margin-top:var(--s2);
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:14px;
   font-weight:var(--w-text);
   line-height:1.5;
@@ -599,8 +574,8 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 /* lightbox -------------------------------------------------------------- */
 /* Figure images open full size in a <dialog>; the script in the layout wires
    it up. The page underneath stops scrolling while it is open. */
-.prose img.zoomable{cursor:zoom-in}
-.prose img.zoomable:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+img.zoomable{cursor:zoom-in}
+img.zoomable:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 html.lightbox-open{overflow:hidden}
 .lightbox{
   width:100vw;
@@ -624,7 +599,7 @@ html.lightbox-open{overflow:hidden}
   background:#fff;
 }
 .lightbox figcaption{
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:14px;
   line-height:1.5;
   color:#e9edf2;
@@ -639,7 +614,7 @@ html.lightbox-open{overflow:hidden}
   border:0;
   background:none;
   cursor:pointer;
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:#e9edf2;
@@ -655,7 +630,7 @@ html.lightbox-open{overflow:hidden}
   align-items:center;
   justify-content:space-between;
   gap:var(--s4);
-  font-family:var(--mono);
+  font-family:var(--sans);
   font-size:var(--fs-meta);
   font-weight:var(--w-text);
   color:var(--muted);
@@ -682,14 +657,10 @@ html.lightbox-open{overflow:hidden}
   .notes-rail{border-left:0;padding-left:0;border-top:2px solid var(--line);padding-top:var(--s3)}
 }
 @media(max-width:640px){
-  .hero-topline{align-items:flex-start;margin-bottom:var(--s3)}
-  .lab-label{max-width:12ch;font-size:10px}
-  .hero-heading{position:relative;display:block;padding-right:0}
-  .hero-mascot{display:none}
-  .hero-aside{font-size:13px}
-  .hero-actions{gap:var(--s2)}
-  .experiment-grid{grid-template-columns:1fr}
-  .experiment-card{padding:var(--s2)}
+  .hero-body{flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .hero-photo{order:-1;width:180px;margin-top:0}
+  .experiment-card{flex-direction:column;gap:var(--s2)}
+  .experiment-cover{width:100%;height:auto;aspect-ratio:16/10}
   .article-page>h1{font-size:24px}
   .project-header h1{font-size:24px}
   .note-page.article-page>h1{font-size:28px}
@@ -723,8 +694,10 @@ html.lightbox-open{overflow:hidden}
   .pager-link.is-empty{display:none}
   .footer-inner{flex-direction:column;align-items:flex-start;gap:var(--s3)}
   .footer-copyright{text-align:left}
-  .hero-inner{padding:var(--s4) 0}
-  .hero-preview{font-size:2rem}
+  .hero{padding-top:var(--s4)}
+  .feed-layout{padding-top:var(--s5)}
+  .projects-section{margin-top:var(--s5)}
+  .aquarium{margin-top:var(--s5)}
   .article-lead{margin-top:calc(var(--s3) * -1)}
   .listing-page{padding-top:2rem}
   .listing-title{font-size:1.25rem}
@@ -733,6 +706,6 @@ html.lightbox-open{overflow:hidden}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .random-note,.experiment-card{transition:none}
+  .random-note{transition:none}
   .aquarium,.aquarium *{animation-play-state:paused}
 }

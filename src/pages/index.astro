@@ -17,20 +17,26 @@ const projects = (await getCollection("projects"))
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-topline"><span class="lab-label">Personal notebook</span></div>
-      <div class="hero-heading">
-        <h1 class="hero-preview">Learning out loud.<br /><span class="hero-dim">what I'm learning and building.</span></h1>
-        <div class="hero-mascot"><img src="/cat-typing.jpeg" alt="A curious black cat with wide eyes" width="400" height="400" /></div>
+  <section class="container hero">
+    <div class="hero-body">
+      <div class="hero-text">
+        <h1 class="hero-name">Camily <span class="hero-name-last">Albres</span></h1>
+        <p class="hero-role">Computer scientist - Curitiba, Brazil</p>
+        <p>
+          Mostly interested in distributed systems, DevOps, Machine Learning and AI
+          infrastructure.
+        </p>
+        <p>
+          This site is where I learn out loud: <a href="/writing">posts</a> when something
+          deserves a proper explanation, <a href="/notes">notes</a> on whatever caught my
+          attention this week, and the <a href="/projects">projects</a> I&apos;m building,
+          finished or not.
+        </p>
+        <p><a href="/about">More about me</a></p>
       </div>
-      <p class="hero-subtitle">
-        I&apos;m Camily, a computer scientist exploring <em>distributed systems</em>,{" "}
-        <em>DevOps</em>, <em>Machine Learning</em> and <em>AI infrastructure</em>.
-      </p>
-      <div class="hero-actions">
-        <a class="hero-action" href="/about">who am I?</a>
-      </div>
+      <figure class="hero-photo">
+        <img src="/cat-typing.jpeg" alt="A cat figure" width="400" height="400" />
+      </figure>
     </div>
   </section>
 
@@ -38,7 +44,7 @@ const projects = (await getCollection("projects"))
     <PixelAquarium />
     <div class="feed-layout">
       <section class="writing-feed">
-        <SectionHeader title="Latest Writing" />
+        <SectionHeader title="Posts" />
 
         {writing.slice(0, 3).map(post => (
           <article class="feed-row">

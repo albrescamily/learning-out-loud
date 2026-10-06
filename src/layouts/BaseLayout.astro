@@ -1,13 +1,15 @@
 ---
 import { nav, isActive } from "../lib/nav";
 // Self-hosted fonts, one stylesheet per weight actually used on the site —
-// see the "Allowed font weights" rule in the typography system. Geist Mono
-// sets everything; Montserrat is only for reading text (paragraphs and lists
-// in the prose), at its body weight and the bold of `strong`.
+// see the "Allowed font weights" rule in the typography system. Montserrat
+// sets everything, italic included for `em`; Geist Mono is only for code
+// (700 for code in table headers).
 import "@fontsource/geist-mono/500.css";
 import "@fontsource/geist-mono/600.css";
 import "@fontsource/geist-mono/700.css";
 import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/500-italic.css";
+import "@fontsource/montserrat/600.css";
 import "@fontsource/montserrat/700.css";
 import "../styles/global.css";
 
@@ -105,9 +107,10 @@ const path = Astro.url.pathname;
         update();
       })();
 
-      // Lightbox: a figure's image opens full size in a modal dialog. The
-      // dialog gives Esc-to-close and focus handling for free; a click
-      // anywhere closes it too. Images that are already links are left alone.
+      // Lightbox: a figure's image, or a project's cover thumbnail, opens full
+      // size in a modal dialog. The dialog gives Esc-to-close and focus
+      // handling for free; a click anywhere closes it too. Images that are
+      // already links are left alone.
       (function () {
         var dialog = document.querySelector(".lightbox");
         var full = dialog.querySelector("img");
@@ -128,6 +131,7 @@ const path = Astro.url.pathname;
         // The caption is a figcaption, or the Obsidian `<center>` line right
         // after the figure.
         function captionOf(figure) {
+          if (!figure) return "";
           var own = figure.querySelector("figcaption");
           if (own) return own.textContent;
           var next = figure.nextElementSibling;
@@ -149,12 +153,12 @@ const path = Astro.url.pathname;
           full.removeAttribute("src");
         });
 
-        document.querySelectorAll(".prose figure > img").forEach(function (img) {
+        document.querySelectorAll(".prose figure > img, .experiment-cover").forEach(function (img) {
           img.classList.add("zoomable");
           img.tabIndex = 0;
           img.setAttribute("role", "button");
           img.setAttribute("aria-label", "Open image" + (img.alt ? ": " + img.alt : ""));
-          img.addEventListener("click", function () { open(img); });
+          img.addEventListener("click", function (e) { e.preventDefault(); open(img); });
           img.addEventListener("keydown", function (e) {
             if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(img); }
           });
