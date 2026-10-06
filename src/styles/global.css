@@ -370,6 +370,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .project-header h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:-.02em}
 .project-header .article-lead{margin:var(--s2) 0 0}
 .project-header .experiment-stack{margin:var(--s2) 0 0}
+.project-dates{display:flex;flex-direction:column;gap:var(--s0);margin-top:var(--s2);font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
 
 /* listing pages (writing / notes / projects archives) ------------------ */
 .listing-page{

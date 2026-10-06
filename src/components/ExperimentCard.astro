@@ -15,5 +15,5 @@ const stack = project.data.stack.filter(Boolean);
   </div>
   <p class="experiment-question">{project.data.description}</p>
   {stack.length > 0 && <ul class="experiment-stack" aria-label="Technologies">{stack.map(item => <li>{item}</li>)}</ul>}
-  <p class="experiment-date">{project.data.updated ? "Updated" : "Published"} {formatDate(project.data.updated ?? project.data.published)}</p>
+  <p class="experiment-date">{project.data.updated ? "Last Updated" : "Published"} {formatDate(project.data.updated ?? project.data.published)}</p>
 </article>
