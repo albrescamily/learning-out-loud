@@ -545,10 +545,9 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .note-page .prose figure{max-width:none}
 
 /* about ----------------------------------------------------------------- */
-/* Ordinary prose, same body mono as everywhere else. The `>>` that opens each
-   paragraph hangs in the gutter so the wrapped lines keep one left edge. */
-.about-prose .line{padding-left:3ch;text-indent:-3ch;margin-bottom:var(--s3)}
-.about-prose .prompt{font-family:var(--mono);font-weight:var(--w-bold);color:var(--accent)}
+/* Ordinary prose, same body mono as everywhere else, with a little more room
+   between paragraphs. */
+.about-prose p{margin-bottom:var(--s3)}
 
 /* images ---------------------------------------------------------------- */
 /* A lone image in a paragraph is rewritten into a figure by src/lib/figures.ts,

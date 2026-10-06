@@ -1,57 +1,89 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+// Geist Mono italic, for the <em> on this page only. The rest of the site
+// does not load it, and font-synthesis is off, so emphasis elsewhere stays
+// upright.
+import "@fontsource/geist-mono/500-italic.css";
 ---
 <BaseLayout title="About">
   <div class="container article-page">
     <div class="eyebrow">about</div>
-    <h1> >> Hello, Cami</h1>
+    <h1>Hello, Cami</h1>
     <p class="article-lead"><em>Curious, open-minded and slightly hyperactive</em></p>
 
     <div class="prose about-prose">
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm a young woman with way too many interests,
-        a suspicious number of unfinished side projects,
-        and very little ability to look at an idea and think,
-        "maybe I don't need to do anything with this."
+
+      <p>
+        This is more of an informal introduction to who I am than a professional introduction
       </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm almost incapable of leaving a question alone.
-        If something catches my attention, I tend to go a little too far with it,
-        whether it's philosophy, technology, art, psychology, current events,
-        or some completely random idea I stumbled across at 1 a.m.
-        I like connecting things, questioning my own assumptions,
-        and trying to understand not only what I think, but why I think it.
+      <p>
+        My name is Camily. I’m a computer scientist who graduated in 2025.
+        I currently live in Curitiba, Brazil, although I’ve spent a good part of my
+        life moving between different cities. I’ve lived in eight so far, which I 
+        think made me pretty adaptable and gave me an early sense of how big the
+        world actually is.
       </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> On the technical side, I have a particular weakness for
-        distributed systems, AI, infrastructure, DevOps, data engineering,
-        GPUs, LLMs, and pretty much anything hidden behind an abstraction
-        that makes me stop and ask:
-        "wait... what is this actually doing?"
+      <p>
+        I would define myself as a very curious person. I have a suspicious number of unfinished side projects 
+        and a very limited ability to look at an interesting idea and think: 
+        <em>"maybe I don’t need to do anything with this"</em>.
       </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I have a habit of turning new interests into projects, experiments,
-        or slightly unnecessary challenges. Build an image search engine? Sure.
-        Redis in C++? Educational. A fishing game that fits inside an Altoids tin?
-        Somehow valid. Learn whittling because software wasn't giving me enough ways
-        to accidentally hurt my hands? Also yes.
+       <p>
+        My interests tend to wander a lot between philosophy, technology, art, psychology,
+        current events, or some completely random idea I stumbled across at 1 a.m.
+        Even when I decide not to deep dive into something, I still feel the need to
+        write it down somewhere, just in case.
       </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I like hackathons, games, music, whittling,
-        obscure technical rabbit holes, and projects that start with
-        "this shouldn't be too hard" and somehow end with me reading
-        documentation I didn't know existed three days earlier.
+      <p>
+        I also tend to think in first principles. If I can understand the basic pieces
+        of something, I feel like I can reason my way through the rest. There is a quote I really like:
       </p>
 
-      <p class="line">
-        <span class="prompt">&gt;&gt;</span> I'm much more interested in figuring things out
-        than pretending I already know them.
-        Conveniently, the world gives me an endless supply of things to figure out.
+      <blockquote>
+        If you know the first principles of something, you can build the rest of
+        your knowledge around them to produce something new.
+      </blockquote>
+
+  
+      <p>
+        On the technical side, I have a particular weakness for DevOps,
+        distributed systems, infrastructure, Machine Learning, Data Engineering and LLMs.
+        I’m especially interested in understanding how these technologies
+        work underneath the abstractions we usually interact with.
       </p>
+
+      <p>
+        Outside of tech, I like hackathons, video games, movies, music, books and
+        whittling. Basically, it's just: 
+        <em>"that looks interesting, I should try it"</em>.
+      </p>
+
+      <p>
+        I played fingerstyle guitar for a few years. I’ve also tried painting,
+        drawing, and writing short stories. More recently, I bought a Swiss Army
+        knife because I decided I wanted to learn whittling and make small wooden
+        sculptures. I have a funny story from my first few weeks of learning it... SPOILER!
+        it ended with a big scar on the palm of my hand.
+      </p>
+
+      <p>
+        I really enjoy working with other people and bouncing ideas around, 
+        even though I can be a little reserved and shy at first.
+        If you ever need someone for a hackathon team, I’m probably in.
+        I’m also always up for talking about IT and ML. Feel free to reach out to me on LinkedIn.
+      </p>
+
+         
+      
+      <p>
+        So yeah, that’s me. Sorry about the long intro btw
+      </p>
+
+
     </div>
   </div>
 </BaseLayout>
