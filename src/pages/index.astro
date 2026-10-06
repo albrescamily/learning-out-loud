@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ExperimentCard from "../components/ExperimentCard.astro";
-import PixelAquarium from "../components/PixelAquarium.astro";
 import { getCollection } from "astro:content";
 import { formatDate } from "../lib/date";
 
@@ -41,7 +40,6 @@ const projects = (await getCollection("projects"))
   </section>
 
   <div class="container">
-    <PixelAquarium />
     <div class="feed-layout">
       <section class="writing-feed">
         <SectionHeader title="Posts" />
