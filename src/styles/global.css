@@ -9,6 +9,7 @@
   --accent:#a8480f;
 
   --mono:"Geist Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  --sans:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
 
   /* three weights, nothing in between — 500 is the floor */
   --w-text:500;
@@ -41,8 +42,9 @@ html{
   /* anchor jumps land below the sticky header, not under it */
   scroll-padding-top:calc(var(--s6) + var(--s2));
   font-family:var(--mono);
-  /* One monospace family everywhere: never let the browser fake a missing
-     weight by squashing/bolding what it has. */
+  /* Geist Mono everywhere, Montserrat only for reading text (see .prose):
+     never let the browser fake a missing weight or italic by squashing or
+     slanting what it has. */
   font-synthesis:none;
   text-rendering:optimizeLegibility;
   /* Backstop: nothing should ever push the page wider than the header/footer
@@ -171,7 +173,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .hero{border-bottom:0}
 .hero-inner{
   padding:var(--s4) 0 var(--s5);
-  background-image:radial-gradient(circle,var(--line) .7px,transparent .8px);
+  /* A 1px dot with a half-pixel soft edge. Anything smaller, with a hard
+     edge, falls between device pixels at browser zooms like 90% or 125% and
+     the grid fades or turns uneven. */
+  background-image:radial-gradient(circle,var(--line) 1px,transparent 1.5px);
   background-size:20px 20px;
   background-position:10px 10px;
 }
@@ -185,7 +190,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .whale-spout{fill:var(--muted)}
 .hero-aside{margin:var(--s1) 0 0;font-size:var(--fs-meta);color:var(--muted)}
 .hero .hero-actions{margin-top:var(--s3)}
-.hero-actions .hero-action{font-weight:var(--w-text);font-size:13px}
+.hero-actions .hero-action{font-weight:var(--w-bold);font-size:13px}
 .random-note{display:inline-flex;align-items:center;justify-content:center;gap:var(--s1);min-height:44px;padding:10px 14px;border:1px solid var(--accent);background:var(--bg);color:var(--accent);font-size:13px;line-height:1.5;font-weight:var(--w-medium);transition:background .15s,color .15s}
 .random-note:hover{background:var(--accent);color:var(--bg)}
 .random-note-die{font-size:22px;line-height:1}
@@ -331,8 +336,11 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .experiment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
 .experiment-list{list-style:none;padding:0;margin:0}
 .experiment-list>li{min-width:0}
-.experiment-card{height:100%;min-width:0;padding:var(--s3);border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;transition:border-color .15s}
+.experiment-card{position:relative;height:100%;min-width:0;padding:var(--s3);border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;transition:border-color .15s}
 .experiment-card:hover,.experiment-card:focus-within{border-color:var(--accent)}
+/* The whole card is clickable: the title link's hit area is stretched over
+   the card, which keeps a single link for keyboards and screen readers. */
+.experiment-card :is(h2,h3) a::after{content:"";position:absolute;inset:0}
 .experiment-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s1) var(--s2);margin-bottom:var(--s2)}
 .experiment-card :is(h2,h3){flex:1 1 16ch;min-width:0;font-size:var(--fs-project-title);font-weight:var(--w-medium);line-height:1.5;margin:0}
 .experiment-question{margin:0 0 var(--s3);color:var(--body);font-size:var(--fs-project-body);line-height:1.6}
@@ -448,6 +456,10 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 /* Fills the shared container — no independent reading-width cap — so
    breadcrumb, title and body all share the same left AND right edge. */
 .prose{width:100%;max-width:none;font-size:16px;font-weight:var(--w-text);line-height:1.65;overflow-wrap:anywhere}
+/* Reading text — paragraphs, lists, quotes — is set in Montserrat. Headings,
+   tables, captions and code inside the prose stay in Geist Mono with the rest
+   of the site. */
+.prose :is(p,li,blockquote){font-family:var(--sans)}
 /* Keep comparison columns readable; narrow screens scroll the table instead
    of squeezing labels and commands into broken words. */
 .prose table{display:block;width:100%;max-width:100%;overflow-x:auto;margin:var(--s4) 0;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-top:2px solid var(--accent);font-size:var(--fs-meta);line-height:1.65;overflow-wrap:normal;word-break:normal}
@@ -483,7 +495,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .prose pre code{background:none;padding:0;font-size:1em;font-weight:var(--w-text)}
 
 /* writing & projects: reading layout --------------------------------- */
-/* Long-form writing and project pages keep the site's mono, but on a reading measure instead
+/* Long-form writing and project pages keep the site's fonts, but on a reading measure instead
    of the full container: everything — breadcrumb, meta, title, lead, a
    project's header, body, figures, pager — sits on one 52rem column (~80
    characters per line), centred in the container, so all of it shares the
@@ -545,7 +557,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .note-page .prose figure{max-width:none}
 
 /* about ----------------------------------------------------------------- */
-/* Ordinary prose, same body mono as everywhere else, with a little more room
+/* Ordinary prose, same reading font as the posts, with a little more room
    between paragraphs. */
 .about-prose p{margin-bottom:var(--s3)}
 

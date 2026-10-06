@@ -1,10 +1,14 @@
 ---
 import { nav, isActive } from "../lib/nav";
-// Self-hosted Geist Mono, one stylesheet per weight actually used on the
-// site — see the "Allowed font weights" rule in the typography system.
+// Self-hosted fonts, one stylesheet per weight actually used on the site —
+// see the "Allowed font weights" rule in the typography system. Geist Mono
+// sets everything; Montserrat is only for reading text (paragraphs and lists
+// in the prose), at its body weight and the bold of `strong`.
 import "@fontsource/geist-mono/500.css";
 import "@fontsource/geist-mono/600.css";
 import "@fontsource/geist-mono/700.css";
+import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/700.css";
 import "../styles/global.css";
 
 interface Props {

@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-// Geist Mono italic, for the <em> on this page only. The rest of the site
-// does not load it, and font-synthesis is off, so emphasis elsewhere stays
-// upright.
+// Italics for the <em> on this page only: Geist Mono for the lead under the
+// heading, Montserrat for the text. The rest of the site does not load them,
+// and font-synthesis is off, so emphasis elsewhere stays upright.
 import "@fontsource/geist-mono/500-italic.css";
+import "@fontsource/montserrat/500-italic.css";
 ---
 <BaseLayout title="About">
   <div class="container article-page">
