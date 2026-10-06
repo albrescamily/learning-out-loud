@@ -1,0 +1,51 @@
+---
+// Pixel-art fisherman for the 404 page: sitting on the end of the dock, rod
+// out over the water, an empty bucket behind him and nothing on the hook.
+// One character per pixel: k hair, eye, rod, boots and bucket handle; o skin;
+// a hat; e, c, f the shirt's dark, base and light oranges; m bucket, dock and
+// hook; d trousers; l dock top, bucket highlight and line; w water.
+const SPRITE = [
+  ".......................................kk...",
+  "...............aaaa..................kk.l...",
+  "..............aaaaaa...............kk...l...",
+  "............aaaaaaaaaa...........kk.....l...",
+  "..............koooo............kk.......l...",
+  "..............kookoo.........kk.........l...",
+  "..............kooooo.......kk...........l...",
+  "...............ooo.......kk.............l...",
+  ".....kk.......eccccc...kk...............l...",
+  "....k..k.....ecccccccoo.................l...",
+  "...mmmmmm....ecccee..oo.................l...",
+  "....mlmm.....eccccf.....................l...",
+  "....mlmm.....eccccf.....................l...",
+  "....mmmm.....ddddddddd..................l...",
+  "lllllllllllllllllllldd..................l...",
+  "mmmmmmmmmmmmmmmmmmmmdd..................l...",
+  "..mm..........mm....dd..................l...",
+  "..mm..........mm....dd..................l...",
+  "..mm..........mm....kkkk................l...",
+  "wwmm..www...wwmm..www...www...www...www.l.ww",
+  "..mmww...www..mmww...www...www...www...wlw..",
+  "........................................m...",
+  "......................................m.m...",
+  "......................................mmm...",
+];
+
+const PX = 5;
+const W = SPRITE[0].length;
+const H = SPRITE.length;
+const pixels = SPRITE.flatMap((row, y) =>
+  [...row].flatMap((c, x) => (c === "." ? [] : [{ x, y, c }])),
+);
+---
+
+<svg
+  class="fisher"
+  viewBox={`0 0 ${W} ${H}`}
+  width={W * PX}
+  height={H * PX}
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+>
+  {pixels.map(p => <rect x={p.x} y={p.y} width="1" height="1" class={`fx-${p.c}`} />)}
+</svg>

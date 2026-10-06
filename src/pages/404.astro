@@ -1,22 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import RandomNote from "../components/RandomNote.astro";
-import { sections, pages } from "../lib/nav";
+import PixelFisher from "../components/PixelFisher.astro";
 ---
 <BaseLayout title="Not found">
-  <div class="container article-page">
-    <div class="eyebrow">error 404 / uncharted waters</div>
-    <h1>Segmentation fault: page not found.</h1>
-    <p class="article-lead">
-      The whale checked. There&apos;s nothing here. The link may be broken or the page may have moved — try one of these:
-    </p>
-
-    <nav class="not-found-nav" aria-label="Site sections">
-      {[...sections, ...pages].map(item => (
-        <a class="not-found-link" href={item.href}>{item.label}</a>
-      ))}
-    </nav>
-
-    <div class="hero-actions"><a class="hero-action" href="/">back to the lab</a><RandomNote /></div>
+  <div class="container article-page not-found">
+    <PixelFisher />
+    <h1>Oops. No fishes here.</h1>
+    <p class="article-lead">Error 404 — page not found.</p>
   </div>
 </BaseLayout>

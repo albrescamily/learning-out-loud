@@ -282,9 +282,6 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .pager .all-link{margin-top:var(--s3)}
 
 /* 404 ------------------------------------------------------------------ */
-.not-found-nav{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.not-found-link{font-family:var(--mono);font-size:var(--fs-body);font-weight:var(--w-bold);color:var(--text)}
-.not-found-link:hover{color:var(--accent)}
 
 /* section headers ----------------------------------------------------- */
 .section-title{font-size:var(--fs-head)}
@@ -342,7 +339,21 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .experiment-stack{display:flex;flex-wrap:wrap;gap:var(--s1);list-style:none;padding:0;margin:auto 0 var(--s2)}
 .experiment-stack li{border:1px solid var(--line);padding:3px 7px;color:var(--muted);font-size:var(--fs-project-meta);line-height:1.5}
 .experiment-date{margin:0;padding-top:var(--s2);border-top:1px solid var(--line);font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
-.not-found-mascot{width:112px;margin-bottom:var(--s3);transform:rotate(-8deg)}
+/* 404: the empty-handed fisherman over the message, all centred on the page. */
+.not-found{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 16rem);text-align:center}
+.fisher{display:block;max-width:100%;height:auto;margin-bottom:var(--s4)}
+.fx-k{fill:var(--text)}
+.fx-o{fill:color-mix(in srgb,var(--accent) 55%,var(--bg))}
+.fx-a{fill:var(--accent)}
+/* the shirt: three oranges from the accent — shadow, base, light */
+.fx-e{fill:color-mix(in srgb,var(--accent) 75%,var(--text))}
+.fx-c{fill:color-mix(in srgb,var(--accent) 85%,var(--bg))}
+.fx-f{fill:color-mix(in srgb,var(--accent) 65%,var(--bg))}
+.fx-d{fill:var(--body)}
+.fx-m{fill:var(--muted)}
+.fx-l,.fx-w{fill:var(--line)}
+.article-page.not-found>h1{margin:0}
+.not-found .article-lead{margin:var(--s2) 0 0}
 
 .project-status{font-size:var(--fs-project-meta);line-height:1.5;font-weight:var(--w-text);color:var(--muted);white-space:nowrap}
 .project-header{margin-bottom:var(--s5)}
