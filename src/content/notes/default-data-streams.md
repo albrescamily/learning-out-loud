@@ -1,15 +1,15 @@
 ---
-title: 'stdin, stdout, stderr'
+title: default data streams
 published: 2026-10-06T00:00:00.000Z
 ---
 They are the standard streams for I/O in UNIX/Linux systems.
 
 They have file descriptors 
-**0 - standard input**
-**1 - standard output**
-**2 -  standard error**
+- **0 - standard input**
+- **1 - standard output**
+- **2 -  standard error**
 
-A file descriptor is ==a unique, non-negative integer used by an operating system kernel to identify and track an open file or input/output resource==, such as a pipe or network socket
+A file descriptor is a unique, non-negative integer used by an operating system kernel to identify and track an open file or input/output resource, such as a pipe or network socket
 
 **?? - Alright, why they have file descriptors? and why they are called file descriptors?**
 Because a **process** needs a simple way to refer to resources it has opened, and we can represent those resources as integers. Basically, its a simple way to communicate with the kernel without the kernel  knowing about the actual resource. 
@@ -52,7 +52,7 @@ The following script will print all file descriptors of all processes.
 find /proc -maxdepth 1 -type d -regex '/proc/[0-9]+' -printf '%P\n' |
   {
     while read -r pid; do
-      if -d /proc/$pid; then
+      if  -d /proc/$pid ; then
         printf '%d:' "$pid"
         find /proc/"$pid"/fd -type l -printf ' %P' 2>/dev/null
         printf '\n'
