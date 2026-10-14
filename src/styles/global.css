@@ -410,7 +410,7 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .listing-entry-date{flex:none}
 .listing-entry--inline .listing-entry-title{flex:1;min-width:0}
 
-/* updated-tag: still used by the homepage's Posts / Projects
+/* updated-tag: still used by the homepage's Writing / Projects
    previews — kept as-is, just no longer used by the listing pages above. */
 .updated-tag{
   display:inline-block;

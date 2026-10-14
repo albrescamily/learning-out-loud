@@ -209,6 +209,21 @@ describe("attachment embeds", () => {
 
     assert.deepEqual([...result.attachments], ["a.png"]);
   });
+
+  test("A22 drops a folder from the embed path", () => {
+    // The asset index knows images by filename only, and the site keeps them
+    // flat in images/ — a folder here would miss both.
+    const result = run("![[images/Pasted image 20261013150228.png|Graph]]");
+
+    assert.equal(
+      result.content,
+      "![Graph](<../images/Pasted image 20261013150228.png>)",
+    );
+    assert.deepEqual(
+      [...result.attachments],
+      ["Pasted image 20261013150228.png"],
+    );
+  });
 });
 
 // =============================================================================

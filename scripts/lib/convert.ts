@@ -207,7 +207,7 @@ export function convert(
         const pipe =
           inner.indexOf("|");
 
-        const filename =
+        const target =
           pipe === -1
             ? inner.trim()
             : inner
@@ -216,6 +216,15 @@ export function convert(
                   pipe,
                 )
                 .trim();
+
+        // ![[images/diagram.png]] is as valid in Obsidian as the bare name,
+        // but the site keeps every image flat in images/ and the sync finds
+        // them by filename alone. Keeping the folder would miss the lookup
+        // and point the link at images/images/.
+        const filename =
+          path.posix.basename(
+            target,
+          );
 
         const alt =
           pipe === -1
