@@ -6,9 +6,9 @@ import { getCollection } from "astro:content";
 const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
-<BaseLayout title="Projects">
+<BaseLayout title="Projects and Experiments">
   <div class="listing-page">
-    <h1 class="listing-title">Projects</h1>
+    <h1 class="listing-title">Projects and Experiments</h1>
     <p class="listing-description">These are my working notes.</p>
 
     <div class="listing-content">
