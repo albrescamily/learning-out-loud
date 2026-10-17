@@ -53,6 +53,8 @@ Test hypotheses, validate and return to symbolic layer
 
 Page sequence and ranking of killers and why 
 
+![](../images/mermaid-diagram.png)
+
 
 # Extraction 
 
@@ -65,7 +67,6 @@ Here I'm not extracting relations, just the information.
 ![](<../images/Pasted image 20261013150228.png>)
 
 Recognizing references and puns requires real-world knowledge, and that is where a 9B model most often stumbles. People, events, time, and narrator cues are found within the text itself, and the model handles that well.
-
 
 While I was doing my experiments, I faced an issue with the performance of my model.
 
