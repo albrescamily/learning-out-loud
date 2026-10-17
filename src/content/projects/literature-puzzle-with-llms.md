@@ -53,8 +53,8 @@ Test hypotheses, validate and return to symbolic layer
 
 Page sequence and ranking of killers and why 
 
-![](../images/mermaid-diagram.png)
 
+![](../images/mermaid-diagram-excalindraw.png)
 
 # Extraction 
 
