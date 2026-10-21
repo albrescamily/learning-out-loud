@@ -5,13 +5,6 @@ import { figures } from "./src/lib/figures.ts";
 export default defineConfig({
   site: "https://example.com",
 
-  // Start fetching a page as soon as a link is hovered or focused, so moving
-  // between sections lands on an already-downloaded document.
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "hover"
-  },
-
   image: {
     // Markdown images are written once and read on every screen: `constrained`
     // makes Astro emit a srcset of the breakpoints below the source's own
