@@ -177,6 +177,13 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .hero{padding-top:var(--s5)}
 .hero-name{margin:0;font-size:clamp(2.25rem,5vw,3rem);font-weight:var(--w-bold);line-height:1.1;letter-spacing:-.02em}
 .hero-name-last{font-weight:var(--w-text)}
+/* GitHub and LinkedIn beside the name: the footer's icons, same quiet grey,
+   dropping under the name when the line runs out of room. */
+.hero-heading{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s1) var(--s3)}
+.hero-social{display:flex;gap:var(--s2);align-items:center}
+.hero-text .hero-social a{display:inline-flex;padding-bottom:2px;border-bottom:2px solid transparent;color:var(--muted);text-decoration:none}
+.hero-text .hero-social a:hover{color:var(--text);border-bottom-color:var(--accent)}
+.hero-social svg{width:24px;height:24px;display:block;fill:currentColor}
 .hero-role{margin:var(--s1) 0 var(--s3);font-size:var(--fs-meta);line-height:1.5;color:var(--muted)}
 .hero-body{display:flex;align-items:flex-start;gap:var(--s4)}
 .hero-text{flex:1;min-width:0}
@@ -535,6 +542,22 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 /* Ordinary prose, same reading font as the posts, with a little more room
    between paragraphs. */
 .about-prose p{margin-bottom:var(--s3)}
+.about-prose h2{margin-top:var(--s5)}
+/* The opening line of the about page, a step up from the body text. */
+.about-prose .about-intro{color:var(--text);font-size:19px;line-height:1.55}
+/* Bookshelf: cover, then title / author / topic, no rules between them —
+   just room. Two columns where there is room, so the list is not a tower.
+   Text hangs from the top of the cover so every title starts on the same
+   line, however many lines it wraps to. */
+.bookshelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,22rem),1fr));gap:var(--s3) var(--s5);list-style:none;padding:0;margin:var(--s4) 0 0}
+.prose .book{display:flex;align-items:flex-start;gap:20px;margin:0}
+.book-cover{flex:none;width:72px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 1px 2px rgb(0 0 0 / .12),0 4px 10px rgb(0 0 0 / .1)}
+/* A book with no cover to show: its short title in mono on a dark board. */
+.book-cover-plain{display:flex;align-items:center;justify-content:center;padding:6px;background:var(--text);color:var(--bg);font-family:var(--mono);font-size:15px;font-weight:var(--w-medium);text-align:center;overflow-wrap:break-word}
+.book-info{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px}
+.book-title{color:var(--text);font-size:var(--fs-project-body);font-weight:var(--w-medium);line-height:1.3}
+.book-author{color:var(--body);font-size:14px;line-height:1.4}
+.book-topic{margin-top:6px;color:var(--muted);font-size:var(--fs-project-meta);font-weight:var(--w-text);line-height:1.5}
 
 /* images ---------------------------------------------------------------- */
 /* A lone image in a paragraph is rewritten into a figure by src/lib/figures.ts,

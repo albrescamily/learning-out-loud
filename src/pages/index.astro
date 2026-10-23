@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ExperimentCard from "../components/ExperimentCard.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import { getCollection } from "astro:content";
 import { formatDate } from "../lib/date";
 
@@ -19,17 +20,19 @@ const projects = (await getCollection("projects"))
   <section class="container hero">
     <div class="hero-body">
       <div class="hero-text">
-        <h1 class="hero-name">Camily <span class="hero-name-last">Albres</span></h1>
+        <div class="hero-heading">
+          <h1 class="hero-name">Camily <span class="hero-name-last">Albres</span></h1>
+          <div class="hero-social"><SocialLinks /></div>
+        </div>
         <p class="hero-role">Computer scientist - Curitiba, Brazil</p>
         <p>
-          Mostly interested in distributed systems, backend, DevOps, ML and AI
-          infrastructure and Data Engineering.
+          Mostly interested in distributed systems, data engineering, backend, DevOps, ML and AI
+          infrastructure.
         </p>
         <p>
           This site is where I learn out loud: <a href="/writing">posts</a> when something
           deserves a proper explanation, <a href="/notes">notes</a> on whatever caught my
-          attention this week, and the <a href="/projects">projects</a> I&apos;m building,
-          finished or not.
+          attention this week, and the working notes of <a href="/projects">projects</a> I&apos;m building, finished or not.
         </p>
         <p><a href="/about">More about me</a></p>
       </div>

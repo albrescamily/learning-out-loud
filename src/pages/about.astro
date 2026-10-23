@@ -1,10 +1,35 @@
 ---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 // Italics for the <em> on this page only: Geist Mono for the lead under the
 // heading, Montserrat for the text. The rest of the site does not load them,
 // and font-synthesis is off, so emphasis elsewhere stays upright.
 import "@fontsource/geist-mono/500-italic.css";
 import "@fontsource/montserrat/500-italic.css";
+
+// My bookshelf, in the order it shows on the page: the books in the
+// "Book PDFs" folder of my papers-vault, roughly grouped by topic.
+// `cover` names a file in src/assets/books/ (without .webp); a book without
+// one gets a plain typographic cover instead.
+const bookshelf = [
+  { title: "Operating Systems: Three Easy Pieces", author: "Remzi & Andrea Arpaci-Dusseau", topic: "Operating Systems", cover: "operating-systems-three-easy-pieces" },
+  { title: "Understanding the Linux Kernel", author: "Daniel P. Bovet & Marco Cesati", topic: "Operating Systems", cover: "understanding-the-linux-kernel" },
+  { title: "Systems Performance", author: "Brendan Gregg", topic: "Performance", cover: "systems-performance" },
+  { title: "Site Reliability Engineering", author: "Google", topic: "Infrastructure", cover: "site-reliability-engineering" },
+  { title: "Database Internals", author: "Alex Petrov", topic: "Databases", cover: "database-internals" },
+  { title: "Designing Data-Intensive Applications", author: "Martin Kleppmann", topic: "Distributed Systems", cover: "designing-data-intensive-applications" },
+  { title: "Building Microservices", author: "Sam Newman", topic: "Distributed Systems", cover: "building-microservices" },
+  { title: "Building Event-Driven Microservices", author: "Adam Bellemare", topic: "Distributed Systems", cover: "building-event-driven-microservices" },
+  { title: "Fundamentals of Data Engineering", author: "Joe Reis & Matt Housley", topic: "Data Engineering", cover: "fundamentals-of-data-engineering" },
+  { title: "Designing Machine Learning Systems", author: "Chip Huyen", topic: "Machine Learning", cover: "designing-machine-learning-systems" },
+  { title: "Deep Learning with PyTorch", author: "Stevens, Antiga, Huang & Viehmann", topic: "Deep Learning", cover: "deep-learning-with-pytorch" },
+  { title: "Mathematics for Machine Learning", author: "Deisenroth, Faisal & Ong", topic: "Mathematics", cover: "mathematics-for-machine-learning" },
+  { title: "The Algorithm Design Manual", author: "Steven S. Skiena", topic: "Algorithms", cover: "the-algorithm-design-manual" },
+];
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("/src/assets/books/*.webp", { eager: true });
+const coverOf = (name?: string) => name ? covers[`/src/assets/books/${name}.webp`]?.default : undefined;
 ---
 <BaseLayout title="About">
   <div class="container article-page">
@@ -12,77 +37,123 @@ import "@fontsource/montserrat/500-italic.css";
     <h1>Hello, Cami</h1>
     <p class="article-lead"><em>Curious, open-minded and slightly hyperactive</em></p>
 
-    <div class="prose about-prose">
-
+    
+  <div class="prose about-prose">
       <p>
-        This is more of an informal introduction to who I am than a professional introduction
+       I’m Camily, a computer scientist based in Curitiba, Brazil. 
+       I really enjoy learning how things work under the hood, beyond 
+       the abstractions we interact with every day. 
+       I want to develop a deeper technical understanding of the 
+       things I work with, really getting to know the fundamentals and 
+       the mechanisms behind them rather than just knowing how to use them.
       </p>
 
       <p>
-        My name is Camily. I’m a computer scientist who graduated in 2025.
-        I currently live in Curitiba, Brazil, although I’ve spent a good part of my
-        life moving between different cities. I’ve lived in eight so far, which I 
-        think made me pretty adaptable and gave me an early sense of how big the
-        world actually is.
+        I have a suspicious number of unfinished side projects and
+        a very limited ability to look at an interesting idea and
+        think: <em>"maybe I don't need to do anything with this"</em>.
       </p>
 
       <p>
-        I would define myself as a very curious person. I have a suspicious number of unfinished side projects 
-        and a very limited ability to look at an interesting idea and think: 
-        <em>"maybe I don’t need to do anything with this"</em>.
-      </p>
-
-       <p>
-        My interests tend to wander a lot between philosophy, technology, art, psychology,
-        current events, or some completely random idea I stumbled across at 1 a.m.
-        Even when I decide not to deep dive into something, I still feel the need to
-        write it down somewhere, just in case.
-      </p>
-
-      <p>
-        I also tend to think in first principles. If I can understand the basic pieces
-        of something, I feel like I can reason my way through the rest. There is a quote I really like:
+        I tend to think from first principles. If I can understand
+        the basic pieces of something, I feel like I can reason my
+        way through the rest. There's a quote I really like:
       </p>
 
       <blockquote>
-        If you know the first principles of something, you can build the rest of
-        your knowledge around them to produce something new.
+        If you know the first principles of something, you can
+        build the rest of your knowledge around them to produce
+        something new.
       </blockquote>
 
-  
+      <h2>Technical interests</h2>
+
       <p>
-        On the technical side, I have a particular weakness for DevOps, backend,
-        distributed systems, infrastructure, Machine Learning, Data Engineering and LLMs.
-        I’m especially interested in understanding how these technologies
-        work underneath the abstractions we usually interact with.
+        On the technical side, I have a particular weakness for
+        distributed systems, backend engineering, DevOps,
+        infrastructure, data engineering, machine learning,
+        and LLMs.
       </p>
 
       <p>
-        Outside of tech, I like hackathons, video games, movies, music, books and
-        whittling. Basically, it's just: 
-        <em>"that looks interesting, I should try it"</em>.
+        I like turning to reference books to build a stronger technical
+        foundation and deepen my understanding of the things I'm learning.
+        I share my experiments on <a href="https://github.com/albrescamily" rel="me noopener">GitHub</a>,
+        and you can find the books I keep coming back to on my <a href="#bookshelf">bookshelf</a> below.
+      </p>
+
+      <h2>Beyond the keyboard</h2>
+
+      <p>
+        I graduated in 2025, and I've spent a good part of my
+        life moving between different cities. I've lived in eight so far, which I
+        think made me pretty adaptable and gave me an early
+        sense of how big the world actually is.
       </p>
 
       <p>
-        I played fingerstyle guitar for a few years. I’ve also tried painting,
-        drawing, and writing short stories. More recently, I bought a Swiss Army
-        knife because I decided I wanted to learn whittling and make small wooden
-        sculptures. I have a funny story from my first few weeks of learning it... SPOILER!
-        it ended with a big scar on the palm of my hand.
+        My interests tend to wander between philosophy,
+        technology, art, psychology, current events, and
+        completely random ideas I stumble across at 1 a.m.
+        Even when I decide not to dive deeper into something,
+        I still feel the need to write it down somewhere,
+        just in case.
       </p>
 
       <p>
-        I really enjoy working with other people and bouncing ideas around, 
-        even though I can be a little reserved and shy at first.
-        If you ever need someone for a hackathon team, I’m probably in.
-        I’m also always up for talking about IT and ML. Feel free to reach out to me on LinkedIn.
+        Outside of tech, I like video games, movies, music,
+        books, and trying out new hobbies. Basically, it's
+        just <em>"that looks interesting, I should try it"</em>.
       </p>
 
-         
-      
       <p>
-        So yeah, that’s me. Sorry about the long intro btw
+        I played fingerstyle guitar for a few years. I've
+        also tried painting, drawing, and writing short
+        stories. More recently, I bought a Swiss Army knife
+        because I decided to learn whittling and make small
+        wooden sculptures. I have a funny story from my first
+        few weeks of learning it... SPOILER: it ended with a
+        big scar on the palm of my hand.
       </p>
+
+      <p>
+        I also really enjoy working with other people and
+        bouncing ideas around, even though I can be a
+        little reserved at first. If you ever need someone
+        for a hackathon team, I'm probably in.
+        I'm always up for talking about tech and ML, too.
+        Feel free to reach out on <a href="https://www.linkedin.com/in/camily-albres" rel="me noopener">LinkedIn</a>.
+      </p>
+
+      <h2 id="bookshelf">My bookshelf</h2>
+      <p>
+        A collection of technical books I keep coming back to. 
+        Some read, some in progress, all worth keeping around.
+      </p>
+      <ul class="bookshelf">
+        {bookshelf.map(book => {
+          const cover = coverOf(book.cover);
+          return (
+            <li class="book">
+              {cover
+                ? <Image
+                    class="book-cover"
+                    src={cover}
+                    alt={`Cover of ${book.title}`}
+                    data-caption={`${book.title} — ${book.author}`}
+                    widths={[72, 144, cover.width]}
+                    sizes="72px"
+                  />
+                : <div class="book-cover book-cover-plain" aria-hidden="true">{book.title.split(":")[0]}</div>}
+              <div class="book-info">
+                <span class="book-title">{book.title}</span>
+                <span class="book-author">{book.author}</span>
+                <span class="book-topic">{book.topic}</span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
 
 
     </div>
