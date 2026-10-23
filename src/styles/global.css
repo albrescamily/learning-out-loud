@@ -316,11 +316,9 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .experiment-card :is(h2,h3){flex:1 1 16ch;min-width:0;font-size:var(--fs-sm);font-weight:var(--w-medium);line-height:1.4;margin:0}
 .experiment-question{margin:0;color:var(--body);font-size:var(--fs-meta);max-width:660px}
 .experiment-stack{display:flex;flex-wrap:wrap;gap:var(--s1);list-style:none;padding:0;margin:0}
-.experiment-stack li{border:1px solid var(--line);padding:3px 7px;color:var(--muted);font-size:var(--fs-project-meta);line-height:1.5}
-/* In the list the stack is plain text too: "Python · Docker". */
-.experiment-card .experiment-stack{gap:0;margin-top:var(--s1)}
-.experiment-card .experiment-stack li{border:0;padding:0}
-.experiment-card .experiment-stack li+li::before{content:"·";margin:0 var(--s1)}
+/* Each technology as its own chip, so the stack reads at a glance. */
+.experiment-stack li{border:1px solid var(--line);background:var(--surface);padding:2px 8px;color:var(--body);font-size:var(--fs-project-meta);font-weight:var(--w-medium);line-height:1.5}
+.experiment-card .experiment-stack{gap:6px;margin-top:var(--s2)}
 .experiment-date{margin:var(--s1) 0 0;font-size:var(--fs-project-meta);line-height:1.5;color:var(--muted)}
 /* 404: the empty-handed fisherman over the message, all centred on the page. */
 .not-found{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 16rem);text-align:center}
@@ -338,7 +336,8 @@ code{font-family:var(--mono);font-size:.88em;font-weight:var(--w-medium);backgro
 .article-page.not-found>h1{margin:0}
 .not-found .article-lead{margin:var(--s2) 0 0}
 
-.project-status{font-size:var(--fs-project-meta);line-height:1.5;font-weight:var(--w-text);color:var(--muted);white-space:nowrap}
+/* Status as a small solid orange badge. */
+.project-status{display:inline-block;padding:2px 8px;background:var(--accent);color:#fff;font-size:var(--fs-project-meta);line-height:1.5;font-weight:var(--w-medium);white-space:nowrap}
 .project-header{margin-bottom:var(--s5)}
 .project-page .project-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1);margin-bottom:var(--s2);font-size:.875rem;line-height:1.5;color:var(--muted)}
 .project-meta .project-status{font-size:inherit}

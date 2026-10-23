@@ -24,7 +24,7 @@ const cover = coverOf(project.body);
   <div class="experiment-body">
     <div class="experiment-header">
       <Heading><a href={projectHref(project.id)}>{project.data.title}</a></Heading>
-      <span class="project-status">[{statusLabels[project.data.status]}]</span>
+      <span class="project-status">{statusLabels[project.data.status]}</span>
     </div>
     <p class="experiment-question">{project.data.description}</p>
     {stack.length > 0 && <ul class="experiment-stack" aria-label="Technologies">{stack.map(item => <li>{item}</li>)}</ul>}
