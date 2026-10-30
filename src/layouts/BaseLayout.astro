@@ -163,6 +163,51 @@ const path = Astro.url.pathname;
         });
       })();
 
+      // Copy code: a code block gets a Copy button in its corner, and inline
+      // code copies itself on click. Both flash "Copied" for a moment.
+      (function () {
+        if (!navigator.clipboard) return;
+
+        function copy(text, el) {
+          navigator.clipboard.writeText(text).then(function () {
+            el.classList.add("copied");
+            clearTimeout(el._copyTimer);
+            el._copyTimer = setTimeout(function () { el.classList.remove("copied"); }, 1500);
+          });
+        }
+
+        document.querySelectorAll(".prose pre").forEach(function (pre) {
+          var wrap = document.createElement("div");
+          wrap.className = "code-block";
+          pre.parentNode.insertBefore(wrap, pre);
+          wrap.appendChild(pre);
+
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "code-copy";
+          button.setAttribute("aria-label", "Copy code");
+          button.innerHTML =
+            '<svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>' +
+            '<svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+          wrap.appendChild(button);
+          button.addEventListener("click", function () {
+            copy(pre.textContent.replace(/\n$/, ""), button);
+          });
+        });
+
+        document.querySelectorAll(".prose :not(pre) > code").forEach(function (code) {
+          if (code.closest("a")) return;
+          code.classList.add("copyable");
+          code.tabIndex = 0;
+          code.setAttribute("role", "button");
+          code.setAttribute("aria-label", "Copy: " + code.textContent);
+          code.addEventListener("click", function () { copy(code.textContent, code); });
+          code.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copy(code.textContent, code); }
+          });
+        });
+      })();
+
       // Mobile menu. The open state lives in a data attribute on the header so
       // the desktop media query always wins — using `hidden` would leave the
       // nav stuck closed after resizing back up.
