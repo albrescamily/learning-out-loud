@@ -10,6 +10,7 @@ stack:
   - System Design
   - PostGRESQL
 published: 2026-10-21T00:00:00.000Z
+updated: 2026-10-30T00:00:00.000Z
 ---
 Repository: https://github.com/albrescamily/arxiv-rag
 
@@ -117,23 +118,6 @@ uv run python -m arxiv_rag.flows.ingest_arxiv
 ![](<../images/Pasted image 20261021130700.png>)
 
 
-First we are passing the following parameters 
-
-```python
- query = (
-        "cat:cs.AI OR "
-        "cat:cs.LG OR "
-        "cat:cs.CL"
-    ) 
-    
-   ingestion_flow(
-        search_query=query,
-        batch_size=5,
-        max_papers=20,
-    ) 
-    
-```
-
 In pgadmin we have 
 
 ![](<../images/Pasted image 20261021131106.png>)
@@ -150,11 +134,75 @@ I can parse the published data to catch only the year.
 
 Do I need a data change capture here for each time an metadata is changed ? Or a logger database? 
 
+# UPDATE 30-10-2026
+
+I will analyze the ingestion in other lens. I'm consulting the book Data Engineering Fundamentals and Designing Data Intensive Applications for it 
+
+My goal its to get data from an **API** and ingest into my Database. 
+We are pulling data from the source. Its a PULL pattern
+
+There is a  lot of errors with the current code:  
+
+1. There is a error with the batching processing mechanism. It always return the same data because the pagination always start with start=0.
+
+We are dealing here with a **incremental loading pattern**
+
+2. We also have a problem on how we deal with two difference versions of the same paper
+
+3. The arxiv_id is not normalize and its adding the '/'
+
+Instead of using the arxiv_id as primary key, I can create a true UUID for it ? 
+
+How can I handle the duplication of the same paper due to different versions?
 
 
+4. Schema is inconsistent 
+
+I don't have a column to register when the data changed inside the system, neither a  column to handle the paper version 
+
+To review the schema, we also need to think about the data type transformation 
+
+5. Filters like LastUpdateDate not working
+
+First, I will fix the schema adding new fields and changing somethings.
+
+The parser needs to produce the new fields I will add 
 
 
+```powershell
+docker exec arxiv-rag-metadata-db-1 psql -U postgres -d arxiv_metadata -c "DROP TABLE papers"
 
+uv run python -m arxiv_rag.db.metadata.init_db
+```
+
+[**Commit** c2e23a007a43b33a4e0859cdaca7fdad368a6cfd](https://github.com/albrescamily/arxiv-rag/commit/c2e23a007a43b33a4e0859cdaca7fdad368a6cfd)
+
+Lets add a date window to retrieve the data from yesterday 
+
+I will create a function called build_query 
+
+[**commit** 4069ba5a2fbc28eca047a5a74e1451fd5de93cb4](https://github.com/albrescamily/arxiv-rag/commit/4069ba5a2fbc28eca047a5a74e1451fd5de93cb4)
+
+
+I want to  calculate the adaptative batch size according to the total_results 
+
+Since we are writing in batches, I want to optimize the API call to adapte the number of papers in one batch by calculating the total_results and our target value for it 
+
+
+```python
+def next_batch_size(remaining: int, page_limit: int = ARXIV_PAGE_LIMIT) -> int:
+    return max(0, min(page_limit, remaining))
+```
+
+page_limit its the maximum number of papers we ask in one requisition
+
+We are defining a start variable as a offset to handle the pagination
+
+It always asks for full pages of page_limit papers, and only the last page asks for whatever is left.
+
+We are handling the pagination loop for data ingestion
+
+[**Commit** d4c8a73d02f2c4b6e9182552d3871e1fd2cbc02e ](https://github.com/albrescamily/arxiv-rag/commit/d4c8a73d02f2c4b6e9182552d3871e1fd2cbc02e)
 
 
 
